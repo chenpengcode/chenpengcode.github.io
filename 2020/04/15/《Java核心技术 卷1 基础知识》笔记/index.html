@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="码克思">
 <meta property="og:description" content="第1章 Java程序设计概述关键术语体系结构中立编译器生成一个体系结构中立的目标文件格式，这是一种编译过的代码， 只要有Java 运行时系统， 这些编译后的代码可以在许多处理器上运行。Java 编译器通过生成与特定的计算机体系结构无关的字节码指令来实现这一特性。精心设计的字节码不仅可以很容易地在任何机器上解释执行， 而且还可以动态地翻译成本地机器代码。当然， 解释虚拟机指令肯定会比全速运行机器指令">
 <meta property="article:published_time" content="2020-04-15T14:17:53.535Z">
-<meta property="article:modified_time" content="2020-04-15T15:36:25.780Z">
+<meta property="article:modified_time" content="2020-04-19T16:51:17.208Z">
 <meta property="article:author" content="码克思">
 <meta name="twitter:card" content="summary">
 
@@ -345,8 +345,114 @@
 <p>注： 根据Java 语言规范， main 方法必须声明为public 。</p>
 <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>在Java 中，一共有8种基本类型（ primitive type ), 其中有4 种整型、2 种浮点类型、1 种用于表示Unicode 编码的字符单元的字符类型char 和1 种用于表示真值的boolean 类型。</p>
 <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h3><p>在Java 中， 利用关键字final 指示常量。</p>
-<p>可以使用关键字static fina丨设置一个类常量。</p>
+<p>可以使用关键字static final 设置一个类常量。</p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><h3 id="检测字符串是否相等"><a href="#检测字符串是否相等" class="headerlink" title="检测字符串是否相等"></a>检测字符串是否相等</h3><p>可以使用equals 方法检测两个字符串是否相等</p>
+<p>一定不要使用 == 运算符检测两个字符串是否相等！ 这个运算符只能够确定两个字串是否放置在同一个位置上。</p>
+<p>如果虚拟机始终将相同的字符串共享， 就可以使用 == 运算符检测是否相等。但实际上只有字符串常量是共享的，而+ 或substring 等操作产生的结果并不是共享的。因此，千万不要使用 == 运算符测试字符串的相等性， 以免在程序中出现糟糕的bug。从表面上看， 这种bug 很像随机产生的间歇性错误。</p>
+<h3 id="构建字符串"><a href="#构建字符串" class="headerlink" title="构建字符串"></a>构建字符串</h3><p>有些时候， 需要由较短的字符串构建字符串， 例如， 按键或来自文件中的单词。采用字符串连接的方式达到此目的效率比较低。每次连接字符串， 都会构建一个新的String 对象，既耗时， 又浪费空间。使用 StringBuilder 类就可以避免这个问题的发生。</p>
+<blockquote>
+<p> 在JDK5.0 中引入StringBuilder 类。这个类的前身是StringBuffer , 其效率稍有些低， 但允许采用多线程的方式执行添加或删除字符的操作U 如果所有字符串在一个单线程中编辑（通常都是这样)， 则应该用StringBuilder 替代它。这两个类的API是相同的。</p>
+</blockquote>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h3 id="数组拷贝"><a href="#数组拷贝" class="headerlink" title="数组拷贝"></a>数组拷贝</h3><p>在Java 中， 允许将一个数组变量拷贝给另一个数组变量。这时， 两个变量将引用同一个数组如果希望将<br>一个数组的所有值拷贝到一个新的数组中去，就要使用Arrays 类的 copyOf 方法；<br>第2 个参数是新数组的长度。这个方法通常用来增加数组的大小，如果数组元素是数值型，那么多余的元素将被赋值为0 ; 如果数组元素是布尔型， 则将赋值为false。相反， 如果长度小于原始数组的长度，则只拷贝最前面的数据元素。</p>
+<h1 id="对象与类"><a href="#对象与类" class="headerlink" title="对象与类"></a>对象与类</h1><h2 id="类之间的关系"><a href="#类之间的关系" class="headerlink" title="类之间的关系"></a>类之间的关系</h2><p>在类之间， 最常见的关系有<br>依赖（“ uses-a”）<br>聚合（“ has-a”）<br>继承（“ is-a”）<br>依赖（ dependence ), 即“ uses-a” 关系， 是一种最明显的、最常见的关系。 如果一个类的方法操纵另一个<br>类的对象， 我们就说一个类依赖于另一个类。应该尽可能地将相互依赖的类减至最少。如果类A 不知道B 的存在， 它就不会关心B的任何改变（这意味着B 的改变不会导致A 产生任何bug )。用软件工程的术语来说， 就是<br>让类之间的耦合度最小。<br>聚合（ aggregation ), 即“ has-a ” 关系， 是一种具体且易于理解的关系。聚合关系意味着类A 的对象包含类B 的对象。</p>
+<p>继承（ inheritance ), 即“ is-a” 关系， 是一种用于表示特殊与一般关系的。一般而言， 如果类A 扩展类B, 类A 不但包含从类B 继承的方法，还会拥有一些额外的功能。</p>
+<p>所有的Java 对象都存储在堆中。当一个对象包含另一个对象变量时， 这个变量依然包含着指向另一个堆对象的指针。</p>
+<h2 id="用户自定义类"><a href="#用户自定义类" class="headerlink" title="用户自定义类"></a>用户自定义类</h2><h3 id="从构造器开始"><a href="#从构造器开始" class="headerlink" title="从构造器开始"></a>从构造器开始</h3><p>构造器与类同名<br>每个类可以有一个以上的构造器<br>构造器可以有0 个、1 个或多个参数<br>构造器没有返回值<br>构造器总是伴随着new 操作一起调用</p>
+<h2 id="静态域与静态方法"><a href="#静态域与静态方法" class="headerlink" title="静态域与静态方法"></a>静态域与静态方法</h2><h3 id="静态域"><a href="#静态域" class="headerlink" title="静态域"></a>静态域</h3><p>如果将域定义为static, 每个类中只有一个这样的域。而每一个对象对于所有的实例域却都有自己的一份拷贝。</p>
+<blockquote>
+<p>注释： 在绝大多数的面向对象程序设计语言中， 静态域被称为类域。术语“ static” 只是沿用了C++ 的叫法， 并无实际意义。</p>
+</blockquote>
+<h3 id="静态常量"><a href="#静态常量" class="headerlink" title="静态常量"></a>静态常量</h3><p>由于每个类对象都可以对公有域进行修改， 所以，最好不要将域设计为public。然而， 公有常量（即final 域）却没问题。</p>
+<h3 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h3><p>静态方法是一种不能向对象实施操作的方法</p>
+<p>可以认为静态方式是没有this参数的方法</p>
+<p>在下面2种情况下使用静态方法：</p>
+<ol>
+<li>一方法不需要访问对象状态，其所需参数都是通过显式参数提供</li>
+<li>一个方法只需要访问类的静态域</li>
+</ol>
+<h2 id="对象构造"><a href="#对象构造" class="headerlink" title="对象构造"></a>对象构造</h2><h3 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h3><p>如果多个方法（比如， StringBuilder 构造器方法）有相同的名字、不同的参数，便产生了重载。编译器必须挑选出具体执行哪个方法，它通过用各个方法给出的参数类型与特定方法调用所使用的值类型进行匹配来挑选出相应的方法。如果编译器找不到匹配的参数， 就会产生编译时错误， 因为根本不存在匹配， 或者没有一个比其他的更好。（这个过程被称为重载解析（overloading resolution)。）</p>
+<p>Java 允许重载任何方法， 而不只是构造器方法。因此，要完整地描述一个方法，需要指出方法名以及参数类型。这叫做方法的签名（signature)。</p>
+<h3 id="无参的构造器"><a href="#无参的构造器" class="headerlink" title="无参的构造器"></a>无参的构造器</h3><p>请记住， 仅当类没有提供任何构造器的时候， 系统才会提供一个默认的构造器如果在编写类的时候， 给出了一个构造器， 哪怕是很简单的， 要想让这个类的用户能够采用下列方式构造实例：<br>new ClassName()<br>就必须提供一个默认的构造器（即不带参数的构造器）。当然， 如果希望所有域被赋予默认值， 可以采用下列格式：<br>public ClassName(){}</p>
+<h3 id="调用另一个构造器"><a href="#调用另一个构造器" class="headerlink" title="调用另一个构造器"></a>调用另一个构造器</h3><p>关键字this 引用方法的隐式参数。然而，这个关键字还有另外一个含义。<br>如果构造器的第一个语句形如this(…)， 这个构造器将调用同一个类的另一个构造器。下<br>面是一个典型的例子：</p>
+<p>当调用new Employee(60000) 时， Employee(double) 构造器将调用Employee(String，double)<br>构造器。<br>采用这种方式使用this 关键字非常有用， 这样对公共的构造器代码部分只编写一次<br>即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Employee</span><span class="params">(<span class="keyword">double</span> s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// calls Employee(St ring, double)</span></span><br><span class="line">    <span class="keyword">this</span>(<span class="string">"Employee #"</span> + nextld, s);</span><br><span class="line">    nextld++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+
+
+<p>当调用new Employee(60000) 时， Employee(double) 构造器将调用Employee(String，double)构造器。<br>采用这种方式使用this 关键字非常有用， 这样对公共的构造器代码部分只编写一次即可。</p>
+<h3 id="对象析构与finalize-方法"><a href="#对象析构与finalize-方法" class="headerlink" title="对象析构与finalize 方法"></a>对象析构与finalize 方法</h3><p>有些面向对象的程序设计语言， 特别是C++, 有显式的析构器方法， 其中放置一些当对象不再使用时需要执行的清理代码。在析构器中， 最常见的操作是回收分配给对象的存储空间。由于Java 有自动的垃圾回收器，不需要人工回收内存， 所以Java 不支持析构器。</p>
+<p>当然， 某些对象使用了内存之外的其他资源， 例如， 文件或使用了系统资源的另一个对象的句柄。在这种情况下， 当资源不再需要时， 将其回收和再利用将显得十分重要。<br>可以为任何一个类添加finalize 方法。finalize 方法将在垃圾回收器清除对象之前调用。<br>在实际应用中，不要依赖于使用finalize 方法回收任何短缺的资源， 这是因为很难知道这个方法什么时候才能够调用。</p>
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><h3 id="包作用域"><a href="#包作用域" class="headerlink" title="包作用域"></a>包作用域</h3><p>标记为public 的部分可以被任意的类使用；标记为private 的部分只能被定义它们的类使用。如果没有指定public 或private, 这个部分（类、方法或变量）可以被同一个包中的所有方法访问。</p>
+<h2 id="类设计技巧"><a href="#类设计技巧" class="headerlink" title="类设计技巧"></a>类设计技巧</h2><ol>
+<li><p>一定要保证数据私有<br>这是最重要的；绝对不要破坏封装性。有时候， 需要编写一个访问器方法或更改器方法，但是最好还是保持实例域的私有性。很多惨痛的经验告诉我们， 数据的表示形式很可能会改变， 但它们的使用方式却不会经常发生变化。当数据保持私有时， 它们的表示形式的变化不会对类的使用者产生影响， 即使出现bug 也易于检测。</p>
+</li>
+<li><p>一定要对数据初始化<br>Java 不对局部变量进行初始化， 但是会对对象的实例域进行初始化。最好不要依赖于系统的默认值， 而是应该显式地初始化所有的数据， 具体的初始化方式可以是提供默认值， 也可以是在所有构造器中设置默认值。</p>
+</li>
+<li><p>不要在类中使用过多的基本类型<br>就是说，用其他的类代替多个相关的基本类型的使用。这样会使类更加易于理解且易于修改。</p>
+</li>
+<li><p>不是所有的域都需要独立的域访问器和域更改器</p>
+</li>
+<li><p>将职责过多的类进行分解</p>
+</li>
+<li><p>类名和方法名要能够体现它们的职责<br> 与变量应该有一个能够反映其含义的名字一样， 类也应该如此<br> 命名类名的良好习惯是采用一个名词（ Order )、前面有形容词修饰的名词（ RushOrder)或动名词（有“ -ing” 后缀）修饰名词（例如， BillingAddress )。对于方法来说，习惯是访问器方法用小写get 开头( getSalary ), 更改器方法用小写的set 开头（setSalary )</p>
+</li>
+<li><p>优先使用不可变的类<br>LocalDate 类以及java.time 包中的其他类是不可变的—没有方法能修改对象的状态。<br>更改对象的问题在于， 如果多个线程试图同时更新一个对象， 就会发生并发更改。其结果是不可预料的。如果类是不可变的，就可以安全地在多个线程间共享其对象。</p>
+</li>
+</ol>
+<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><h2 id="类、超类和子类"><a href="#类、超类和子类" class="headerlink" title="类、超类和子类"></a>类、超类和子类</h2><h3 id="定义子类"><a href="#定义子类" class="headerlink" title="定义子类"></a>定义子类</h3><p>关键字extends 表示继承</p>
+<p>在Java 中， 所有的继承都是公有继承</p>
+<p>关键字extends 表明正在构造的新类派生于一个已存在的类。已存在的类称为超类( superclass )、基类（ base class ) 或父类（ parent class) ; 新类称为子类（ subclass)、 派生类( derived class ) 或孩子类（child class )。</p>
+<h3 id="覆盖方法"><a href="#覆盖方法" class="headerlink" title="覆盖方法"></a>覆盖方法</h3><p>super 不是一个对象的引用， 不能将super 赋给另一个对象变量， 它只是一个指示编<br>译器调用超类方法的特殊关键字。</p>
+<h3 id="子类构造器"><a href="#子类构造器" class="headerlink" title="子类构造器"></a>子类构造器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Manager</span><span class="params">(St ring name, <span class="keyword">double</span> salary, <span class="keyword">int</span> year, <span class="keyword">int</span> month, <span class="keyword">int</span> day)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(name, salary, year , month, day) ;</span><br><span class="line">    bonus = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的关键字super 具有不同的含义。语句super(n, s, year, month, day) ;是“ 调用超类Employee 中含有n、s、year month 和day 参数的构造器” 的简写形式。<br>由于Manager 类的构造器不能访问Employee 类的私有域， 所以必须利用Employee 类的构造器对这部分私有域进行初始化， 我们可以通过super 实现对超类构造器的调用。使用super 调用构造器的语句必须是子类构造器的第一条语句。如果子类的构造器没有显式地调用超类的构造器， 则将自动地调用超类默认（没有参数)的构造器。如果超类没有不带参数的构造器， 并且在子类的构造器中又没有显式地调用超类的其他构造器, 则Java 编译器将报告错误。</p>
+<blockquote>
+<p>关键字this 有两个用途： 一是引用隐式参数， 二是调用该类其他的构造器， 同样，super 关键字也有两个用途：一是调用超类的方法，二是调用超类的构造器。在调用构造器的时候， 这两个关键字的使用方式很相似。调用构造器的语句只能作为另一个构造器的第一条语句出现。构造参数既可以传递给本类（ this ) 的其他构造器， 也可<br>以传递给超类（super ) 的构造器。</p>
+</blockquote>
+<p>一个对象变量可以指示多种实际类型的现象被称为多态（ polymorphism)。在运行时能够自动地选择调用哪个方法的现象称为动态绑定（ dynamic binding)。</p>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>is-a” 规则的另一种表述法是置换法则。它表明程序中出现超类对象的任何地方都可以用子类对象置换。</p>
+<p>在Java 程序设计语言中， 对象变量是多态的。</p>
+<p>然而，不能将一个超类的引用赋给子类变量。</p>
+<h3 id="理解方法调用"><a href="#理解方法调用" class="headerlink" title="理解方法调用"></a>理解方法调用</h3><p>下面假设要调用x.f(args)，<br>隐式参数x 声<br>明为类C 的一个对象。下面是调用过程的详细描述：<br>1 ) 编译器査看对象的声明类型和方法名。假设调用x.f(param)，且隐式参数x 声明为C类的对象。需要注意的是： 有可能存在多个名字为f, 但参数类型不一样的方法。例如，可能存在方法f(im) 和方法String)。 编译器将会一一列举所有C 类中名为f 的方法和其超类中访问属性为public 且名为f 的方法（超类的私有方法不可访问）。<br>至此， 编译器已获得所有可能被调用的候选方法。<br>2 ) 接下来，编译器将査看调用方法时提供的参数类型。如果在所有名为f 的方法中存在一个与提供的参数类型完全匹配， 就选择这个方法。这个过程被称为重载解析（ overloadingresolution )。例如， 对于调用x.f(“ Hello” ）来说， 编译器将会挑选f(String)，而不是f(int)。</p>
+<p>由于允许类型转换（ int 可以转换成double, Manager 可以转换成Employee, 等等)，所以这个过程可能很复杂。如果编译器没有找到与参数类型匹配的方法， 或者发现经过类型转换后有多个方法与之匹配， 就会报告一个错误。<br>至此， 编译器已获得需要调用的方法名字和参数类型。</p>
+<p>3 ) 如果是private 方法、static 方法、final 方法或者构造器， 那么编译器将可以准确地知道应该调用哪个方法，我们将这种调用方式称为静态绑定（ static binding )。与此对应的是，调用的方法依赖于隐式参数的实际类型， 并且在运行时实现动态绑定。在我们列举的示例中， 编译器采用动态绑定的方式生成一条调用f(String) 的指令。</p>
+<p>4 ) 当程序运行，并且采用动态绑定调用方法时， 虚拟机一定调用与x 所引用对象的实际类型最合适的那个类的方法。假设x 的实际类型是D，它是C 类的子类。如果D 类定义了方法f(String)，就直接调用它；否则， 将在D 类的超类中寻找f(String)，<br>以此类推。<br>每次调用方法都要进行搜索，时间开销相当大。因此， 虚拟机预先为每个类创建了一个方法表（ method table), 其中列出了所有方法的签名和实际调用的方法。这样一来，在真正调用方法的时候， 虚拟机仅查找这个表就行了。在前面的例子中， 虚拟机搜索D 类的方法表， 以便寻找与调用f(Sting) 相K配的方法。这个方法既有可能是D.f(String) , 也有可能是X.f(String) , 这里的X 是D 的超类。这里需要提醒一点， 如果调用super.f(param), 编译器将对隐式参数超类的方法表进行搜索。</p>
+<blockquote>
+<p>警告： 在覆盖一个方法的时候，子类方法不能低于超类方法的可见性。特别是， 如果超类方法是public, 子类方法一定要声明为public。经常会发生这类错误：在声明子类方法的时候， 遗漏了public 修饰符。此时，编译器将会把它解释为试图提供更严格的访问权限。</p>
+</blockquote>
+<h3 id="阻止继承：final-类和方法"><a href="#阻止继承：final-类和方法" class="headerlink" title="阻止继承：final 类和方法"></a>阻止继承：final 类和方法</h3><p>有时候，可能希望阻止人们利用某个类定义子类。不允许扩展的类被称为final 类。如果在定义类的时候使用了final 修饰符就表明这个类是final 类。</p>
+<p>类中的特定方法也可以被声明为final。如果这样做，子类就不能覆盖这个方法（ final 类中的所有方法自动地成为final 方法)。</p>
+<blockquote>
+<p>注释： 前面曾经说过， 域也可以被声明为final。对于final 域来说， 构造对象之后就不允许改变它们的值了。不过， 如果将一个类声明为final， 只有其中的方法自动地成为final ,而不包括域。</p>
+</blockquote>
+<h3 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换"></a>强制类型转换</h3><p>对象引用的转换语法与数值表达式的类型转换类似， 仅需要用一对圆括号将目标类名括起来，并放置在需要转换的对象引用之前就可以了。</p>
+<p>进行类型转换的唯一原因是：在暂时忽视对象的实际类型之后， 使用对象的全部功能。</p>
+<ul>
+<li><p>只能在继承层次内进行类型转换。</p>
+</li>
+<li><p>在将超类转换成子类之前，应该使用instanceof 进行检查。</p>
+</li>
+</ul>
+<p>在一般情况下，应该尽量少用类型转换和instanceof 运算符。</p>
+<h3 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h3><p>使用abstract 关键字</p>
+<p>除了抽象方法之外， 抽象类还可以包含具体数据和具体方法。</p>
+<p>类即使不含抽象方法，也可以将类声明为抽象类。<br>抽象类不能被实例化。也就是说， 如果将一个类声明为abstract , 就不能创建这个类的对象。</p>
+<h3 id="受保护访问"><a href="#受保护访问" class="headerlink" title="受保护访问"></a>受保护访问</h3><p>下面归纳一下Java 用于控制可见性的4 个访问修饰符：<br>1 ) 仅对本类可见private。<br>2 ) 对所有类可见public：<br>3 ) 对本包和所有子类可见protected。<br>4 ) 对本包可见—默认（很遗憾)，不需要修饰符。</p>
+<h2 id="Object：-所有类的超类"><a href="#Object：-所有类的超类" class="headerlink" title="Object： 所有类的超类"></a>Object： 所有类的超类</h2><p>Object 类是Java 中所有类的始祖， 在Java 中每个类都是由它扩展而来的</p>
+<p>如果没有明确地指出超类，Object 就被认为是这个类的超类。由于在Java 中，每个类都是由Object 类扩展而来的， 所以， 熟悉这个类提供的所有服务十分重要。</p>
+<p>可以使用Object 类型的变量引用任何类型的对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> EmployeeC<span class="string">'Harry Hacker", 35000) ;</span></span><br></pre></td></tr></table></figure>
+
+<p>在Java 中， 只有基本类型（ primitive types ) 不是对象， 例如， 数值、字符和布尔类型的值都不是对象。</p>
+<p>所有的数组类塱，不管是对象数组还是基本类型的数组都扩展了Object 类。</p>
+<h3 id="equals-方法"><a href="#equals-方法" class="headerlink" title="equals 方法"></a>equals 方法</h3><p>Object 类中的equals 方法用于检测一个对象是否等于另外一个对象。在Object 类中，这个方法将判断两个对象是否具有相同的引用。如果两个对象具有相同的引用， 它们一定是相等的。</p>
+<p>在子类中定义equals 方法时， 首先调用超类的equals。如果检测失败， 对象就不可能相等。如果超类中的域都相等， 就需要比较子类中的实例域。</p>
+<h3 id="相等测试与继承"><a href="#相等测试与继承" class="headerlink" title="相等测试与继承"></a>相等测试与继承</h3><p>Java 语言规范要求equals 方法具有下面的特性：<br>1 ) 自反性： 对于任何非空引用x, x.equals(x) 应该返回true<br>2 ) 对称性: 对于任何引用x 和y, 当且仅当y.equals(x) 返回true, x.equals(y) 也应该返回true。<br>3 ) 传递性： 对于任何引用x、y 和z, 如果x.equals(y) 返N true， y.equals(z) 返回true, x.equals(z) 也应该返回true。<br>4 ) 一致性： 如果x 和y 引用的对象没有发生变化， 反复调用x.eqimIS(y) 应该返回同样的结果。<br>5 ) 对于任意非空引用x, x.equals(null) 应该返回false</p>
+<h3 id="hashCode-方法"><a href="#hashCode-方法" class="headerlink" title="hashCode 方法"></a>hashCode 方法</h3><p>散列码（ hash code ) 是由对象导出的一个整型值。散列码是没有规律的。如果x 和y 是<br>两个不同的对象， x.hashCode( ) 与y.hashCode( ) 基本上不会相同。</p>
+<p>如果重新定义equals 方法， 就必须重新定义hashCode 方法， 以便用户可以将对象插人到散列表中<br>hashCode 方法应该返回一个整型数值（也可以是负数)，并合理地组合实例域的散列码, 以便能够让各个不同的对象产生的散列码更加均匀。</p>
+<p>Equals 与hashCode 的定义必须一致：如果x.equals(y) 返回true, 那么x.hashCode( ) 就必<br>须与y.hashCode( ) 具有相同的值。</p>
+<h3 id="toString-方法"><a href="#toString-方法" class="headerlink" title="toString 方法"></a>toString 方法</h3><p>在Object 中还有一个重要的方法， 就是toString 方法， 它用于返回表示对象值的字符串。</p>
+<p>提示： 强烈建议为自定义的每一个类增加toString 方法。这样做不仅自己受益， 而且所有使用这个类的程序员也会从这个日志记录支持中受益匪浅。</p>
+<h2 id="泛型数组列表"><a href="#泛型数组列表" class="headerlink" title="泛型数组列表"></a>泛型数组列表</h2>
       
     </div>
     
@@ -379,6 +485,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/16/%E4%BB%8ELamda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" rel="prev" title="从Lamda表达式到函数式编程">
+                从Lamda表达式到函数式编程 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -459,7 +569,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -496,7 +606,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第1章-Java程序设计概述"><span class="nav-number">1.</span> <span class="nav-text">第1章 Java程序设计概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关键术语"><span class="nav-number">1.1.</span> <span class="nav-text">关键术语</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#体系结构中立"><span class="nav-number">1.1.1.</span> <span class="nav-text">体系结构中立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可移植性"><span class="nav-number">1.1.2.</span> <span class="nav-text">可移植性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第2章-Java程序设计环境"><span class="nav-number">2.</span> <span class="nav-text">第2章 Java程序设计环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第3章-Java的基本程序设计结构"><span class="nav-number">3.</span> <span class="nav-text">第3章 Java的基本程序设计结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个简单的Java应用程序"><span class="nav-number">3.1.</span> <span class="nav-text">一个简单的Java应用程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">3.2.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">3.3.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常量"><span class="nav-number">3.3.1.</span> <span class="nav-text">常量</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第1章-Java程序设计概述"><span class="nav-number">1.</span> <span class="nav-text">第1章 Java程序设计概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关键术语"><span class="nav-number">1.1.</span> <span class="nav-text">关键术语</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#体系结构中立"><span class="nav-number">1.1.1.</span> <span class="nav-text">体系结构中立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可移植性"><span class="nav-number">1.1.2.</span> <span class="nav-text">可移植性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第2章-Java程序设计环境"><span class="nav-number">2.</span> <span class="nav-text">第2章 Java程序设计环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第3章-Java的基本程序设计结构"><span class="nav-number">3.</span> <span class="nav-text">第3章 Java的基本程序设计结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个简单的Java应用程序"><span class="nav-number">3.1.</span> <span class="nav-text">一个简单的Java应用程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">3.2.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">3.3.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常量"><span class="nav-number">3.3.1.</span> <span class="nav-text">常量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">3.4.</span> <span class="nav-text">字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#检测字符串是否相等"><span class="nav-number">3.4.1.</span> <span class="nav-text">检测字符串是否相等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建字符串"><span class="nav-number">3.4.2.</span> <span class="nav-text">构建字符串</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number">3.5.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数组拷贝"><span class="nav-number">3.5.1.</span> <span class="nav-text">数组拷贝</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对象与类"><span class="nav-number">4.</span> <span class="nav-text">对象与类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类之间的关系"><span class="nav-number">4.1.</span> <span class="nav-text">类之间的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户自定义类"><span class="nav-number">4.2.</span> <span class="nav-text">用户自定义类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从构造器开始"><span class="nav-number">4.2.1.</span> <span class="nav-text">从构造器开始</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态域与静态方法"><span class="nav-number">4.3.</span> <span class="nav-text">静态域与静态方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态域"><span class="nav-number">4.3.1.</span> <span class="nav-text">静态域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态常量"><span class="nav-number">4.3.2.</span> <span class="nav-text">静态常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态方法"><span class="nav-number">4.3.3.</span> <span class="nav-text">静态方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象构造"><span class="nav-number">4.4.</span> <span class="nav-text">对象构造</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重载"><span class="nav-number">4.4.1.</span> <span class="nav-text">重载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无参的构造器"><span class="nav-number">4.4.2.</span> <span class="nav-text">无参的构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用另一个构造器"><span class="nav-number">4.4.3.</span> <span class="nav-text">调用另一个构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象析构与finalize-方法"><span class="nav-number">4.4.4.</span> <span class="nav-text">对象析构与finalize 方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#包"><span class="nav-number">4.5.</span> <span class="nav-text">包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#包作用域"><span class="nav-number">4.5.1.</span> <span class="nav-text">包作用域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类设计技巧"><span class="nav-number">4.6.</span> <span class="nav-text">类设计技巧</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#继承"><span class="nav-number">5.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类、超类和子类"><span class="nav-number">5.1.</span> <span class="nav-text">类、超类和子类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义子类"><span class="nav-number">5.1.1.</span> <span class="nav-text">定义子类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#覆盖方法"><span class="nav-number">5.1.2.</span> <span class="nav-text">覆盖方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子类构造器"><span class="nav-number">5.1.3.</span> <span class="nav-text">子类构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多态"><span class="nav-number">5.1.4.</span> <span class="nav-text">多态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解方法调用"><span class="nav-number">5.1.5.</span> <span class="nav-text">理解方法调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻止继承：final-类和方法"><span class="nav-number">5.1.6.</span> <span class="nav-text">阻止继承：final 类和方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强制类型转换"><span class="nav-number">5.1.7.</span> <span class="nav-text">强制类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象类"><span class="nav-number">5.1.8.</span> <span class="nav-text">抽象类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#受保护访问"><span class="nav-number">5.1.9.</span> <span class="nav-text">受保护访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object：-所有类的超类"><span class="nav-number">5.2.</span> <span class="nav-text">Object： 所有类的超类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#equals-方法"><span class="nav-number">5.2.1.</span> <span class="nav-text">equals 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相等测试与继承"><span class="nav-number">5.2.2.</span> <span class="nav-text">相等测试与继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashCode-方法"><span class="nav-number">5.2.3.</span> <span class="nav-text">hashCode 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#toString-方法"><span class="nav-number">5.2.4.</span> <span class="nav-text">toString 方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型数组列表"><span class="nav-number">5.3.</span> <span class="nav-text">泛型数组列表</span></a></li></ol></li></ol></div>
             
 
           </div>
