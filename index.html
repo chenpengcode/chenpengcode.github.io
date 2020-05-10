@@ -270,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/05/10/jvm%E9%9D%A2%E8%AF%95%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/05/10/JVM%E9%9D%A2%E8%AF%95%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="码克思">
@@ -289,7 +289,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/05/10/jvm%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url">jvm面试题</a></h1>
+                <a class="post-title-link" href="/2020/05/10/JVM%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url">JVM面试题</a></h1>
         
 
         <div class="post-meta">
@@ -341,15 +341,20 @@
       
         
           
-          1个空对象占多大内存，为什么
+          了解jvm调优吗，知道为什么要调优吗， 有实战经验吗， 具体是怎么做的
+1个空对象占多大内存，为什么
 指针压缩如何实现，如何证明开启指针压缩节省了内存
+jdk6以后，默认开启指针压缩
 开启指针压缩后， 一个oop所能表示的最大堆空间是多少， 不开呢
 如何扩展开启指针压缩后一个oop所能表示的最大堆空间
-
-          
+指针压缩：
+实现原理是什么
+指针压缩的真实地址是怎样计算出来的
+调优参数：-XX:+/-UseC
+          ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/05/10/jvm%E9%9D%A2%E8%AF%95%E9%A2%98/#more" rel="contents">
+            <a class="btn" href="/2020/05/10/JVM%E9%9D%A2%E8%AF%95%E9%A2%98/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -856,7 +861,8 @@ equals方法注意：equals方法不能
       
         
           
-          
+          title: jvm面试题date: 2020-05-10 19:03:29tags: java
+
 JVM内存模型Java虚拟机(Java Virtual Machine=JVM)的内存空间分为五个部分，分别是：
 
 程序计数器
@@ -870,7 +876,7 @@ Java虚拟机栈
 方法区。
 
 
-1. 程序计数器1.1. 什么是程序计数器？程序计数器是一块较小的内存空间，可以把它看作当前线程正在执行的字节码的行号指示器。也就是说，程序计数器里面记录的是当前线程正在执行的那一条字节码指令的地址。注：但是，如果
+1. 程序计数器1.1. 什么是程序计数器？程序计数器是一块较小的内存空间，可以把它看作当前线程正在执行的字节码的行
           ...
           <!--noindex-->
           <div class="post-button text-center">
