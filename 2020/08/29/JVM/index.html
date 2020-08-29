@@ -85,27 +85,27 @@
 <meta property="og:url" content="http://chenpengcode.github.io/2020/08/29/JVM/index.html">
 <meta property="og:site_name" content="耳朵大侠">
 <meta property="og:description" content="JVM 内存结构 程序计数器 程序计数器是一块较小的内存空间，是当前线程正在执行的那条字节码指令的地址。 若当前线程正在执行的是一个本地方法，那么此时程序计数器为Undefined。  特点  是一块较小的内存空间。 线程私有，每条线程都有自己的程序计数器。 生命周期：随着线程的创建而创建，随着线程的结束而销毁。 是唯一一个不会出现OutOfMemoryError的内存区域。  Java 虚拟机栈">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825055735726.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825061106578.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825061457320.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825062031209.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825062223017.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825062325547.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825062432252.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825062519239.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825062605135.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825062739873.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825062904608.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825063158528.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825063234483.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825063509452.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825055735726.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825061106578.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825061457320.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825062031209.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825062223017.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825062325547.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825062432252.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825062519239.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825062605135.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825062739873.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825062904608.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825063158528.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825063234483.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825063509452.png">
 <meta property="article:published_time" content="2020-08-29T00:21:38.000Z">
 <meta property="article:modified_time" content="2020-08-29T00:22:53.062Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://chenpengcode.github.io/2020/08/29/JVM/JVM/image-20200825055735726.png">
+<meta name="twitter:image" content="http://chenpengcode.github.io/2020/08/29/JVM/image-20200825055735726.png">
 
 
 
@@ -388,7 +388,7 @@
       
 
       
-        <h2 id="JVM-内存结构"><a href="#JVM-内存结构" class="headerlink" title="JVM 内存结构"></a>JVM 内存结构</h2><p><img src="JVM/image-20200825055735726.png" alt="image-20200825055735726"></p>
+        <h2 id="JVM-内存结构"><a href="#JVM-内存结构" class="headerlink" title="JVM 内存结构"></a>JVM 内存结构</h2><p><img src="/2020/08/29/JVM/image-20200825055735726.png" alt="image-20200825055735726"></p>
 <h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><ul>
 <li>程序计数器是一块较小的内存空间，是当前线程正在执行的那条字节码指令的地址。</li>
 <li>若当前线程正在执行的是一个本地方法，那么此时程序计数器为Undefined。</li>
@@ -481,7 +481,7 @@
 </ol>
 <p><strong>java并发线程间通信采用的方式是共享内存方式，每个线程有自己的内存，需要解决缓存一致性的问题，另外Java的可移植性要保证在各个平台上有相同的内存访问效果，需要屏蔽不同硬件和操作系统间的访问细节，jmm定义了线程和主内存之间的抽象关系，定义了Java程序中各个变量的访问方式。</strong></p>
 <h2 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h2><p>类从加载虚拟机内存中开始到卸载出内存为止，生命周期包括：加载、验证、准备、解析、初始化、使用、卸载。</p>
-<p><img src="JVM/image-20200825061106578.png" alt="image-20200825061106578"></p>
+<p><img src="/2020/08/29/JVM/image-20200825061106578.png" alt="image-20200825061106578"></p>
 <h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><p>文件到内存的过程， 类的完全限定名 –&gt; 查找字节码文件 –&gt; 生成java.lang.class对象</p>
 <h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>对类文件内容验证，<strong>目的在于确保class文件符合当前虚拟机的要求，不会危害到虚拟机自身安全</strong></p>
 <p>加载阶段未完成，连接阶段已经开始。两者之间会交叉运行。因为Class文件可以用任何途径产生，字节流不符合Class文件格式的约束，虚拟机会抛出java.lang.VerifyError异常，所以为了保护虚拟机，JVM会有以下四个方面的验证</p>
@@ -492,21 +492,21 @@
 <li>符号引用验证：全限定名是否能找到对应的类，在指定类中是否存在符合方法的字段描述以及简单名称描述的方法，字段。访问性是否正确。验证不成功会抛出java.lang.incompatibleClassChangeError异常的子类。</li>
 </ol>
 <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p><strong>正式为类变量分配内存并设置类变量初始值的阶段</strong>，这些变量所使用的内存都将在方法区中进行分配。这个时候进行内存分配的只包括类变量（被static修饰的变量），并不包括实例变量，实例变量是在对象实例化时随对象一起分配在java堆中。也不包括final修饰的静态变量，因为final修饰的静态变量再编译时就已经分配了。</p>
-<p>这时候分配的初始值为零值，假设一个变量定义为：public static int value = 123;则设置变量的初始值应该为0， 而不是123。 把value赋值为123的putstatic指令是在程序被编译后，存放于类构造器<clinit>()方法之中，所以把value赋值为123的动作将在初始化阶段才会执行。如果字段属性表中存在ConstantValue属性，那么在准备阶段会将value赋值为ConstantValue属性所指定的值 。例如：public static final int value = 123; 那么在准备阶段，则会将value赋值为123；</p>
+<p>这时候分配的初始值为零值，假设一个变量定义为：public static int value = 123;则设置变量的初始值应该为0， 而不是123。 把value赋值为123的putstatic指令是在程序被编译后，存放于类构造器<clinit>()方法之中，所以把value赋值为123的动作将在初始化阶段才会执行。如果字段属性表中存在ConstantValue属性，那么在准备阶段会将value赋值为ConstantValue属性所指定的值 。例如：public static final int value = 123; 那么在准备阶段，则会将value赋值为123；</clinit></p>
 <h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p><strong>将符号引用转换为直接引用的过程。</strong><br>符号引用是一组以符号来描述所引用的目标，符号可以是任何形式的字面量，只要使用是能无歧义的定位到目标即可。符号引用与虚拟机实现的内存布局无关，引用的目标并不一定已经加载到内存中。而直接引用可以是直接指向目标的指针、相对偏移量或是一个能间接定位到目标的句柄。直接引用是和虚拟机实现的内存布局相关的，同一个符号引用在不同虚拟机实例上翻译出来的直接引用一般不会相同。如果有了直接引用，那引用的目标必定已经在内存中存在。</p>
 <p>解析动作主要针对：类或接口、字段（类成员变量）、类方法、接口方法等引用进行。　</p>
 <p>类或接口的解析：判断所要转化成的直接引用是对数组类型，还是对普通的对象类型的引用，从而进行不同的解析。</p>
 <p>字段解析：对字段进行解析时，会先在本类中查找是否包含有简单名称和字段描述符都与目标相匹配的字段，如果有，则查找结束；如果没有，则会按照继承关系从上往下递归搜索该类所实现的各个接口和它们的父接口，还没有，则按照继承关系从上往下递归搜索其父类，直至查找结束，查找流程如下图所示：</p>
-<p><img src="JVM/image-20200825061457320.png" alt="image-20200825061457320"></p>
+<p><img src="/2020/08/29/JVM/image-20200825061457320.png" alt="image-20200825061457320"></p>
 <p>最后需要注意：理论上是按照上述顺序进行搜索解析，但在实际应用中，虚拟机的编译器实现可能要比上述规范要求的更严格一些。如果有一个同名字段同时出现在该类的接口和父类中，或同时在自己或父类的接口中出现，编译器可能会拒绝编译。<br>类方法解析：对类方法的解析与对字段解析的搜索步骤差不多，只是多了判断该方法所处的是类还是接口的步骤，而且对类方法的匹配搜索，是先搜索父类，再搜索接口。<br>接口方法解析：与类方法解析步骤类似，由于接口不会有父类，因此，只递归向上搜索父接口就行了。</p>
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>是类加载过程的最后一步，到了此阶段，才真正开始执行类中定义的Java程序代码。在准备阶段，类变量已经被赋过一次系统要求的初始值，<strong>而在初始化阶段，则是根据程序员通过程序指定的主观计划去初始化类变量和其他资源。</strong>到初始化阶段，才真正开始执行类中的Java程序代码。即初始化阶段是执行类构造器<clinit>()方法的过程。　</p>
-<p><clinit>()方法解析过程：<clinit>方法是有编译器自动收集类中的所有类变量的赋值动作和静态语句块（static{}块）中的语句合并产生的，编译器的顺序是由语句在源文件中出现的顺序决定的，所以静态语句块中只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静态语句块可以赋值，但不能访问。虚拟机会保证在子类的<clinit>()方法执行前，父类的<clinit>()方法已经执行完毕，因此在虚拟机中的一个被执行的<clinit>()方法的类肯定是java.lang.Object。<clinit>()方法对于类或接口来说并不是必需的，如果一个类中没有静态语句块，也没有对变量的赋值操作，那么编译器可以不为这个类生成<clinit>()方法。所以这个<clinit>()方法主要是给静态变量赋值和执行静态语句块。接口中不能使用静态语句块，但仍然有变量初始化的赋值操作，因此接口与类一样都会生成<clinit>()方法，但接口与类不同的是，执行接口的<clinit>()方法不需要先执行父接口的<clinit>()方法。只有当父接口中定义的变量使用时，父接口才会初始化。另外，接口的实现类在初始化时也一样不会执行接口的<clinit>()方法。</p>
-<p>虚拟机会保证一个类的<clinit>()方法在多线程环境中被正确的加锁、同步，如果多个线程同时去初始化一个类，那么只会有一个线程去执行这个类的<clinit>()方法，其他线程都需要阻塞等待，直到活动线程执行<clinit>()方法完毕。如果在一个类的<clinit>()方法中有耗时很长的操作，就可能会造成多个进程阻塞，在实际应用中这种阻塞往往是很隐蔽的。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>是类加载过程的最后一步，到了此阶段，才真正开始执行类中定义的Java程序代码。在准备阶段，类变量已经被赋过一次系统要求的初始值，<strong>而在初始化阶段，则是根据程序员通过程序指定的主观计划去初始化类变量和其他资源。</strong>到初始化阶段，才真正开始执行类中的Java程序代码。即初始化阶段是执行类构造器<clinit>()方法的过程。　</clinit></p>
+<p><clinit>()方法解析过程：<clinit>方法是有编译器自动收集类中的所有类变量的赋值动作和静态语句块（static{}块）中的语句合并产生的，编译器的顺序是由语句在源文件中出现的顺序决定的，所以静态语句块中只能访问到定义在静态语句块之前的变量，定义在它之后的变量，在前面的静态语句块可以赋值，但不能访问。虚拟机会保证在子类的<clinit>()方法执行前，父类的<clinit>()方法已经执行完毕，因此在虚拟机中的一个被执行的<clinit>()方法的类肯定是java.lang.Object。<clinit>()方法对于类或接口来说并不是必需的，如果一个类中没有静态语句块，也没有对变量的赋值操作，那么编译器可以不为这个类生成<clinit>()方法。所以这个<clinit>()方法主要是给静态变量赋值和执行静态语句块。接口中不能使用静态语句块，但仍然有变量初始化的赋值操作，因此接口与类一样都会生成<clinit>()方法，但接口与类不同的是，执行接口的<clinit>()方法不需要先执行父接口的<clinit>()方法。只有当父接口中定义的变量使用时，父接口才会初始化。另外，接口的实现类在初始化时也一样不会执行接口的<clinit>()方法。</clinit></clinit></clinit></clinit></clinit></clinit></clinit></clinit></clinit></clinit></clinit></clinit></p>
+<p>虚拟机会保证一个类的<clinit>()方法在多线程环境中被正确的加锁、同步，如果多个线程同时去初始化一个类，那么只会有一个线程去执行这个类的<clinit>()方法，其他线程都需要阻塞等待，直到活动线程执行<clinit>()方法完毕。如果在一个类的<clinit>()方法中有耗时很长的操作，就可能会造成多个进程阻塞，在实际应用中这种阻塞往往是很隐蔽的。</clinit></clinit></clinit></clinit></p>
 <h2 id="Java中的类加载器与双亲委派机制"><a href="#Java中的类加载器与双亲委派机制" class="headerlink" title="Java中的类加载器与双亲委派机制"></a>Java中的类加载器与双亲委派机制</h2><p>实现“通过一个类的完全限定名来获取描述此类的二进制字节流”这个动作的代码模块称为类加载器。</p>
 <p>java类的加载是由虚拟机来完成的，虚拟机把描述类的Class文件加载到内存，并对数据进行校验，解析和初始化，最终形成能被java虚拟机直接使用的java类型，这就是虚拟机的类加载机制。</p>
 <p>JVM中用来完成上述功能的具体实现就是类加载器。类加载器读取.class字节码文件将其转换成java.lang.Class类的一个实例。每个实例用来表示一个java类。通过该实例的newInstance()方法可以创建出一个该类的对象。</p>
-<h3 id="启动类加载器-Bootstrap-ClassLoader"><a href="#启动类加载器-Bootstrap-ClassLoader" class="headerlink" title="启动类加载器(Bootstrap ClassLoader)"></a>启动类加载器(Bootstrap ClassLoader)</h3><p>这个类加载器负责将<JAVA_HOME>\lib目录下的类库加载到虚拟机内存中，用来加载java的核心库，此类加载器并不继承于java.lang.ClassLoader，<strong>不能被java程序直接调用</strong>，代码是使用C++编写的。是虚拟机自身的一部分</p>
-<h3 id="扩展类加载器-Extendsion-ClassLoader"><a href="#扩展类加载器-Extendsion-ClassLoader" class="headerlink" title="扩展类加载器(Extendsion ClassLoader)"></a>扩展类加载器(Extendsion ClassLoader)</h3><p>这个类加载器负责加载<JAVA_HOME>\lib\ext目录下的类库，用来加载java的扩展库，开发者可以直接使用这个类加载器。</p>
+<h3 id="启动类加载器-Bootstrap-ClassLoader"><a href="#启动类加载器-Bootstrap-ClassLoader" class="headerlink" title="启动类加载器(Bootstrap ClassLoader)"></a>启动类加载器(Bootstrap ClassLoader)</h3><p>这个类加载器负责将<JAVA_HOME>\lib目录下的类库加载到虚拟机内存中，用来加载java的核心库，此类加载器并不继承于java.lang.ClassLoader，<strong>不能被java程序直接调用</strong>，代码是使用C++编写的。是虚拟机自身的一部分</JAVA_HOME></p>
+<h3 id="扩展类加载器-Extendsion-ClassLoader"><a href="#扩展类加载器-Extendsion-ClassLoader" class="headerlink" title="扩展类加载器(Extendsion ClassLoader)"></a>扩展类加载器(Extendsion ClassLoader)</h3><p>这个类加载器负责加载<JAVA_HOME>\lib\ext目录下的类库，用来加载java的扩展库，开发者可以直接使用这个类加载器。</JAVA_HOME></p>
 <h3 id="应用程序类加载器-Application-ClassLoader"><a href="#应用程序类加载器-Application-ClassLoader" class="headerlink" title="应用程序类加载器(Application ClassLoader)"></a>应用程序类加载器(Application ClassLoader)</h3><p>这个类加载器负责加载用户类路径(CLASSPATH)下的类库，一般我们编写的java类都是由这个类加载器加载，这个类加载器是CLassLoader中的getSystemClassLoader()方法的返回值，所以也称为系统类加载器。一般情况下这就是系统默认的类加载器</p>
 <h3 id="自定义的类加载器"><a href="#自定义的类加载器" class="headerlink" title="自定义的类加载器"></a>自定义的类加载器</h3><p>这个加载器可以满足我们加载类的特殊需求，需要继承java.lang.ClassLoader类并且覆盖其中的findClass()方法和defineClass()方法。</p>
 <p><strong>可以打破双亲委派机制</strong></p>
@@ -525,7 +525,7 @@
 </ol>
 <p>本地方法栈中JNI(Native方法)引用的对象。</p>
 <h3 id="四种引用状态"><a href="#四种引用状态" class="headerlink" title="四种引用状态"></a>四种引用状态</h3><p>在JDK1.2之后，Java对引用的概念进行了扩充，将引用分为强引用、软引用、弱引用、虚引用4种，这4种引用强度依次减弱。</p>
-<p><img src="JVM/image-20200825062031209.png" alt="image-20200825062031209"></p>
+<p><img src="/2020/08/29/JVM/image-20200825062031209.png" alt="image-20200825062031209"></p>
 <p>强引用</p>
 <p>代码中普遍存在的类似”Object obj = new Object()”这类的引用，只要强引用还存在，垃圾收集器永远不会回收掉被引用的对象。</p>
 <p>软引用</p>
@@ -539,28 +539,28 @@
 <li>如果对象在进行可达性分析后发现没有与GCRoots相连的引用链，则该对象被第一次标记并进行一次筛选，筛选条件为是否有必要执行该对象的finalize方法，若对象没有覆盖finalize方法或者该finalize方法是否已经被虚拟机执行过了，则均视作不必要执行该对象的finalize方法，即该对象将会被回收。反之，若对象覆盖了finalize方法并且该finalize方法并没有被执行过，那么，这个对象会被放置在一个叫F-Queue的队列中，之后会由虚拟机自动建立的、优先级低的Finalizer线程去执行，而虚拟机不必要等待该线程执行结束，即虚拟机只负责建立线程，其他的事情交给此线程去处理。</li>
 <li>对F-Queue中对象进行第二次标记，如果对象在finalize方法中拯救了自己，即关联上了GCRoots引用链，如把this关键字赋值给其他变量，那么在第二次标记的时候该对象将从“即将回收”的集合中移除，如果对象还是没有拯救自己，那就会被回收。</li>
 </ol>
-<h3 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h3><h4 id="标记-清除（Mark-Sweep）算法"><a href="#标记-清除（Mark-Sweep）算法" class="headerlink" title="标记-清除（Mark-Sweep）算法"></a>标记-清除（Mark-Sweep）算法</h4><p><img src="JVM/image-20200825062223017.png" alt="image-20200825062223017"></p>
+<h3 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h3><h4 id="标记-清除（Mark-Sweep）算法"><a href="#标记-清除（Mark-Sweep）算法" class="headerlink" title="标记-清除（Mark-Sweep）算法"></a>标记-清除（Mark-Sweep）算法</h4><p><img src="/2020/08/29/JVM/image-20200825062223017.png" alt="image-20200825062223017"></p>
 <p> 这是最基础的算法，标记-清除算法就如同它的名字样，<strong>分为“标记”和“清除”两个阶段</strong>：<strong>首先标记出所有需要回收的对象，标记完成后统一回收所有被标记的对象。</strong></p>
 <ol>
 <li>这种算法的不足主要体现在效率和空间，从效率的角度讲，标记和清除两个过程的效率都不高；</li>
 <li>从空间的角度讲，标记清除后会产生大量不连续的内存碎片， 内存碎片太多可能会导致以后程序运行过程中在需要分配较大对象时，无法找到足够的连续内存而不得不提前触发一次垃圾收集动作。</li>
 </ol>
-<h4 id="复制（Copying）算法"><a href="#复制（Copying）算法" class="headerlink" title="复制（Copying）算法"></a>复制（Copying）算法</h4><p><img src="JVM/image-20200825062325547.png" alt="image-20200825062325547"></p>
+<h4 id="复制（Copying）算法"><a href="#复制（Copying）算法" class="headerlink" title="复制（Copying）算法"></a>复制（Copying）算法</h4><p><img src="/2020/08/29/JVM/image-20200825062325547.png" alt="image-20200825062325547"></p>
 <p>复制算法是为了解决效率问题而出现的，它<strong>将可用的内存分为两块，每次只用其中一块，当这一块内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已经使用过的内存空间一次性清理掉。</strong>这样每次只需要对整个半区进行内存回收，内存分配时也不需要考虑内存碎片等复杂情况，只需要移动指针，按照顺序分配即可。</p>
 <p><strong>不过这种算法有个缺点，内存缩小为了原来的一半，这样代价太高了。</strong></p>
 <p>现在的商用虚拟机都<strong>采用这种算法来回收新生代</strong>，不过研究表明1:1的比例非常不科学，因此新生代的内存被划分为一块较大的Eden空间和两块较小的Survivor空间，每次使用Eden和其中一块Survivor。每次回收时，将Eden和Survivor中还存活着的对象一次性复制到另外一块Survivor空间上，最后清理掉Eden和刚才用过的Survivor空间。HotSpot虚拟机默认Eden区和Survivor区的比例为8:1，意思是每次新生代中可用内存空间为整个新生代容量的90%。当然，我们没有办法保证每次回收都只有不多于10%的对象存活，当Survivor空间不够用时，需要依赖老年代进行分配担保（Handle Promotion）。</p>
-<h4 id="标记-整理（Mark-Compact）算法"><a href="#标记-整理（Mark-Compact）算法" class="headerlink" title="标记-整理（Mark-Compact）算法"></a>标记-整理（Mark-Compact）算法</h4><p><img src="JVM/image-20200825062432252.png" alt="image-20200825062432252"></p>
+<h4 id="标记-整理（Mark-Compact）算法"><a href="#标记-整理（Mark-Compact）算法" class="headerlink" title="标记-整理（Mark-Compact）算法"></a>标记-整理（Mark-Compact）算法</h4><p><img src="/2020/08/29/JVM/image-20200825062432252.png" alt="image-20200825062432252"></p>
 <p>复制算法在对象存活率较高的场景下要进行大量的复制操作，效率很低。万一对象100%存活，那么需要有额外的空间进行分配担保。</p>
 <p>老年代都是不易被回收的对象，对象存活率高，因此一般不能直接选用复制算法。根据老年代的特点，有人提出了另外一种标记-整理算法，过程与标记-清除算法一样，不过不是直接对可回收对象进行清理，而是让所有存活对象都向一端移动，然后直接清理掉边界以外的内存。</p>
 <h4 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h4><p>根据上面的内容，用一张图概括一下堆内存的布局</p>
-<p><img src="JVM/image-20200825062519239.png" alt="image-20200825062519239"></p>
+<p><img src="/2020/08/29/JVM/image-20200825062519239.png" alt="image-20200825062519239"></p>
 <p>现代商用虚拟机基本都采用分代收集算法来进行垃圾回收。这种算法没什么特别的，无非是上面内容的结合罢了，根据对象的生命周期的不同将内存划分为几块，然后根据各块的特点采用最适当的收集算法。</p>
 <ol>
 <li><strong>大批对象死去、少量对象存活的（新生代），使用复制算法，复制成本低；</strong></li>
 <li><strong>对象存活率高、没有额外空间进行分配担保的（老年代），采用标记-清理算法或者标记-整理算法。</strong></li>
 </ol>
 <h3 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h3><p>HotSpot这个虚拟机所包含的所有收集器如图：</p>
-<p><img src="JVM/image-20200825062605135.png" alt="image-20200825062605135"></p>
+<p><img src="/2020/08/29/JVM/image-20200825062605135.png" alt="image-20200825062605135"></p>
 <p>上图展示了7种作用于不同分代的收集器，如果两个收集器之间存在连线，那说明它们可以搭配使用。虚拟机所处的区域说明它是属于新生代收集器还是老年代收集器。</p>
 <h4 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h4><p>这个收集器是一个采用复制算法的单线程的收集器</p>
 <ul>
@@ -568,7 +568,7 @@
 <li>另一方面也意味着它进行垃圾收集时必须暂停其他线程的所有工作，直到它收集结束为止。</li>
 </ul>
 <p>后者意味着，在用户不可见的情况下要把用户正常工作的线程全部停掉，这对很多应用是难以接受的。不过实际上到目前为止，S<strong>erial收集器依然是虚拟机运行在Client模式下的默认新生代收集器，因为它简单而高效</strong>。用户桌面应用场景中，分配给虚拟机管理的内存一般来说不会很大，收集几十兆甚至一两百兆的新生代停顿时间在几十毫秒最多一百毫秒，只要不是频繁发生，这点停顿是完全可以接受的。Serial收集器运行过程如下图所示：</p>
-<p><img src="JVM/image-20200825062739873.png" alt="image-20200825062739873"></p>
+<p><img src="/2020/08/29/JVM/image-20200825062739873.png" alt="image-20200825062739873"></p>
 <p>说明：</p>
 <ol>
 <li>需要STW（Stop The World），停顿时间长。</li>
@@ -580,7 +580,7 @@
 <li>它默认开启的收集线程数与CPU数量相同，在CPU数量非常多的情况下，可以使用-XX:ParallelGCThreads参数来限制垃圾收集的线程数。</li>
 </ul>
 <p>ParNew收集器运行过程如下图所示：</p>
-<p><img src="JVM/image-20200825062904608.png" alt="image-20200825062904608"></p>
+<p><img src="/2020/08/29/JVM/image-20200825062904608.png" alt="image-20200825062904608"></p>
 <h4 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h4><ul>
 <li>新生代收集器</li>
 <li>用复制算法的收集器</li>
@@ -599,7 +599,7 @@
 <li>使用多线程和“标记-整理”算法</li>
 </ul>
 <p>这个收集器在JDK 1.6之后的出现，“吞吐量优先收集器”终于有了比较名副其实的应用组合，在注重吞吐量以及CPU资源敏感的场合，都可以优先考虑Parallel Scavenge收集器+Parallel Old收集器的组合。运行过程如下图所示：</p>
-<p><img src="JVM/image-20200825063158528.png" alt="image-20200825063158528"></p>
+<p><img src="/2020/08/29/JVM/image-20200825063158528.png" alt="image-20200825063158528"></p>
 <h4 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h4><p>CMS（Conrrurent Mark Sweep）收集器是以获取最短回收停顿时间为目标的收集器。使用标记 - 清除算法，收集过程分为如下四步：</p>
 <ol>
 <li><strong>初始标记，标记GCRoots能直接关联到的对象，时间很短。</strong></li>
@@ -608,7 +608,7 @@
 <li><strong>并发清除，回收内存空间，时间很长。</strong></li>
 </ol>
 <p>其中，并发标记与并发清除两个阶段耗时最长，但是可以与用户线程并发执行。运行过程如下图所示:</p>
-<p><img src="JVM/image-20200825063234483.png" alt="image-20200825063234483"></p>
+<p><img src="/2020/08/29/JVM/image-20200825063234483.png" alt="image-20200825063234483"></p>
 <p>说明：</p>
 <ol>
 <li>对CPU资源非常敏感，可能会导致应用程序变慢，吞吐率下降。</li>
@@ -616,7 +616,7 @@
 <li>由于<strong>采用的标记 - 清除算法，会产生大量的内存碎片</strong>，不利于大对象的分配，可能会提前触发一次Full GC。<br>虚拟机提供了-XX:+UseCMSCompactAtFullCollection参数来进行碎片的合并整理过程，这样会使得停顿时间变长，虚拟机还提供了一个参数配置，-XX:+CMSFullGCsBeforeCompaction，用于设置执行多少次不压缩的Full GC后，接着来一次带压缩的GC。</li>
 </ol>
 <h4 id="G1收集器"><a href="#G1收集器" class="headerlink" title="G1收集器"></a>G1收集器</h4><p>在G1之前的垃圾收集器，收集的范围都是整个新生代或者老年代，而G1不再是这样。使用G1收集器时，Java堆的内存布局与其他收集器有很大差别，<strong>它将整个Java堆划分为多个大小相等的独立区域（Region），虽然还保留有新生代和老年代的概念，但新生代和老年代不再是物理隔离的了，它们都是一部分（可以不连续）Region的集合。通过记录每个 Region 垃圾回收时间以及回收所获得的空间(这两个值是通过过去回收的经验获得),并维护一个优先列表,每次根据允许的收集时间,优先回收价值最大的 Region。</strong></p>
-<p><img src="JVM/image-20200825063509452.png" alt="image-20200825063509452"></p>
+<p><img src="/2020/08/29/JVM/image-20200825063509452.png" alt="image-20200825063509452"></p>
 <p><strong>每个 Region 都有一个 Remembered Set,用来记录该 Region 对象的引用对象所在的 Region。通过使用Remembered Set,在做可达性分析的时候就可以避免全堆扫描。</strong></p>
 <p>如果不计算维护 Remembered Set 的操作,G1 收集器的运作大致可划分为以下几个步骤:</p>
 <ol>
