@@ -85,13 +85,13 @@
 <meta property="og:url" content="http://chenpengcode.github.io/2020/08/30/MySQL/index.html">
 <meta property="og:site_name" content="耳朵大侠">
 <meta property="og:description" content="存储引擎MyISAMMyISAM引擎是 MySQL 5.1 及之前版本的默认引擎，它的特点是：  不支持行锁，读取时对需要读到的所有表加锁，写入时则对表加排它锁 不支持事务 不支持外键 不支持崩溃后的安全恢复 在表有读取查询的同时，支持往表中插入新纪录 支持BLOB和TEXT的前500个字符索引，支持全文索引 支持延迟更新索引，极大提升写入性能 对于不会进行修改的表，支持压缩表，极大减少磁盘空间占">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/Document/%E8%B5%84%E6%96%99/MySQL/MySql.assets/image-20200826215514052.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/Document/%E8%B5%84%E6%96%99/MySQL/MySql.assets/image-20200826215944502.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/Document/%E8%B5%84%E6%96%99/MySQL/MySql.assets/image-20200826220939743.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/Document/%E8%B5%84%E6%96%99/MySQL/MySql.assets/image-20200826220951672.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/Document/%E8%B5%84%E6%96%99/MySQL/MySql.assets/image-20200826231342761.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/Document/%E8%B5%84%E6%96%99/MySQL/MySql.assets/image-20200826231449361.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/Document/%E8%B5%84%E6%96%99/MySQL/MySql.assets/image-20200826231626912.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/image-20200826215514052.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/image-20200826215944502.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/image-20200826220939743.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/image-20200826220951672.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/image-20200826231342761.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/image-20200826231449361.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/image-20200826231626912.png">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/clip_image002.png">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/clip_image004.jpg">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/clip_image006.jpg">
@@ -99,11 +99,11 @@
 <meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/clip_image010.jpg">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/clip_image012.jpg">
 <meta property="article:published_time" content="2020-08-30T01:49:14.000Z">
-<meta property="article:modified_time" content="2020-08-30T02:04:17.118Z">
+<meta property="article:modified_time" content="2020-08-30T02:13:41.941Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://chenpengcode.github.io/2020/Document/%E8%B5%84%E6%96%99/MySQL/MySql.assets/image-20200826215514052.png">
+<meta name="twitter:image" content="http://chenpengcode.github.io/2020/08/30/MySQL/image-20200826215514052.png">
 
 
 
@@ -452,7 +452,7 @@
 <p>既然<code>redo log</code>也需要在事务提交时将日志写入磁盘，为什么它比直接将<code>Buffer Pool</code>中修改的数据写入磁盘(即刷脏)要快呢？主要有以下两方面的原因：</p>
 <p>1、<strong>刷脏是随机<code>IO</code>，因为每次修改的数据位置随机，但写<code>redo log</code>是追加操作，属于顺序<code>IO</code></strong>。</p>
 <p>2、<strong>刷脏是以数据页（<code>Page</code>）为单位的，<code>MySQL</code>默认页大小是<code>16KB</code>，一个<code>Page</code>上一个小修改都要整页写入；而<code>redo log</code>中只包含真正需要写入的部分，无效<code>IO</code>大大减少。</strong></p>
-<h3 id="redo-log与binlog"><a href="#redo-log与binlog" class="headerlink" title="redo log与binlog"></a><strong><code>redo log</code>与<code>binlog</code></strong></h3><p>我们知道，在<code>MySQL</code>中还存在 <code>binlog</code>(二进制日志)也可以记录写操作并用于数据的恢复，但二者是有着根本的不同的：</p>
+<h3 id="redo-log与binlog"><a href="#redo-log与binlog" class="headerlink" title="redo log与binlog"></a>redo log与binlog</h3><p>我们知道，在<code>MySQL</code>中还存在 <code>binlog</code>(二进制日志)也可以记录写操作并用于数据的恢复，但二者是有着根本的不同的：</p>
 <ol>
 <li><p>作用不同：</p>
 <ul>
@@ -521,7 +521,7 @@
 <li><p>实际还有一个删除<code>flag</code>隐藏字段, 即记录被更新或删除并不代表真的删除，而是删除<code>flag</code>变了</p>
 </li>
 </ol>
-<p>​     <img src="/2020/08/30/MySQL/../../../Document/资料/MySQL/MySql.assets/image-20200826215514052.png" alt="image-20200826215514052" style="zoom:150%;">                          </p>
+<p>​     <img src="/2020/08/30/MySQL/image-20200826215514052.png" alt="image-20200826215514052" style="zoom:150%;">                          </p>
 <p>如上图，<code>DB_ROW_ID</code>是数据库默认为该行记录生成的唯一隐式主键，<code>DB_TRX_ID</code>是当前操作该记录的事务ID, 而<code>DB_ROLL_PTR</code>是一个回滚指针，用于配合undo日志，指向上一个旧版本</p>
 <h4 id="undo日志"><a href="#undo日志" class="headerlink" title="undo日志"></a>undo日志</h4><p>undo log主要分为两种：</p>
 <ul>
@@ -531,7 +531,7 @@
 <p>对<code>MVCC</code>有帮助的实质是<code>update undo log</code> ，<code>undo log</code>实际上就是存在<code>rollback segment</code>中旧记录链，它的执行流程如下：</p>
 <ol>
 <li><p>比如一个有个事务插入<code>persion</code>表插入了一条新记录，记录如下，<code>name</code>为<code>Jerry</code>, <code>age</code>为24岁，隐式主键是1，事务ID和回滚指针，我们假设为<code>NULL</code></p>
-<img src="/2020/08/30/MySQL/../../../Document/资料/MySQL/MySql.assets/image-20200826215944502.png" alt="image-20200826215944502" style="zoom:150%;">
+<img src="/2020/08/30/MySQL/image-20200826215944502.png" alt="image-20200826215944502" style="zoom:150%;">
 </li>
 <li><p>现在来了一个事务1对该记录的<code>name</code>做出了修改，改为<code>Tom</code></p>
 <ol>
@@ -544,7 +544,7 @@
 <li><p>事务提交后，释放锁</p>
 </li>
 </ol>
-<img src="/2020/08/30/MySQL/../../../Document/资料/MySQL/MySql.assets/image-20200826220939743.png" alt="image-20200826220939743" style="zoom:150%;">
+<img src="/2020/08/30/MySQL/image-20200826220939743.png" alt="image-20200826220939743" style="zoom:150%;">
 </li>
 <li><p>又来了个事务2修改<code>person</code>表的同一个记录，将<code>age</code>修改为30岁</p>
 <ol>
@@ -553,7 +553,7 @@
 <li>修改该行<code>age</code>为30岁，并且修改隐藏字段的事务ID为当前事务2的ID, 那就是2，回滚指针指向刚刚拷贝到<code>undo log</code>的副本记录</li>
 <li>事务提交，释放锁</li>
 </ol>
-<img src="/2020/08/30/MySQL/../../../Document/资料/MySQL/MySql.assets/image-20200826220951672.png" alt="image-20200826220951672" style="zoom:150%;">
+<img src="/2020/08/30/MySQL/image-20200826220951672.png" alt="image-20200826220951672" style="zoom:150%;">
 
 </li>
 </ol>
@@ -612,13 +612,13 @@
 </tr>
 </tbody></table>
 <p><code>Read View</code>不仅仅会通过一个列表<code>trx_list</code>来维护事务2执行快照读那刻系统正活跃的事务ID，还会有两个属性<code>up_limit_id</code>（记录trx_list列表中事务ID最小的ID），<code>low_limit_id</code>(快照读那刻系统尚未分配的下一个事务ID也就是目前已出现过的事务ID的最大值+1) ；所以在这里例子中<code>up_limit_id</code>就是1，<code>low_limit_id</code>就是4 + 1 = 5，<code>trx_list</code>集合的值是1,3，<code>Read View</code>如下图</p>
- <img src="/2020/08/30/MySQL/../../../Document/资料/MySQL/MySql.assets/image-20200826231342761.png" alt="image-20200826231342761" style="zoom:150%;">
+ <img src="/2020/08/30/MySQL/image-20200826231342761.png" alt="image-20200826231342761" style="zoom:150%;">
 
 <p>我们的例子中，只有事务4修改过该行记录，并在事务2执行快照读前，就提交了事务，所以当前该行当前数据的undo log如下图所示；我们的事务2在快照读该行记录的时候，就会拿该行记录的<code>DB_TRX_ID</code>去跟<code>up_limit_id</code>, <code>low_limit_id</code>和活跃事务ID列表(<code>trx_list)</code>进行比较，判断当前事务2能看到该记录的版本是哪个。</p>
- <img src="/2020/08/30/MySQL/../../../Document/资料/MySQL/MySql.assets/image-20200826231449361.png" alt="image-20200826231449361" style="zoom:150%;">
+ <img src="/2020/08/30/MySQL/image-20200826231449361.png" alt="image-20200826231449361" style="zoom:150%;">
 
 <p>所以先拿该记录<code>DB_TRX_ID</code>字段记录的事务ID 4去跟<code>Read View</code>的的<code>up_limit_id</code>比较，看4是否小于<code>up_limit_id(1)</code>，所以不符合条件，继续判断 4 是否大于等于 <code>low_limit_id(5)</code>，也不符合条件，最后判断4是否处于<code>trx_list</code>中的活跃事务, 最后发现事务ID为4的事务不在当前活跃事务列表中, 符合可见性条件，所以事务4修改后提交的最新结果对事务2快照读时是可见的，所以事务2能读到的最新数据记录是事务4所提交的版本，而事务4提交的版本也是全局角度上最新的版本</p>
- <img src="/2020/08/30/MySQL/../../../Document/资料/MySQL/MySql.assets/image-20200826231626912.png" alt="image-20200826231626912" style="zoom:150%;">
+ <img src="/2020/08/30/MySQL/image-20200826231626912.png" alt="image-20200826231626912" style="zoom:150%;">
 
 <h4 id="RC-RR级别下的InnoDB快照读有什么不同？"><a href="#RC-RR级别下的InnoDB快照读有什么不同？" class="headerlink" title="RC,RR级别下的InnoDB快照读有什么不同？"></a>RC,RR级别下的InnoDB快照读有什么不同？</h4><p>正是<code>Read View</code>生成时机的不同，从而造成<code>RC</code>, <code>RR</code>级别下快照读的结果的不同</p>
 <ol>
