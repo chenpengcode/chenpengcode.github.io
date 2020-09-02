@@ -106,7 +106,7 @@
 <meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Redis/clip_image006.jpg">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Redis/clip_image002-1598598031651.png">
 <meta property="article:published_time" content="2020-08-30T02:37:41.000Z">
-<meta property="article:modified_time" content="2020-08-30T02:39:01.989Z">
+<meta property="article:modified_time" content="2020-08-31T07:05:11.708Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="缓存">
@@ -845,7 +845,7 @@
 <p>按照Redis Cluster的哈希槽算法，CRC16(‘my_name’)%16384 = 2412 那么这个key就被分配到了节点A上</p>
 <p>同样的，当我连接(A,B,C)的任意一个节点想获取my_name这个key,都会转到节点A上</p>
 <p>再比如</p>
-<p>如果用户将新节点 D 添加到集群中， 那么集群只需要将节点 A 、B 、 C 中的某些槽移动到节点 D 就可以了。</p>
+<p><strong>如果用户将新节点 D 添加到集群中， 那么集群只需要将节点 A 、B 、 C 中的某些槽移动到节点 D 就可以了。</strong></p>
 <p>增加一个D节点的结果可能如下：</p>
 <ul>
 <li>节点A覆盖1365-5460</li>
@@ -853,7 +853,7 @@
 <li>节点C覆盖12288-16383</li>
 <li>节点D覆盖0-1364,5461-6826,10923-1228</li>
 </ul>
-<p>与此类似， 如果用户要从集群中移除节点 A ， 那么集群只需要将节点 A 中的所有哈希槽移动到节点 B 和节点 C ， 然后再移除空白（不包含任何哈希槽）的节点 A 就可以了。</p>
+<p>与此类似， <strong>如果用户要从集群中移除节点 A ， 那么集群只需要将节点 A 中的所有哈希槽移动到节点 B 和节点 C ， 然后再移除空白（不包含任何哈希槽）的节点 A 就可以了。</strong></p>
 <p>因为将一个哈希槽从一个节点移动到另一个节点不会造成节点阻塞， 所以无论是添加新节点还是移除已存在节点， 又或者改变某个节点包含的哈希槽数量， 都不会造成集群下线。</p>
 <h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><h2 id="setnx"><a href="#setnx" class="headerlink" title="setnx"></a>setnx</h2><p>其实目前通常所说的setnx命令，并非单指redis的setnx key value这条命令。</p>
 <p>一般代指redis中对set命令加上nx参数进行使用， set这个命令，目前已经支持这么多参数可选：</p>
@@ -1006,6 +1006,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/08/31/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" rel="prev" title="Redis数据类型">
+                Redis数据类型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -1085,7 +1089,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1096,7 +1100,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1107,7 +1111,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
