@@ -85,14 +85,16 @@
 <meta property="og:url" content="http://chenpengcode.github.io/2020/09/02/Spring%E9%9D%A2%E8%AF%95/index.html">
 <meta property="og:site_name" content="耳朵大侠">
 <meta property="og:description" content="什么是 Spring 框架它是很多模块的集合，使用这些模块可以很方便地协助我们进行开发。这些模块是：核心容器、数据访问&#x2F;集成,、Web、AOP（面向切面编程）、工具、消息和测试模块。比如：Core Container 中的 Core 组件是Spring 所有组件的核心，Beans 组件和 Context 组件是实现IOC和依赖注入的基础，AOP组件用来实现面向切面编程。  核心技术 ：依赖注入(D">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/09/02/Spring%E9%9D%A2%E8%AF%95/1.jpg">
 <meta property="article:published_time" content="2020-09-02T08:13:49.000Z">
-<meta property="article:modified_time" content="2020-09-02T08:51:43.518Z">
+<meta property="article:modified_time" content="2020-09-02T14:43:31.061Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JavaWeb">
 <meta property="article:tag" content="Spring">
 <meta property="article:tag" content="面试">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://chenpengcode.github.io/2020/09/02/Spring%E9%9D%A2%E8%AF%95/1.jpg">
 
 
 
@@ -414,18 +416,16 @@
 <h2 id="RestController-vs-Controller"><a href="#RestController-vs-Controller" class="headerlink" title="@RestController vs @Controller"></a>@RestController vs @Controller</h2><p> 单独使用 <code>@Controller</code> 不加 <code>@ResponseBody</code>的话一般使用在要返回一个视图的情况，这种情况属于比较传统的Spring MVC 的应用，对应于前后端不分离的情况。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span> = <span class="meta">@Controller</span> + <span class="meta">@ResponseBody</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="对于-IoC-和-AOP-的理解"><a href="#对于-IoC-和-AOP-的理解" class="headerlink" title="对于 IoC 和 AOP 的理解"></a>对于 IoC 和 AOP 的理解</h2><ul>
-<li>IOC<ul>
-<li>IoC（Inverse of Control:控制反转）是一种<strong>设计思想</strong>，就是 <strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong> </li>
+<h2 id="对于-IoC-和-AOP-的理解-重要"><a href="#对于-IoC-和-AOP-的理解-重要" class="headerlink" title="对于 IoC 和 AOP 的理解(重要)"></a>对于 IoC 和 AOP 的理解(重要)</h2><ul>
+<li>IoC（Inverse of Control:控制反转）是一种<strong>设计思想</strong>，就是 <strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong> <ul>
 <li>IoC 在其他语言中也有应用，并非 Spring 特有。</li>
 <li><strong>IoC 容器是 Spring 用来实现 IoC 的载体， IoC 容器实际上就是个Map（key，value）,Map 中存放的是各种对象。</strong></li>
 </ul>
 </li>
 </ul>
-<p>将对象之间的相互依赖关系交给 IoC 容器来管理，并由 IoC 容器完成对象的注入。这样可以很大程度上简化应用的开发，把应用从复杂的依赖关系中解放出来。 <strong>IoC 容器就像是一个工厂一样，当我们需要创建一个对象的时候，只需要配置好配置文件/注解即可，完全不用考虑对象是如何被创建出来的。</strong> 在实际项目中一个 Service 类可能有几百甚至上千个类作为它的底层，假如我们需要实例化这个 Service，你可能要每次都要搞清这个 Service 所有底层类的构造函数，这可能会把人逼疯。如果利用 IoC 的话，你只需要配置好，然后在需要的地方引用就行了，这<strong>大大增加了项目的可维护性且降低了开发难度</strong>。</p>
+<p><strong>将对象之间的相互依赖关系交给 IoC 容器来管理，并由 IoC 容器完成对象的注入。</strong>这样可以很大程度上简化应用的开发，把应用从复杂的依赖关系中解放出来。 <strong>IoC 容器就像是一个工厂一样，当我们需要创建一个对象的时候，只需要配置好配置文件/注解即可，完全不用考虑对象是如何被创建出来的。</strong> 在实际项目中一个 Service 类可能有几百甚至上千个类作为它的底层，假如我们需要实例化这个 Service，你可能要每次都要搞清这个 Service 所有底层类的构造函数，这可能会把人逼疯。如果利用 IoC 的话，你只需要配置好，然后在需要的地方引用就行了，这<strong>大大增加了项目的可维护性且降低了开发难度</strong>。</p>
 <ul>
-<li>AOP<ul>
-<li>AOP(Aspect-Oriented Programming:面向切面编程)能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</li>
+<li>AOP(Aspect-Oriented Programming:面向切面编程)能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。<ul>
 <li><strong>Spring AOP就是基于动态代理的</strong>，如果要代理的对象，实现了某个接口，那么Spring AOP会使用<strong>JDK Proxy</strong>，去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候Spring AOP会使用<strong>Cglib</strong> ，这时候Spring AOP会使用 <strong>Cglib</strong> 生成一个被代理对象的子类来作为代理</li>
 </ul>
 </li>
@@ -436,18 +436,36 @@
 </ul>
 <p>Spring AOP 已经集成了 AspectJ ，AspectJ 应该算的上是 Java 生态系统中最完整的 AOP 框架了。AspectJ 相比于 Spring AOP 功能更加强大，但是 Spring AOP 相对来说更简单，</p>
 <p>如果我们的切面比较少，那么两者性能差异不大。但是，当切面太多的话，最好选择 AspectJ ，它比Spring AOP 快很多。</p>
-<h2 id="Spring-中的-bean-的作用域"><a href="#Spring-中的-bean-的作用域" class="headerlink" title="Spring 中的 bean 的作用域"></a>Spring 中的 bean 的作用域</h2><ul>
-<li><strong>singleton : 唯一 bean 实例，Spring 中的 bean 默认都是单例的。</strong></li>
-<li><strong>prototype : 每次请求都会创建一个新的 bean 实例。</strong></li>
-<li>request : 每一次HTTP请求都会产生一个新的bean，该bean仅在当前HTTP request内有效。</li>
-<li>session : 每一次HTTP请求都会产生一个新的 bean，该bean仅在当前 HTTP session 内有效。</li>
-<li>global-session： 全局session作用域，仅仅在基于portlet的web应用中才有意义，Spring5已经没有了。Portlet是能够生成语义代码(例如：HTML)片段的小型Java Web插件。它们基于portlet容器，可以像servlet一样处理HTTP请求。但是，与 servlet 不同，每个 portlet 都有不同的会话。</li>
+<h2 id="Spring-中的-bean-的作用域-重要"><a href="#Spring-中的-bean-的作用域-重要" class="headerlink" title="Spring 中的 bean 的作用域(重要)"></a>Spring 中的 bean 的作用域(重要)</h2><ul>
+<li><p><strong>singleton : 唯一 bean 实例，Spring 中的 bean 默认都是单例的。</strong></p>
+<p><strong>当一个 bean 的作用域为 singleton，那么Spring IoC容器中只会存在一个共享的 bean 实例，并且所有对 bean 的请求，只要 id 与该 bean 定义相匹配，则只会返回bean的同一实例。</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"ServiceImpl"</span> <span class="attr">class</span>=<span class="string">"cn.csdn.service.ServiceImpl"</span> <span class="attr">scope</span>=<span class="string">"singleton"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">@Scope("singleton")</span><br><span class="line">public class ServiceImpl&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>prototype : 每次请求都会创建一个新的 bean 实例。</strong></p>
+<p><strong>当一个bean的作用域为 prototype，表示一个 bean 定义对应多个对象实例。</strong> <strong>prototype 作用域的 bean 会导致在每次对该 bean 请求时都会创建一个新的 bean 实例。prototype 是原型类型，它在我们创建容器的时候并没有实例化，而是当我们获取bean的时候才会去创建一个对象，而且我们每次获取到的对象都不是同一个对象。根据经验，对有状态的 bean 应该使用 prototype 作用域，而对无状态的 bean 则应该使用 singleton 作用域。</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"account"</span> <span class="attr">class</span>=<span class="string">"com.foo.DefaultAccount"</span> <span class="attr">scope</span>=<span class="string">"prototype"</span>/&gt;</span>  </span><br><span class="line"> 或者</span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"account"</span> <span class="attr">class</span>=<span class="string">"com.foo.DefaultAccount"</span> <span class="attr">singleton</span>=<span class="string">"false"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
 </ul>
-<h2 id="Bean的线程安全性"><a href="#Bean的线程安全性" class="headerlink" title="Bean的线程安全性"></a>Bean的线程安全性</h2><ul>
+<ul>
+<li><p>request : 每一次HTTP请求都会产生一个新的bean，该bean仅在当前HTTP request内有效。</p>
+</li>
+<li><p>session : 每一次HTTP请求都会产生一个新的 bean，该bean仅在当前 HTTP session 内有效。</p>
+</li>
+<li><p>global-session： 全局session作用域，仅仅在基于portlet的web应用中才有意义，Spring5已经没有了。Portlet是能够生成语义代码(例如：HTML)片段的小型Java Web插件。它们基于portlet容器，可以像servlet一样处理HTTP请求。但是，与 servlet 不同，每个 portlet 都有不同的会话。</p>
+</li>
+</ul>
+<p><strong>request、session</strong> 和 <strong>global session</strong> 三种作用域仅在基于web的应用中使用，只能用在基于 web 的 Spring ApplicationContext 环境。</p>
+<h2 id="Bean的线程安全性-重要"><a href="#Bean的线程安全性-重要" class="headerlink" title="Bean的线程安全性(重要)"></a>Bean的线程安全性(重要)</h2><ul>
 <li><p>对于单例Bean,所有线程都共享一个单例实例Bean,因此是存在资源的竞争。</p>
 <ul>
 <li><p><strong>如果单例Bean,是一个无状态Bean，也就是线程中的操作不会对Bean的成员执行查询以外的操作，那么这个单例Bean是线程安全的。</strong></p>
 <p>比如Spring mvc 的 Controller、Service、Dao等，这些Bean大多是无状态的，只关注于方法本身。</p>
+<p>所谓无状态就是没有存储数据，即没有通过数据的状态来作为下一步操作的判断依据</p>
 </li>
 <li><p><strong>对于有状态的bean，Spring官方提供的bean，一般提供了通过ThreadLocal去解决线程安全的方法</strong></p>
 <p>比如RequestContextHolder、TransactionSynchronizationManager、LocaleContextHolder等</p>
@@ -475,10 +493,10 @@
 <li><code>@Service</code> : 对应服务层，主要涉及一些复杂的逻辑，需要用到 Dao层。</li>
 <li><code>@Controller</code> : 对应 Spring MVC 控制层，主要用户接受用户请求并调用 Service 层返回数据给前端页面。</li>
 </ul>
-<h2 id="bean-生命周期"><a href="#bean-生命周期" class="headerlink" title="bean 生命周期"></a>bean 生命周期</h2><ul>
-<li>Bean 容器找到配置文件中 Spring Bean 的定义。找到bean的定义</li>
-<li>Bean 容器利用 Java Reflection API 创建一个Bean的实例。IOC容器创建bean的容器</li>
-<li>如果涉及到一些属性值 利用 <code>set()</code>方法设置一些属性值。属性值注入</li>
+<h2 id="bean-生命周期-重要"><a href="#bean-生命周期-重要" class="headerlink" title="bean 生命周期(重要)"></a>bean 生命周期(重要)</h2><ul>
+<li>Bean 容器找到配置文件中 Spring Bean 的定义。</li>
+<li>Bean 容器利用 Java Reflection API 创建一个Bean的实例。</li>
+<li>如果涉及到一些属性值 利用 <code>set()</code>方法设置一些属性值。</li>
 <li>如果 Bean 实现了 <code>BeanNameAware</code> 接口，调用 <code>setBeanName()</code>方法，传入Bean的名字。</li>
 <li>如果 Bean 实现了 <code>BeanClassLoaderAware</code> 接口，调用 <code>setBeanClassLoader()</code>方法，传入 <code>ClassLoader</code>对象的实例。</li>
 <li>与上面的类似，如果实现了其他 <code>*.Aware</code>接口，就调用相应的方法。</li>
@@ -489,7 +507,7 @@
 <li>当要销毁 Bean 的时候，如果 Bean 实现了 <code>DisposableBean</code> 接口，执行 <code>destroy()</code> 方法。</li>
 <li>当要销毁 Bean 的时候，如果 Bean 在配置文件中的定义包含 destroy-method 属性，执行指定的方法。</li>
 </ul>
-<h2 id="SpringMVC-工作原理"><a href="#SpringMVC-工作原理" class="headerlink" title="SpringMVC 工作原理"></a>SpringMVC 工作原理</h2><ol>
+<h2 id="SpringMVC-工作原理-重要"><a href="#SpringMVC-工作原理-重要" class="headerlink" title="SpringMVC 工作原理(重要)"></a>SpringMVC 工作原理(重要)</h2><ol>
 <li>客户端（浏览器）发送请求，直接请求到 <code>DispatcherServlet</code>。</li>
 <li><code>DispatcherServlet</code> 根据请求信息调用 <code>HandlerMapping</code>，解析请求对应的 <code>Handler</code>。</li>
 <li>解析到对应的 <code>Handler</code>（也就是我们平常说的 <code>Controller</code> 控制器）后，开始由 <code>HandlerAdapter</code> 适配器处理。</li>
@@ -532,36 +550,76 @@
 <li><strong>TransactionDefinition.PROPAGATION_NESTED：</strong> 如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于TransactionDefinition.PROPAGATION_REQUIRED。</li>
 </ul>
 <h2 id="BeanFactory和ApplicationContext"><a href="#BeanFactory和ApplicationContext" class="headerlink" title="BeanFactory和ApplicationContext"></a>BeanFactory和ApplicationContext</h2><p>​    BeanFactory和ApplicationContext是Spring的两大核心接口，都可以当做Spring的容器。其中<strong>ApplicationContext是BeanFactory的子接口。</strong></p>
-<ol>
-<li><p>BeanFactory：是Spring里面最底层的接口，包含了各种Bean的定义，读取bean配置文档，管理bean的加载、实例化，控制bean的生命周期，维护bean之间的依赖关系。<strong>ApplicationContext接口作为BeanFactory的派生，除了提供BeanFactory所具有的功能外，还提供了更完整的框架功能：</strong></p>
-<ol>
-<li>继承MessageSource，因此支持国际化。</li>
-<li>统一的资源文件访问方式。</li>
+<ul>
+<li><p>BeanFactory是Spring里面最底层的接口</p>
+<ul>
+<li><strong>各种Bean的定义</strong></li>
+<li><strong>读取bean配置文档</strong></li>
+<li><strong>管理bean的加载、实例化</strong></li>
+<li><strong>控制bean的生命周期</strong></li>
+<li><strong>维护bean之间的依赖关系</strong></li>
+</ul>
+</li>
+<li><p><strong>ApplicationContext接口作为BeanFactory的派生，除了提供BeanFactory所具有的功能外，还提供了更完整的框架功能：</strong></p>
+<ul>
+<li><strong>继承MessageSource，因此支持国际化</strong></li>
+<li><strong>统一的资源文件访问方式</strong></li>
 <li>提供在监听器中注册bean的事件。</li>
 <li>同时加载多个配置文件。</li>
 <li>载入多个（有继承关系）上下文 ，使得每一个上下文都专注于一个特定的层次，比如应用的web层。</li>
-</ol>
+</ul>
 </li>
-<li><p>BeanFactroy采用的是延迟加载形式来注入Bean的，即只有在使用到某个Bean时(调用getBean())，才对该Bean进行加载实例化。这样，我们就不能发现一些存在的Spring的配置问题。如果Bean的某一个属性没有注入，BeanFacotry加载后，直至第一次使用调用getBean方法才会抛出异常。</p>
-<p>ApplicationContext，它是在容器启动时，一次性创建了所有的Bean。这样，在容器启动时，我们就可以发现Spring中存在的配置错误，这样有利于检查所依赖属性是否注入。 ApplicationContext启动后预载入所有的单实例Bean，通过预载入单实例bean ,确保当你需要的时候，你就不用等待，因为它们已经创建好了。</p>
-<p>相对于基本的BeanFactory，ApplicationContext 唯一的不足是占用内存空间。当应用程序配置Bean较多时，程序启动较慢。</p>
-</li>
-<li><p>BeanFactory通常以编程的方式被创建，ApplicationContext还能以声明的方式创建，如使用ContextLoader。</p>
-</li>
-<li><p>BeanFactory和ApplicationContext都支持BeanPostProcessor、BeanFactoryPostProcessor的使用，但两者之间的区别是：BeanFactory需要手动注册，而ApplicationContext则是自动注册。</p>
-</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 将CellPhone部署成prototype的范围 --&gt;</span><br><span class="line">&lt;bean id=<span class="string">"cellPhone"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"com.abc.CellPhone"</span> scope=<span class="string">"prototype"</span> /&gt;</span><br><span class="line">&lt;bean id=<span class="string">"developer"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"com.abc.Developer"</span>&gt;</span><br><span class="line">    &lt;!-- getPhone方法返回CellPhone，每次调用将获取新的CellPhone --&gt;</span><br><span class="line">    &lt;lookup-method name=<span class="string">"getPhone"</span> bean=<span class="string">"cellPhone"</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CellPhone</span> <span class="keyword">implements</span> <span class="title">Phone</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CellPhone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Spring实例化依赖的Bean...CellPhone实例"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> return <span class="title">call</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"正在打电话..."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Developer</span> <span class="keyword">implements</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Developer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Spring实例化主调的Bean...Developer实例"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义一个抽象方法，该方法将由Spring实现</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Phone <span class="title">getPhone</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"正在使用 "</span> + getPhone() + <span class="string">" 打电话"</span>);</span><br><span class="line">        System.out.println(getPhone().call());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        ApplicationContext context = </span><br><span class="line">                <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">        Developer d = context.getBean(<span class="string">"developer"</span>, Developer<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        d.call();</span><br><span class="line">        d.call();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><p>BeanFactroy采用的是延迟加载形式来注入Bean的</p>
+<ul>
+<li><strong>只有在使用到某个Bean时(调用getBean())，才对该Bean进行加载实例化</strong>。这样，我们就不能发现一些存在的Spring的配置问题。如果Bean的某一个属性没有注入，BeanFacotry加载后，直至第一次使用调用getBean方法才会抛出异常</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldApp</span></span>&#123; </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123; </span><br><span class="line">      XmlBeanFactory factory = <span class="keyword">new</span> XmlBeanFactory (<span class="keyword">new</span> ClassPathResource(<span class="string">"beans.xml"</span>)); </span><br><span class="line">      HelloWorld obj = (HelloWorld) factory.getBean(<span class="string">"helloWorld"</span>);    </span><br><span class="line">      obj.getMessage();    </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+
+
+</li>
+</ul>
+<ul>
+<li><p>ApplicationContext，它是在容器启动时，一次性创建了所有的Bean。</p>
+<ul>
+<li>在容器启动时，我们就可以发现Spring中存在的配置错误，这样有利于检查所依赖属性是否注入。 ApplicationContext启动后预载入所有的单实例Bean，通过预载入单实例bean ,确保当你需要的时候，你就不用等待，因为它们已经创建好了。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldApp</span></span>&#123; </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123; </span><br><span class="line">      ApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"beans.xml"</span>); </span><br><span class="line">      HelloWorld obj = (HelloWorld) context.getBean(<span class="string">"helloWorld"</span>);    </span><br><span class="line">      obj.getMessage();    </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li>相对于基本的BeanFactory，<strong>ApplicationContext 唯一的不足是占用内存空间</strong>。<strong>当应用程序配置Bean较多时，程序启动较慢。</strong></li>
+</ul>
+<blockquote>
+<p>BeanFactory通常以编程的方式被创建，ApplicationContext还能以声明的方式创建，如使用ContextLoader。</p>
+</blockquote>
+<blockquote>
+<p>BeanFactory和ApplicationContext都支持BeanPostProcessor、BeanFactoryPostProcessor的使用，但两者之间的区别是：BeanFactory需要手动注册，而ApplicationContext则是自动注册。</p>
+</blockquote>
 <h2 id="XML解析bean原理"><a href="#XML解析bean原理" class="headerlink" title="XML解析bean原理"></a>XML解析bean原理</h2><ol>
-<li>Spring容器启动的时候会解析applicationgContext.xml</li>
-<li>将xml中定义的bean(如authService)解析成Spring内部的BeanDefinition</li>
-<li>以beanName(如authService)为key，BeanDefinition(如authService相应的BeanDefinition)为value存储到DefaultListableBeanFactory中的beanDefinitionMap属性中(其实它就是一个ConcurrentHashMap类型的属性)</li>
-<li>将beanName存入beanDefinitionNames中(List类型)，然后遍历beanDefinitionNames中的beanName，进行bean的实例化并填充属性</li>
-<li>在实例化的过程中，如果有依赖没有被实例化将先实例化其依赖，然后实例化本身</li>
-<li>实例化完成后将实例存入单例bean的缓存中</li>
-<li>当调用getBean方法时，到单例bean的缓存中查找</li>
-<li>如果找到并经过转换后返回这个实例(如AuthService的实例)，之后就可以直接使用了。</li>
+<li><p>Spring容器启动的时候会解析applicationgContext.xml</p>
+</li>
+<li><p>将xml中定义的bean解析成Spring内部的BeanDefinition</p>
+</li>
+<li><p>以beanName为key，BeanDefinition为value存储到 DefaultListableBeanFactory 中的 beanDefinitionMap 属性中</p>
+<ul>
+<li>beanDefinitionMap 就是一个ConcurrentHashMap类型的属性</li>
+</ul>
+</li>
+<li><p>将beanName存入beanDefinitionNames中(List类型)，然后遍历beanDefinitionNames中的beanName，进行bean的实例化并填充属性</p>
+</li>
+<li><p>在实例化的过程中，如果有依赖没有被实例化将先实例化其依赖，然后实例化本身</p>
+</li>
+<li><p>实例化完成后将实例存入单例bean的缓存中</p>
+</li>
+<li><p>当调用getBean方法时，到单例bean的缓存中查找</p>
+</li>
+<li><p>如果找到并经过转换后返回这个实例，之后就可以直接使用了</p>
+<p><img src="/2020/09/02/Spring%E9%9D%A2%E8%AF%95/1.jpg" alt="1"></p>
+</li>
 </ol>
 <h2 id="xml文件的解析过程"><a href="#xml文件的解析过程" class="headerlink" title="xml文件的解析过程"></a>xml文件的解析过程</h2><ul>
 <li>代码中指定要加载的xml文件后，Spring容器初始化的过程中，通过ResourceLoader接口实现类，例如ClassPathXmlApplicationContext，将xml文件路径转换成对应的Resource文件，例如ClassPathResource</li>
@@ -725,7 +783,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -736,7 +794,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -747,7 +805,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -790,7 +848,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-Spring-框架"><span class="nav-number">1.</span> <span class="nav-text">什么是 Spring 框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-的优点"><span class="nav-number">2.</span> <span class="nav-text">Spring 的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring模块"><span class="nav-number">3.</span> <span class="nav-text">Spring模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RestController-vs-Controller"><span class="nav-number">4.</span> <span class="nav-text">@RestController vs @Controller</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于-IoC-和-AOP-的理解"><span class="nav-number">5.</span> <span class="nav-text">对于 IoC 和 AOP 的理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-AOP-和-AspectJ-AOP"><span class="nav-number">6.</span> <span class="nav-text">Spring AOP 和 AspectJ AOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-中的-bean-的作用域"><span class="nav-number">7.</span> <span class="nav-text">Spring 中的 bean 的作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean的线程安全性"><span class="nav-number">8.</span> <span class="nav-text">Bean的线程安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Component-和-Bean"><span class="nav-number">9.</span> <span class="nav-text">@Component 和 @Bean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将一个类声明为-bean-的注解"><span class="nav-number">10.</span> <span class="nav-text">将一个类声明为 bean 的注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bean-生命周期"><span class="nav-number">11.</span> <span class="nav-text">bean 生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC-工作原理"><span class="nav-number">12.</span> <span class="nav-text">SpringMVC 工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-管理事务的方式"><span class="nav-number">13.</span> <span class="nav-text">Spring 管理事务的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-事务中的隔离级别"><span class="nav-number">14.</span> <span class="nav-text">Spring 事务中的隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务传播行为"><span class="nav-number">15.</span> <span class="nav-text">事务传播行为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanFactory和ApplicationContext"><span class="nav-number">16.</span> <span class="nav-text">BeanFactory和ApplicationContext</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XML解析bean原理"><span class="nav-number">17.</span> <span class="nav-text">XML解析bean原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xml文件的解析过程"><span class="nav-number">18.</span> <span class="nav-text">xml文件的解析过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanDefinition是什么"><span class="nav-number">19.</span> <span class="nav-text">BeanDefinition是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DefaultListableBeanFactory在Spring框架中的作用"><span class="nav-number">20.</span> <span class="nav-text">DefaultListableBeanFactory在Spring框架中的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanFactory是什么"><span class="nav-number">21.</span> <span class="nav-text">BeanFactory是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanFactory和FactoryBean"><span class="nav-number">22.</span> <span class="nav-text">BeanFactory和FactoryBean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化前修改bean的属性"><span class="nav-number">23.</span> <span class="nav-text">初始化前修改bean的属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义的BeanFactoryPostProcessor是如何自动调用的"><span class="nav-number">24.</span> <span class="nav-text">自定义的BeanFactoryPostProcessor是如何自动调用的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bean被初始化时进行拦截，进行额外初始化操作"><span class="nav-number">25.</span> <span class="nav-text">bean被初始化时进行拦截，进行额外初始化操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#所有定义的bean都会被初始化"><span class="nav-number">26.</span> <span class="nav-text">所有定义的bean都会被初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring中bean初始化的源码"><span class="nav-number">27.</span> <span class="nav-text">Spring中bean初始化的源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring是如何解决循环依赖"><span class="nav-number">28.</span> <span class="nav-text">Spring是如何解决循环依赖</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-Spring-框架"><span class="nav-number">1.</span> <span class="nav-text">什么是 Spring 框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-的优点"><span class="nav-number">2.</span> <span class="nav-text">Spring 的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring模块"><span class="nav-number">3.</span> <span class="nav-text">Spring模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RestController-vs-Controller"><span class="nav-number">4.</span> <span class="nav-text">@RestController vs @Controller</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于-IoC-和-AOP-的理解-重要"><span class="nav-number">5.</span> <span class="nav-text">对于 IoC 和 AOP 的理解(重要)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-AOP-和-AspectJ-AOP"><span class="nav-number">6.</span> <span class="nav-text">Spring AOP 和 AspectJ AOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-中的-bean-的作用域-重要"><span class="nav-number">7.</span> <span class="nav-text">Spring 中的 bean 的作用域(重要)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean的线程安全性-重要"><span class="nav-number">8.</span> <span class="nav-text">Bean的线程安全性(重要)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Component-和-Bean"><span class="nav-number">9.</span> <span class="nav-text">@Component 和 @Bean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将一个类声明为-bean-的注解"><span class="nav-number">10.</span> <span class="nav-text">将一个类声明为 bean 的注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bean-生命周期-重要"><span class="nav-number">11.</span> <span class="nav-text">bean 生命周期(重要)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC-工作原理-重要"><span class="nav-number">12.</span> <span class="nav-text">SpringMVC 工作原理(重要)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-管理事务的方式"><span class="nav-number">13.</span> <span class="nav-text">Spring 管理事务的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-事务中的隔离级别"><span class="nav-number">14.</span> <span class="nav-text">Spring 事务中的隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务传播行为"><span class="nav-number">15.</span> <span class="nav-text">事务传播行为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanFactory和ApplicationContext"><span class="nav-number">16.</span> <span class="nav-text">BeanFactory和ApplicationContext</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XML解析bean原理"><span class="nav-number">17.</span> <span class="nav-text">XML解析bean原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xml文件的解析过程"><span class="nav-number">18.</span> <span class="nav-text">xml文件的解析过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanDefinition是什么"><span class="nav-number">19.</span> <span class="nav-text">BeanDefinition是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DefaultListableBeanFactory在Spring框架中的作用"><span class="nav-number">20.</span> <span class="nav-text">DefaultListableBeanFactory在Spring框架中的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanFactory是什么"><span class="nav-number">21.</span> <span class="nav-text">BeanFactory是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanFactory和FactoryBean"><span class="nav-number">22.</span> <span class="nav-text">BeanFactory和FactoryBean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化前修改bean的属性"><span class="nav-number">23.</span> <span class="nav-text">初始化前修改bean的属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义的BeanFactoryPostProcessor是如何自动调用的"><span class="nav-number">24.</span> <span class="nav-text">自定义的BeanFactoryPostProcessor是如何自动调用的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bean被初始化时进行拦截，进行额外初始化操作"><span class="nav-number">25.</span> <span class="nav-text">bean被初始化时进行拦截，进行额外初始化操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#所有定义的bean都会被初始化"><span class="nav-number">26.</span> <span class="nav-text">所有定义的bean都会被初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring中bean初始化的源码"><span class="nav-number">27.</span> <span class="nav-text">Spring中bean初始化的源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring是如何解决循环依赖"><span class="nav-number">28.</span> <span class="nav-text">Spring是如何解决循环依赖</span></a></li></ol></div>
             
 
           </div>
