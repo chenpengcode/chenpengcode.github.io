@@ -277,10 +277,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2020-09-08 18:28:10 / 修改时间：23:34:40" itemprop="dateCreated datePublished" datetime="2020-09-08T18:28:10+08:00">2020-09-08</time>
+      <time title="创建时间：2020-09-08 18:28:10" itemprop="dateCreated datePublished" datetime="2020-09-08T18:28:10+08:00">2020-09-08</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-09-09 11:03:14" itemprop="dateModified" datetime="2020-09-09T11:03:14+08:00">2020-09-09</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -328,14 +334,14 @@
           <h2 id="hash方法"><a href="#hash方法" class="headerlink" title="hash方法"></a>hash方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> h;</span><br><span class="line">    <span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>为什么不直接返回key.hashCode()呢</strong></p>
-<p>先看一个方法indexFor，在jdk1.7中有indexFor(int h, int length)方法。jdk1.8里没有，但原理没变。下面看下1.7源码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">indexFor</span><span class="params">(<span class="keyword">int</span> h, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> h &amp; (length-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>1.8中用tab[(n - 1) &amp; hash]代替但原理一样。</p>
-<p>这个方法是用来计算哈希桶位置的, 由于length总是2的幂次方, 所以 length - 1 所有低位都为1, h &amp; (length-1)的值总是取决于hashcode后几位的值, 为了使最后的返回值更加均匀, 只需要保证hash方法的返回值本身均匀分布即可, 所以问题转换为如何使hash方法的返回值更加均匀.</p>
-<p><strong>由于绝大多数情况下length一般都小于2^16,  所以始终是hashcode 的低16位（甚至更低）参与运算。要是高16位也参与运算，会让得到的下标更加散列。</strong></p>
-<p>最后得出结论: hash(Object key)方法之所以返回key的hashcode和自己的高16位相与的结果, 使让hashcode的高16位参与到h的计算中, 在后续计算哈希桶位置时更加均匀.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/08/HashMap%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
