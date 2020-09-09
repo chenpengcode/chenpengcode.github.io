@@ -944,10 +944,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2020-09-02 14:47:27 / 修改时间：15:31:15" itemprop="dateCreated datePublished" datetime="2020-09-02T14:47:27+08:00">2020-09-02</time>
+      <time title="创建时间：2020-09-02 14:47:27" itemprop="dateCreated datePublished" datetime="2020-09-02T14:47:27+08:00">2020-09-02</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-09-09 11:07:18" itemprop="dateModified" datetime="2020-09-09T11:07:18+08:00">2020-09-09</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -994,101 +1000,14 @@
 <li>Mybatis在处理时，就是把{}替换成变量的值。</li>
 <li>使用#{}可以有效的防止SQL注入，提高系统安全性。</li>
 </ul>
-<h2 id="Dao（Mapper）接口的工作原理"><a href="#Dao（Mapper）接口的工作原理" class="headerlink" title="Dao（Mapper）接口的工作原理"></a>Dao（Mapper）接口的工作原理</h2><p>Dao接口，就是人们常说的Mapper接口</p>
-<ul>
-<li>接口的全限名：映射文件中的namespace的值</li>
-<li>接口的方法名：映射文件中MappedStatement的id值</li>
-<li>接口方法内的参数：传递给sql的参数</li>
-</ul>
-<p>Mapper接口是没有实现类的，当调用接口方法时，接口全限名+方法名拼接字符串作为key值，可唯一定位一个MappedStatement</p>
-<p>举例：com.mybatis3.mappers.StudentDao.findStudentById，可以唯一找到namespace为com.mybatis3.mappers.StudentDao下面id = findStudentById的MappedStatement。在Mybatis中，每一个<select>、<insert>、<update>、<delete>标签，都会被解析为一个MappedStatement对象</delete></update></insert></select></p>
-<p><strong>Dao接口里的方法，是不能重载的，因为是全限名+方法名的保存和寻找策略。</strong></p>
-<p>Dao接口的工作原理是JDK动态代理，Mybatis运行时会使用JDK动态代理为Dao接口生成代理proxy对象，代理对象proxy会拦截接口方法，转而执行MappedStatement所代表的sql，然后将sql执行结果返回。</p>
-<h2 id="Mybatis是如何进行分页的"><a href="#Mybatis是如何进行分页的" class="headerlink" title="Mybatis是如何进行分页的"></a>Mybatis是如何进行分页的</h2><ol>
-<li><p>RowBounds实现分页</p>
-<ul>
-<li>Mybatis提供了RowBounds类进行分页处理，内部提供了offset和limit两个值，分别用来指定查询数据的开始位置和查询数据量</li>
-<li>Mybatis使用RowBounds对象进行分页，是针对ResultSet结果集执行的内存分页，而非物理分页</li>
-</ul>
-</li>
-<li><p>使用 sql 语句进行分页</p>
-<ul>
-<li>在sql语句后面添加limit分页语句</li>
-</ul>
-</li>
-<li><p>第三方插件Pagehelper</p>
-<ul>
-<li>物理分页</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span> <span class="attr">interceptor</span>=<span class="string">&quot;com.github.pagehelper.PageInterceptor&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;helperDialect&quot;</span> <span class="attr">value</span>=<span class="string">&quot;mysql&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">   </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>Pagehelper通过对Executor的query方法进行拦截</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Intercepts(</span></span><br><span class="line"><span class="meta">        &#123;</span></span><br><span class="line"><span class="meta">                @Signature(type = Executor.class, method = &quot;query&quot;, args = &#123;MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class&#125;),</span></span><br><span class="line"><span class="meta">                @Signature(type = Executor.class, method = &quot;query&quot;, args = &#123;MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class&#125;),</span></span><br><span class="line"><span class="meta">        &#125;</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PageInterceptor</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>利用了动态代理技术，在执行Executor的query方法时，会自动触发InvocationHandler的invoke方法，方法内会调用PageInterceptor的intercept方法</li>
-</ul>
-</li>
-</ol>
-<h2 id="sql执行结果封装以及映射形式"><a href="#sql执行结果封装以及映射形式" class="headerlink" title="sql执行结果封装以及映射形式"></a>sql执行结果封装以及映射形式</h2><ol>
-<li>使用<resultMap>标签，逐一定义列名和对象属性名之间的映射关系。</resultMap></li>
-<li>使用sql列的别名功能，将列别名书写为对象属性名，比如<code>T_NAME AS NAME</code>，对象属性名一般是<code>name</code>，小写，但是列名不区分大小写，Mybatis会忽略列名大小写，智能找到与之对应对象属性名，你甚至可以写成<code>T_NAME AS NaMe</code>，Mybatis一样可以正常工作。</li>
-</ol>
-<p>有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。</p>
-<h2 id="动态SQL标签"><a href="#动态SQL标签" class="headerlink" title="动态SQL标签"></a>动态SQL标签</h2><p>Mybatis动态sql可以让我们在Xml映射文件内，<strong>以标签的形式编写动态sql，完成逻辑判断和动态拼接sql的功能</strong></p>
-<p>动态sql的9个标签，trim|where|set|foreach|if|choose|when|otherwise|bind等，其中为sql片段标签，通过标签引入sql片段，为不支持自增的主键生成策略标签。</p>
-<h2 id="Mybatis的插件运行原理"><a href="#Mybatis的插件运行原理" class="headerlink" title="Mybatis的插件运行原理"></a>Mybatis的插件运行原理</h2><p>Mybatis仅可以编写针对ParameterHandler、ResultSetHandler、StatementHandler、Executor这4种接口的插件</p>
-<p>Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。</p>
-<p>实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，还需要在配置文件中配置你编写的插件。</p>
-<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><ul>
-<li>一级缓存: 基于 PerpetualCache 的 HashMap 本地缓存，其存储作用域为 Session，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空。</li>
-<li>二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于其存储作用域为 Mapper(Namespace)，并且可自定义存储源，如 Ehcache。要开启二级缓存，你需要在你的 SQL 映射文件中添加一行：<cache></cache></li>
-<li>对于缓存数据更新机制，当某一个作用域(一级缓存 Session/二级缓存Namespaces)的进行了C/U/D 操作后，默认该作用域下所有 select 中的缓存将被 clear。</li>
-</ul>
-<h2 id="延迟加载"><a href="#延迟加载" class="headerlink" title="延迟加载"></a>延迟加载</h2><p>Mybatis仅支持association关联对象和collection关联集合对象的延迟加载</p>
-<p>association指的就是一对一</p>
-<p>collection指的就是一对多查询。</p>
-<p>在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。</p>
-<p>它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。</p>
-<p>Mybatis映射文件中，如果A标签通过include引用了B标签的内容，请问，B标签能否定义在A标签的后面，还是说必须定义在A标签的前面？</p>
-<p>虽然Mybatis解析Xml映射文件是按照顺序解析的，但是，被引用的B标签依然可以定义在任何地方，Mybatis都可以正确识别。</p>
-<p>原理是，Mybatis解析A标签，发现A标签引用了B标签，但是B标签尚未解析到，尚不存在，此时，Mybatis会将A标签标记为未解析状态，然后继续解析余下的标签，包含B标签，待所有标签解析完毕，Mybatis会重新解析那些被标记为未解析的标签，此时再解析A标签时，B标签已经存在，A标签也就可以正常解析完成了。</p>
-<h2 id="在mapper中如何传递多个参数"><a href="#在mapper中如何传递多个参数" class="headerlink" title="在mapper中如何传递多个参数"></a>在mapper中如何传递多个参数</h2><ol>
-<li><p>使用占位符的思想</p>
-<ul>
-<li>在映射文件中使用#{0},#{1}代表传递进来的第几个参数</li>
-<li>使用@param注解:来命名参数 </li>
-<li>#{0},#{1}方式</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//对应的xml,#&#123;0&#125;代表接收的是dao层中的第一个参数，#&#123;1&#125;代表dao层中第二参数，更多参数一致往后加即可。</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectUser&quot;</span><span class="attr">resultMap</span>=<span class="string">&quot;BaseResultMap&quot;</span>&gt;</span>  </span><br><span class="line">    select *  fromuser_user_t   whereuser_name = #&#123;0&#125; anduser_area=#&#123;1&#125;  </span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>@param注解方式</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">usermapper</span> </span>&#123; </span><br><span class="line">    <span class="function">user <span class="title">selectuser</span><span class="params">(<span class="meta">@param(“username”)</span> string username, <span class="meta">@param(“hashedpassword”)</span> string hashedpassword)</span></span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用Map集合作为参数来装载</p>
-</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">          <span class="comment">//映射文件的命名空间.SQL片段的ID，就可以调用对应的映射文件中的SQL</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">          <span class="comment">/**</span></span><br><span class="line"><span class="comment">           * 由于我们的参数超过了两个，而方法中只有一个Object参数收集</span></span><br><span class="line"><span class="comment">           * 因此我们使用Map集合来装载我们的参数</span></span><br><span class="line"><span class="comment">           */</span></span><br><span class="line">          Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap();</span><br><span class="line">          map.put(<span class="string">&quot;start&quot;</span>, start);</span><br><span class="line">          map.put(<span class="string">&quot;end&quot;</span>, end);</span><br><span class="line">          <span class="keyword">return</span> sqlSession.selectList(<span class="string">&quot;StudentID.pagination&quot;</span>, map);</span><br><span class="line">      &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">          sqlSession.rollback();</span><br><span class="line">          <span class="keyword">throw</span> e;</span><br><span class="line">      &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">          MybatisUtil.closeSqlSession();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--分页查询--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;pagination&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;map&quot;</span> <span class="attr">resultMap</span>=<span class="string">&quot;studentMap&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	/*根据key自动找到对应Map集合的value*/</span><br><span class="line">	select * from students limit #&#123;start&#125;,#&#123;end&#125;;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-<p>简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？</p>
-<p>Mybatis将所有Xml配置信息都封装到All-In-One重量级对象Configuration内部。</p>
-<p>在Xml映射文件中，<parameterMap>标签会被解析为ParameterMap对象，其每个子元素会被解析为ParameterMapping对象。</parameterMap></p>
-<p><resultMap>标签会被解析为ResultMap对象，其每个子元素会被解析为ResultMapping对象。</resultMap></p>
-<p>每一个<select>、<insert>、<update>、<delete>标签均会被解析为MappedStatement对象，标签内的sql会被解析为BoundSql对象。</delete></update></insert></select></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/02/Mybatis%E9%9D%A2%E8%AF%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1136,10 +1055,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2020-08-31 19:26:23 / 修改时间：20:56:58" itemprop="dateCreated datePublished" datetime="2020-08-31T19:26:23+08:00">2020-08-31</time>
+      <time title="创建时间：2020-08-31 19:26:23" itemprop="dateCreated datePublished" datetime="2020-08-31T19:26:23+08:00">2020-08-31</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-09-09 11:06:05" itemprop="dateModified" datetime="2020-09-09T11:06:05+08:00">2020-09-09</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -1181,86 +1106,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>程序员对代码经验的总结，用来提高代码复用性、可维护性、可读性、稳健性以及安全性的解决方案</p>
-<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><ul>
-<li>创建型模式：<ul>
-<li>单例模式</li>
-<li>工厂模式</li>
-<li>抽象工厂模式</li>
-<li>建设者模式</li>
-<li>原型模式</li>
-</ul>
-</li>
-<li>结构型模式<ul>
-<li>适配器模式</li>
-<li>桥接模式</li>
-<li>装饰器模式</li>
-<li>组合模式</li>
-<li>外观模式</li>
-<li>享元模式</li>
-<li>代理模式</li>
-</ul>
-</li>
-<li>行为型模式<ul>
-<li>模板方法模式</li>
-<li>命令模式</li>
-<li>迭代器模式</li>
-<li>观察者模式</li>
-<li>中介者模式</li>
-<li>备忘录模式</li>
-<li>解释器模式</li>
-<li>状态模式</li>
-<li>策略模式</li>
-<li>职责链模式</li>
-<li>访问者模式</li>
-</ul>
-</li>
-</ul>
-<h1 id="OOP七大原则"><a href="#OOP七大原则" class="headerlink" title="OOP七大原则"></a>OOP七大原则</h1><p>开闭原则：对扩展开放，对修改关闭</p>
-<p>里氏替换原则：继承必须确保超类所拥有的性质在子类中仍然成立</p>
-<p>依赖倒置原则：要面向接口编程，不要面向实现编程</p>
-<p>单一职责原则：控制类的粒度大小、将对象解耦、提高其内聚性</p>
-<p>接口隔离原则：要为各个类建立它们需要的专用接口</p>
-<p>迪米特法则：只与你的直接朋友交流，不跟陌生人说话</p>
-<p>合成复用原则：尽量先使用组合或聚合等关联关系来实现，其次才考虑使用继承关系来实现</p>
-<h1 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h1><p>简单工厂模式包含如下角色：</p>
-<ul>
-<li><p>Factory：工厂角色</p>
-<p>工厂角色负责实现创建所有实例的内部逻辑</p>
-</li>
-<li><p>Product：抽象产品角色</p>
-<p>抽象产品角色是所创建的所有对象的父类，负责描述所有实例所共有的公共接口</p>
-</li>
-<li><p>ConcreteProduct：具体产品角色</p>
-<p>具体产品角色是创建目标，所有创建的对象都充当这个角色的某个具体类的实例。</p>
-<p><img src="/2020/08/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/SimpleFactory.jpg" alt="../_images/SimpleFactory.jpg"></p>
-</li>
-</ul>
-<h1 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h1><p>工厂方法模式包含如下角色：</p>
-<ul>
-<li>Product：抽象产品</li>
-<li>ConcreteProduct：具体产品</li>
-<li>Factory：抽象工厂</li>
-<li>ConcreteFactory：具体工厂</li>
-</ul>
-<p><img src="/2020/08/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/FactoryMethod.jpg" alt="../_images/FactoryMethod.jpg"></p>
-<h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p><strong>单例模式：保证一个类仅有一个实例，并提供一个访问它的全局访问点。</strong></p>
-<p><img src="/2020/08/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMzIzMjEzNDM5MzE1" alt="这里写图片描述"></p>
-<p><strong>单例的实现主要是通过以下两个步骤</strong>：</p>
-<ol>
-<li><strong>将该类的构造方法定义为私有方法</strong>，这样其他处的代码就无法通过调用该类的构造方法来实例化该类的对象，只有通过该类提供的静态方法来得到该类的唯一实例；</li>
-<li><strong>在该类内提供一个静态方法，当我们调用这个方法时，如果类持有的引用不为空就返回这个引用，如果类保持的引用为空就创建该类的实例并将实例的引用赋予该类保持的引用。</strong></li>
-</ol>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 饿汉式单例</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EagerSingleton</span> </span>&#123;  </span><br><span class="line">        <span class="comment">// jvm保证在任何线程访问uniqueInstance静态变量之前一定先创建了此实例  </span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> EagerSingleton uniqueInstance = <span class="keyword">new</span> EagerSingleton();  </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 私有的默认构造子，保证外界无法直接实例化  </span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">EagerSingleton</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">        <span class="comment">// 提供全局访问点获取唯一的实例  </span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EagerSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">                <span class="keyword">return</span> uniqueInstance;  </span><br><span class="line">        &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>类加载的方式是按需加载，且加载一次</strong></p>
-<h3 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 懒汉式单例</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazySingleton</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> LazySingleton uniqueInstance;  </span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">LazySingleton</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> LazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">                <span class="keyword">if</span> (uniqueInstance == <span class="keyword">null</span>)  </span><br><span class="line">                        uniqueInstance = <span class="keyword">new</span> LazySingleton();  </span><br><span class="line">                <span class="keyword">return</span> uniqueInstance;  </span><br><span class="line">        &#125;  </span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>单例实例被<strong>延迟加载</strong>，即只有在真正使用的时候才会实例化一个对象并交给自己的引用</p>
-<p>这种写法起到了Lazy Loading的效果，但是<strong>只能在单线程下使用</strong>。如果在多线程下，一个线程进入了if (singleton == null)判断语句块，还未来得及往下执行，另一个线程也通过了这个判断语句，这时便会产生多个实例。所以在多线程环境下不可使用这种方式。</p>
-<h3 id="双重检查"><a href="#双重检查" class="headerlink" title="双重检查"></a>双重检查</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DoubleCheckedLockingSingleton</span> </span>&#123;  </span><br><span class="line">        <span class="comment">// java中使用双重检查锁定机制,由于Java编译器和JIT的优化的原因系统无法保证我们期望的执行次序。  </span></span><br><span class="line">        <span class="comment">// 在java5.0修改了内存模型,使用volatile声明的变量可以强制屏蔽编译器和JIT的优化工作  </span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> DoubleCheckedLockingSingleton uniqueInstance;  </span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">DoubleCheckedLockingSingleton</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DoubleCheckedLockingSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">		        DoubleCheckedLockingSingleton localRef = uniqueInstance;</span><br><span class="line">                <span class="keyword">if</span> (uniqueInstance == <span class="keyword">null</span>) &#123;  </span><br><span class="line">                        <span class="keyword">synchronized</span> (DoubleCheckedLockingSingleton.class) &#123;  </span><br><span class="line">		                        localRef = uniqueInstance;</span><br><span class="line">                                <span class="keyword">if</span> (localRef == <span class="keyword">null</span>) &#123;  </span><br><span class="line">                                        uniqueInstance = localRef = <span class="keyword">new</span> DoubleCheckedLockingSingleton();  </span><br><span class="line">                                &#125;  </span><br><span class="line">                        &#125;  </span><br><span class="line">                &#125;  </span><br><span class="line">                <span class="keyword">return</span> localRef ;  </span><br><span class="line">        &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>注意上面的变量localRef，“似乎”看上去显得有点多余。但是实际上绝大多数时候uniqueInstance已经被初始化，引入ocalRef可以使得volatile的只被访问一次（利用return localRef代替return helper）,这样可以使得这个单例的整体性能提升25%。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1308,10 +1161,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2020-08-31 14:22:20 / 修改时间：14:45:37" itemprop="dateCreated datePublished" datetime="2020-08-31T14:22:20+08:00">2020-08-31</time>
+      <time title="创建时间：2020-08-31 14:22:20" itemprop="dateCreated datePublished" datetime="2020-08-31T14:22:20+08:00">2020-08-31</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-09-09 11:07:49" itemprop="dateModified" datetime="2020-09-09T11:07:49+08:00">2020-09-09</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -1361,50 +1220,14 @@
 <li><strong>string 类型是二进制安全的</strong></li>
 </ul>
 <p>字符串类型实际上可以是字符串（简单的字符串、复杂的字符串（xml、json）、数字（整数、浮点数）、二进制（图片、音频、视频).</p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ol>
-<li><p><strong>缓存功能</strong>：<strong>字符串最经典的使用场景，redis最为缓存层，Mysql作为储存层，</strong>绝大部分请求数据都是redis中获取，由于redis具有支撑高并发特性，所以缓存通常能起到加速读写和降低后端压力的作用。</p>
-</li>
-<li><p><strong>计数器</strong>：<strong>许多运用都会使用redis作为计数的基础工具</strong>，他可以实现快速计数、查询缓存的功能，同时数据可以一步落地到其他的数据源。如：<strong>视频播放数，微博的评论数、点赞数、分享数，抖音作品的收藏数，京东商品的销售量、评价数**</strong>等<strong>。</strong>系统就是使用redis作为视频播放数计数的基础组件。**</p>
-</li>
-<li><p><strong>共享session</strong>：<strong>集群模式下</strong>，在应用不多的情况下一般使用容器自带的session复制功能就能满足，当应用增多相对复杂的系统中，<strong>一般都会搭建以Redis等内存数据库为中心的session服务，session不再由容器管理，而是由session服务及内存数据库管理。</strong> 在这种模式下只要保证redis的高可用和扩展性的，<strong>每次获取用户更新或查询登录信息都直接从redis中集中获取。</strong></p>
-</li>
-</ol>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>当string对象中encoding编码为embstr或raw时都是采用sds作为其底层实现</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">attribute__</span> ((__<span class="title">packed__</span>)) <span class="title">sdshdr8</span> &#123;</span></span><br><span class="line">    <span class="keyword">uint8_t</span> len; </span><br><span class="line">    <span class="keyword">uint8_t</span> alloc;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> flags;</span><br><span class="line">    <span class="keyword">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>属性名称</th>
-<th>作用含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>len</td>
-<td>字符串长度</td>
-</tr>
-<tr>
-<td>alloc</td>
-<td>预分配空间大小</td>
-</tr>
-<tr>
-<td>flags</td>
-<td>低三位用于表示sds类型,可以查看sds.h文件76-82行定义</td>
-</tr>
-<tr>
-<td>buf[]</td>
-<td>存储字符串用数组</td>
-</tr>
-</tbody></table>
-<p>动态扩容：当字符换小于1M时*2翻倍,大于1M时每次扩容1M</p>
-<h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><p><strong>Redis hash 是一个键值(key/value)对集合</strong>,类似Java里面的Map&lt;String,Object&gt;,</p>
-<p>Redis hash 是一个 string 类型的 field 和 value 的映射表，<strong>hash 特别适合用于存储对象。</strong></p>
-<h2 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h2><p>存储一些结构化的数据</p>
-<ul>
-<li>比如用户的昵称、年龄、性别、积分等，存储一个用户信息对象数据</li>
-<li>购物车信息</li>
-</ul>
-<h2 id="数据结构-1"><a href="#数据结构-1" class="headerlink" title="数据结构"></a>数据结构</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/31/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1460,7 +1283,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-08-31 15:05:11" itemprop="dateModified" datetime="2020-08-31T15:05:11+08:00">2020-08-31</time>
+        <time title="修改时间：2020-09-09 11:07:44" itemprop="dateModified" datetime="2020-09-09T11:07:44+08:00">2020-09-09</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1508,561 +1331,14 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string"><a href="#string" class="headerlink" title="string"></a>string</h2><p><img src="/2020/08/30/Redis/image-20200827023141366.png" alt="image-20200827023141366">    </p>
 <p>**在Redis中String是可以修改的，称为动态字符串(Simple Dynamic String 简称 SDS)**，string表示的是一个可变的字节数组，我们初始化字符串的内容、可以拿到字符串的长度，可以获取string的子串，可以覆盖string的子串内容，可以追加子串。</p>
-<p> <img src="/2020/08/30/Redis/image-20200827023201230.png" alt="image-20200827023201230"></p>
-<p>Redis的字符串是动态字符串，是可以修改的字符串，内部结构实现上类似于Java的ArrayList，采用预分配冗余空间的方式来减少内存的频繁分配，如图中所示，内部为当前字符串实际分配的空间capacity一般要高于实际字符串长度len。</p>
-<ul>
-<li><strong>当字符串长度小于1M时，扩容都是加倍现有的空间，如果超过1M，扩容时一次只会多扩1M的空间。</strong></li>
-<li><strong>字符串最大长度为512M。</strong></li>
-</ul>
-<p>初始化字符串 需要提供「变量名称」和「变量的内容」</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; set ireader beijing.zhangyue.keji.gufen.youxian.gongsi</span><br><span class="line"></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
-
-<p>获取字符串的内容 提供「变量名称」</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> get ireader</span></span><br><span class="line"></span><br><span class="line">&quot;beijing.zhangyue.keji.gufen.youxian.gongsi&quot;</span><br></pre></td></tr></table></figure>
-
-<p>获取字符串的长度 提供「变量名称」</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> strlen ireader</span></span><br><span class="line"></span><br><span class="line">(integer) 42</span><br></pre></td></tr></table></figure>
-
-<p>获取子串 提供「变量名称」以及开始和结束位置[start, end]</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> getrange ireader 28 34</span></span><br><span class="line"></span><br><span class="line">&quot;youxian&quot;</span><br></pre></td></tr></table></figure>
-
-<p>覆盖子串 提供「变量名称」以及开始位置和目标子串</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> setrange ireader 28 wooxian</span></span><br><span class="line"></span><br><span class="line">(integer) 42 # 返回长度</span><br><span class="line"></span><br><span class="line">\&gt; get ireader</span><br><span class="line"></span><br><span class="line">&quot;beijing.zhangyue.keji.gufen.wooxian.gongsi&quot;</span><br></pre></td></tr></table></figure>
-
-<p>追加子串</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> append ireader .hao</span></span><br><span class="line"></span><br><span class="line">(integer) 46 # 返回长度</span><br><span class="line"></span><br><span class="line">\&gt; get ireader</span><br><span class="line"></span><br><span class="line">&quot;beijing.zhangyue.keji.gufen.wooxian.gongsi.hao&quot;</span><br></pre></td></tr></table></figure>
-
-<p>遗憾的是字符串没有提供字串插入方法和子串删除方法。</p>
-<h3 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h3><p>如果字符串的内容是一个整数，那么还可以将字符串当成计数器来使用。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> ireader 42</span></span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">\&gt; get ireader</span><br><span class="line"></span><br><span class="line">&quot;42&quot;</span><br><span class="line"></span><br><span class="line">\&gt; incrby ireader 100</span><br><span class="line"></span><br><span class="line">(integer) 142</span><br><span class="line"></span><br><span class="line">\&gt; get ireader</span><br><span class="line"></span><br><span class="line">&quot;142&quot;</span><br><span class="line"></span><br><span class="line">\&gt; decrby ireader 100</span><br><span class="line"></span><br><span class="line">(integer) 42</span><br><span class="line"></span><br><span class="line">\&gt; get ireader</span><br><span class="line"></span><br><span class="line">&quot;42&quot;</span><br><span class="line"></span><br><span class="line">\&gt; incr ireader # 等价于incrby ireader 1</span><br><span class="line"></span><br><span class="line">(integer) 43</span><br><span class="line"></span><br><span class="line">\&gt; decr ireader # 等价于decrby ireader 1</span><br><span class="line"></span><br><span class="line">(integer) 42</span><br></pre></td></tr></table></figure>
-
-<p>计数器是有范围的，它不能超过Long.Max，不能低于Long.MIN</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> ireader 9223372036854775807</span></span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">\&gt; incr ireader</span><br><span class="line"></span><br><span class="line">(error) ERR increment or decrement would overflow</span><br><span class="line"></span><br><span class="line">\&gt; set ireader -9223372036854775808</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">\&gt; decr ireader</span><br><span class="line"></span><br><span class="line">(error) ERR increment or decrement would overflow</span><br></pre></td></tr></table></figure>
-
-<p>过期和删除 字符串可以使用del指令进行主动删除，可以使用expire指令设置过期时间，到点会自动删除，这属于被动删除。<strong>可以使用ttl指令获取字符串的寿命。</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> expire ireader 60</span></span><br><span class="line"></span><br><span class="line">(integer) 1 # 1表示设置成功，0表示变量ireader不存在</span><br><span class="line"></span><br><span class="line">\&gt; ttl ireader</span><br><span class="line"></span><br><span class="line">(integer) 50 # 还有50秒的寿命，返回-2表示变量不存在，-1表示没有设置过期时间</span><br><span class="line"></span><br><span class="line">\&gt; del ireader</span><br><span class="line"></span><br><span class="line">(integer) 1 # 删除成功返回1</span><br><span class="line"></span><br><span class="line">\&gt; get ireader</span><br><span class="line"></span><br><span class="line">(nil) # 变量ireader没有了</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p> <img src="/2020/08/30/Redis/image-20200827024543918.png" alt="image-20200827024543918"></p>
-<p>Redis将列表数据结构命名为list而不是array，<strong>是因为而不是数组</strong>，而且<strong>链表还是双向链表</strong>。因为它是链表，所以随机定位性能较弱，首尾插入删除性能较优。如果list的列表长度很长，使用时我们一定要关注链表相关操作的时间复杂度。</p>
-<p>负下标 链表元素的位置使用自然数0,1,2,….n-1表示，还可以使用负数-1,-2,…-n来表示，-1表示「倒数第一」，-2表示「倒数第二」，那么-n就表示第一个元素，对应的下标为0。</p>
-<p>队列／堆栈 链表可以从表头和表尾追加和移除元素，结合使用rpush/rpop/lpush/lpop四条指令，可以将链表作为队列或堆栈使用，左向右向进行都可以</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 右进左出</span></span><br><span class="line"></span><br><span class="line">\&gt; rpush ireader go</span><br><span class="line"></span><br><span class="line">(integer) 1</span><br><span class="line"></span><br><span class="line">\&gt; rpush ireader java python</span><br><span class="line"></span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">\&gt; lpop ireader</span><br><span class="line"></span><br><span class="line">&quot;go&quot;</span><br><span class="line"></span><br><span class="line">\&gt; lpop ireader</span><br><span class="line"></span><br><span class="line">&quot;java&quot;</span><br><span class="line"></span><br><span class="line">\&gt; lpop ireader</span><br><span class="line"></span><br><span class="line">&quot;python&quot;</span><br><span class="line"></span><br><span class="line">\# 左进右出</span><br><span class="line"></span><br><span class="line">\&gt; lpush ireader go java python</span><br><span class="line"></span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">\&gt; rpop ireader</span><br><span class="line"></span><br><span class="line">&quot;go&quot;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">\# 右进右出</span><br><span class="line"></span><br><span class="line">\&gt; rpush ireader go java python</span><br><span class="line"></span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">\&gt; rpop ireader </span><br><span class="line"></span><br><span class="line">&quot;python&quot;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">\# 左进左出</span><br><span class="line"></span><br><span class="line">\&gt; lpush ireader go java python</span><br><span class="line"></span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">\&gt; lpop ireader</span><br><span class="line"></span><br><span class="line">&quot;python&quot;</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-<p>在日常应用中，列表常用来作为异步队列来使用。</p>
-<p>长度 使用llen指令获取链表长度</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> rpush ireader go java python</span></span><br><span class="line"></span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">\&gt; llen ireader</span><br><span class="line"></span><br><span class="line">(integer) 3</span><br></pre></td></tr></table></figure>
-
-<p>随机读 可以使用lindex指令访问指定位置的元素，使用lrange指令来获取链表子元素列表，提供start和end下标参数</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> rpush ireader go java python</span></span><br><span class="line"></span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">\&gt; lindex ireader 1</span><br><span class="line"></span><br><span class="line">&quot;java&quot;</span><br><span class="line"></span><br><span class="line">\&gt; lrange ireader 0 2</span><br><span class="line"></span><br><span class="line">1) &quot;go&quot;</span><br><span class="line"></span><br><span class="line">2) &quot;java&quot;</span><br><span class="line"></span><br><span class="line">3) &quot;python&quot;</span><br><span class="line"></span><br><span class="line">\&gt; lrange ireader 0 -1 # -1表示倒数第一</span><br><span class="line"></span><br><span class="line">1) &quot;go&quot;</span><br><span class="line"></span><br><span class="line">2) &quot;java&quot;</span><br><span class="line"></span><br><span class="line">3) &quot;python&quot;</span><br></pre></td></tr></table></figure>
-
-<p>使用lrange获取全部元素时，需要提供end_index，如果没有负下标，就需要首先通过llen指令获取长度，才可以得出end_index的值，有了负下标，使用-1代替end_index就可以达到相同的效果。</p>
-<p>修改元素 使用lset指令在指定位置修改元素。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> rpush ireader go java python</span></span><br><span class="line"></span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">\&gt; lset ireader 1 javascript</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">\&gt; lrange ireader 0 -1</span><br><span class="line"></span><br><span class="line">1) &quot;go&quot;</span><br><span class="line"></span><br><span class="line">2) &quot;javascript&quot;</span><br><span class="line"></span><br><span class="line">3) &quot;python&quot;</span><br></pre></td></tr></table></figure>
-
-<p>插入元素 使用linsert指令在列表的中间位置插入元素，有经验的程序员都知道在插入元素时，我们经常搞不清楚是在指定位置的前面插入还是后面插入，所以antirez在linsert指令里增加了方向参数before/after来显示指示前置和后置插入。不过让人意想不到的是linsert指令并不是通过指定位置来插入，而是通过指定具体的值。这是因为在分布式环境下，列表的元素总是频繁变动的，意味着上一时刻计算的元素下标在下一时刻可能就不是你所期望的下标了。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> rpush ireader go java python</span></span><br><span class="line"></span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">\&gt; linsert ireader before java ruby</span><br><span class="line"></span><br><span class="line">(integer) 4</span><br><span class="line"></span><br><span class="line">\&gt; lrange ireader 0 -1</span><br><span class="line"></span><br><span class="line">1) &quot;go&quot;</span><br><span class="line"></span><br><span class="line">2) &quot;ruby&quot;</span><br><span class="line"></span><br><span class="line">3) &quot;java&quot;</span><br><span class="line"></span><br><span class="line">4) &quot;python&quot;</span><br></pre></td></tr></table></figure>
-
-<p>到目前为止，我还没有在实际应用中发现插入指定的应用场景。</p>
-<p>删除元素 列表的删除操作也不是通过指定下标来确定元素的，你需要指定删除的最大个数以及元素的值</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> rpush ireader go java python</span></span><br><span class="line"></span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">\&gt; lrem ireader 1 java</span><br><span class="line"></span><br><span class="line">(integer) 1</span><br><span class="line"></span><br><span class="line">\&gt; lrange ireader 0 -1</span><br><span class="line"></span><br><span class="line">1) &quot;go&quot;</span><br><span class="line"></span><br><span class="line">2) &quot;python&quot;</span><br></pre></td></tr></table></figure>
-
-<p>定长列表 在实际应用场景中，我们有时候会遇到「定长列表」的需求。比如要以走马灯的形式实时显示中奖用户名列表，因为中奖用户实在太多，能显示的数量一般不超过100条，那么这里就会使用到定长列表。维持定长列表的指令是ltrim，需要提供两个参数start和end，表示需要保留列表的下标范围，范围之外的所有元素都将被移除。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> rpush ireader go java python javascript ruby erlang rust cpp</span></span><br><span class="line"></span><br><span class="line">(integer) 8</span><br><span class="line"></span><br><span class="line">\&gt; ltrim ireader -3 -1</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">\&gt; lrange ireader 0 -1</span><br><span class="line"></span><br><span class="line">1) &quot;erlang&quot;</span><br><span class="line"></span><br><span class="line">2) &quot;rust&quot;</span><br><span class="line"></span><br><span class="line">3) &quot;cpp&quot;</span><br></pre></td></tr></table></figure>
-
-<p>如果指定参数的end对应的真实下标小于start，其效果等价于del指令，因为这样的参数表示需要需要保留列表元素的下标范围为空。</p>
-<h3 id="ziplist-压缩列表"><a href="#ziplist-压缩列表" class="headerlink" title="ziplist(压缩列表)"></a>ziplist(压缩列表)</h3><p>先看一下ziplist的数据结构，</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ziplist</span>&lt;T&gt;&#123;</span></span><br><span class="line"></span><br><span class="line">  int32 zlbytes;      <span class="comment">//压缩列表占用字节数</span></span><br><span class="line"></span><br><span class="line">  int32 zltail_offset;<span class="comment">//最后一个元素距离起始位置的偏移量,用于快速定位到最后一个节点</span></span><br><span class="line"></span><br><span class="line">  int16 zllength;      <span class="comment">//元素个数</span></span><br><span class="line"></span><br><span class="line">  T[] entries;      <span class="comment">//元素内容</span></span><br><span class="line"></span><br><span class="line">  int8 zlend;        <span class="comment">//结束位 0xFF</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>int32 zlbytes：     压缩列表占用字节数</li>
-<li>int32 zltail_offset： 最后一个元素距离起始位置的偏移量,用于快速定位到最后一个节点</li>
-<li>int16 zllength：元素个数</li>
-<li>T[] entries：元素内容</li>
-<li>int8 zlend：结束位 0xFF</li>
-</ul>
-<p>压缩列表为了支持双向遍历，所以才会有 ztail_offset 这个字段，用来快速定位到最后一</p>
-<p>个元素，然后倒着遍历</p>
-<p> <img src="/2020/08/30/Redis/image-20200827024630403.png" alt="image-20200827024630403"></p>
-<h3 id="快速列表"><a href="#快速列表" class="headerlink" title="快速列表"></a>快速列表</h3><p>如果再深入一点，你会发现Redis底层存储的还不是一个简单的linkedlist，而是称之为快速链表quicklist的一个结构。</p>
-<ul>
-<li>首先在列表元素较少的情况下会使用一块连续的内存存储，这个结构是ziplist，也即是压缩列表。它将所有的元素紧挨着一起存储，分配的是一块连续的内存。</li>
-<li>当数据量比较多的时候才会改成quicklist。因为普通的链表需要的附加指针空间太大，会比较浪费空间。</li>
-</ul>
-<p>比如这个列表里存的只是int类型的数据，结构上还需要两个额外的指针prev和next。所以Redis将链表和ziplist结合起来组成了quicklist。<strong>这样既满足了快速的插入删除性能</strong>，又不会出现太大的空间冗余。</p>
-<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>由于list它是一个按照插入顺序排序的列表，所以应用场景相对还较多的，例如：</p>
-<ol>
-<li><p>消息队列：lpop和rpush（或者反过来，lpush和rpop）能实现队列的功能</p>
-</li>
-<li><p>朋友圈的点赞列表、评论列表、排行榜：lpush命令和lrange命令能实现最新列表的功能，每次通过lpush命令往列表里插入新的元素，然后通过lrange命令读取最新的元素列表。</p>
-</li>
-</ol>
-<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p> <img src="/2020/08/30/Redis/image-20200827024648387.png" alt="image-20200827024648387"></p>
-<p>哈希等价于Java语言的HashMap或者是Python语言的dict，在实现结构上它<strong>使用二维结构，第一维是数组，第二维是链表</strong>，hash的内容key和value存放在链表中，数组里存放的是链表的头指针。通过key查找元素时，先计算key的hashcode，然后用hashcode对数组的长度进行取模定位到链表的表头，再对链表进行遍历获取到相应的value值，链表的作用就是用来将产生了「hash碰撞」的元素串起来。Java语言开发者会感到非常熟悉，因为这样的结构和HashMap是没有区别的。哈希的第一维数组的长度也是2^n。</p>
-<p> <img src="/2020/08/30/Redis/image-20200827024740159.png" alt="image-20200827024740159"></p>
-<p>增加元素 可以使用hset一次增加一个键值对，也可以使用hmset一次增加多个键值对</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; hset ireader go fast</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line"></span><br><span class="line">\&gt; hmset ireader java fast python slow</span><br><span class="line"></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
-
-<p>获取元素 可以通过hget定位具体key对应的value，可以通过hmget获取多个key对应的value，可以使用hgetall获取所有的键值对，可以使用hkeys和hvals分别获取所有的key列表和value列表。这些操作和Java语言的Map接口是类似的。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&gt; hmset ireader go fast java fast python slow</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">\&gt; hget ireader go</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;fast&quot;</span></span><br><span class="line"></span><br><span class="line">\&gt; hmget ireader go python</span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;fast&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;slow&quot;</span></span><br><span class="line"></span><br><span class="line">\&gt; hgetall ireader</span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;go&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;fast&quot;</span></span><br><span class="line"></span><br><span class="line">3) <span class="string">&quot;java&quot;</span></span><br><span class="line"></span><br><span class="line">4) <span class="string">&quot;fast&quot;</span></span><br><span class="line"></span><br><span class="line">5) <span class="string">&quot;python&quot;</span></span><br><span class="line"></span><br><span class="line">6) <span class="string">&quot;slow&quot;</span></span><br><span class="line"></span><br><span class="line">\&gt; hkeys ireader</span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;go&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;java&quot;</span></span><br><span class="line"></span><br><span class="line">3) <span class="string">&quot;python&quot;</span></span><br><span class="line"></span><br><span class="line">\&gt; hvals ireader</span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;fast&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;fast&quot;</span></span><br><span class="line"></span><br><span class="line">3) <span class="string">&quot;slow&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>删除元素 可以使用hdel删除指定key，hdel支持同时删除多个key</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; hmset ireader go fast java fast python slow</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">\&gt; hdel ireader go</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line"></span><br><span class="line">\&gt; hdel ireader java python</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 2</span><br></pre></td></tr></table></figure>
-
-<p>判断元素是否存在 通常我们使用hget获得key对应的value是否为空就直到对应的元素是否存在了，不过如果value的字符串长度特别大，通过这种方式来判断元素存在与否就略显浪费，这时可以使用hexists指令。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; hmset ireader go fast java fast python slow</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">\&gt; hexists ireader go</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br></pre></td></tr></table></figure>
-
-<p>计数器 hash结构还可以当成计数器来使用，对于内部的每一个key都可以作为独立的计数器。如果value值不是整数，调用hincrby指令会出错。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> hincrby ireader go 1</span></span><br><span class="line"></span><br><span class="line">(integer) 1</span><br><span class="line"></span><br><span class="line">\&gt; hincrby ireader python 4</span><br><span class="line"></span><br><span class="line">(integer) 4</span><br><span class="line"></span><br><span class="line">\&gt; hincrby ireader java 4</span><br><span class="line"></span><br><span class="line">(integer) 4</span><br><span class="line"></span><br><span class="line">\&gt; hgetall ireader</span><br><span class="line"></span><br><span class="line">1) &quot;go&quot;</span><br><span class="line"></span><br><span class="line">2) &quot;1&quot;</span><br><span class="line"></span><br><span class="line">3) &quot;python&quot;</span><br><span class="line"></span><br><span class="line">4) &quot;4&quot;</span><br><span class="line"></span><br><span class="line">5) &quot;java&quot;</span><br><span class="line"></span><br><span class="line">6) &quot;4&quot;</span><br><span class="line"></span><br><span class="line">\&gt; hset ireader rust good</span><br><span class="line"></span><br><span class="line">(integer) 1</span><br><span class="line"></span><br><span class="line">\&gt; hincrby ireader rust 1</span><br><span class="line"></span><br><span class="line">(error) ERR hash value is not an integer</span><br></pre></td></tr></table></figure>
-
-<p>扩容 当hash内部的元素比较拥挤时(hash碰撞比较频繁)，就需要进行扩容。扩容需要申请新的两倍大小的数组，然后将所有的键值对重新分配到新的数组下标对应的链表中(rehash)。如果hash结构很大，比如有上百万个键值对，那么一次完整rehash的过程就会耗时很长。这对于单线程的Redis里来说有点压力山大。所以Redis采用了渐进式rehash的方案。它会同时保留两个新旧hash结构，在后续的定时任务以及hash结构的读写指令中将旧结构的元素逐渐迁移到新的结构中。这样就可以避免因扩容导致的线程卡顿现象。</p>
-<p>缩容 Redis的hash结构不但有扩容还有缩容，从这一点出发，它要比Java的HashMap要厉害一些，Java的HashMap只有扩容。缩容的原理和扩容是一致的，只不过新的数组大小要比旧数组小一倍。</p>
-<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h3><ol>
-<li><p>购物车：hset [key] [field] [value] 命令， 可以实现以用户Id，商品Id为field，商品数量为value，恰好构成了购物车的3个要素。</p>
-</li>
-<li><p>存储对象：hash类型的(key, field, value)的结构与对象的(对象id, 属性, 值)的结构相似，也可以用来存储对象。</p>
-</li>
-</ol>
-<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>Java程序员都知道HashSet的内部实现使用的是HashMap，只不过所有的value都指向同一个对象。<strong>Redis的set结构也是一样，它的内部也使用hash结构，所有的value都指向同一个内部值。</strong></p>
-<p>增加元素 可以一次增加多个元素</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; sadd ireader go java python</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 3</span><br></pre></td></tr></table></figure>
-
-<p>读取元素 使用smembers列出所有元素，使用scard获取集合长度，使用srandmember获取随机count个元素，如果不提供count参数，默认为1</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&gt; sadd ireader go java python</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 3</span><br><span class="line"></span><br><span class="line">\&gt; smembers ireader</span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;java&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;python&quot;</span></span><br><span class="line"></span><br><span class="line">3) <span class="string">&quot;go&quot;</span></span><br><span class="line"></span><br><span class="line">\&gt; scard ireader</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 3</span><br><span class="line"></span><br><span class="line">\&gt; srandmember ireader</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;java&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>删除元素 使用srem删除一到多个元素，使用spop删除随机一个元素</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; sadd ireader go java python rust erlang</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 5</span><br><span class="line"></span><br><span class="line">\&gt; srem ireader go java</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 2</span><br><span class="line"></span><br><span class="line">\&gt; spop ireader</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;erlang&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>判断元素是否存在 使用sismember指令，只能接收单个元素</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; sadd ireader go java python rust erlang</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 5</span><br><span class="line"></span><br><span class="line">\&gt; sismember ireader rust</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line"></span><br><span class="line">\&gt; sismember ireader javascript</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 0</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a>应用场景</h3><ol>
-<li><p>好友、关注、粉丝、感兴趣的人集合：</p>
-<p>sinter命令可以获得A和B两个用户的共同好友；</p>
-<p>sismember命令可以判断A是否是B的好友；</p>
-<p>scard命令可以获取好友数量；</p>
-<p>关注时，smove命令可以将B从A的粉丝集合转移到A的好友集合</p>
-</li>
-<li><p>首页展示随机：美团首页有很多推荐商家，但是并不能全部展示，set类型适合存放所有需要展示的内容，而srandmember命令则可以从中随机获取几个。</p>
-</li>
-<li><p>存储某活动中中奖的用户ID ，因为有去重功能，可以保证同一个用户不会中奖两次。</p>
-</li>
-</ol>
-<h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><p> <img src="/2020/08/30/Redis/image-20200827025343157.png" alt="image-20200827025343157"></p>
-<p>SortedSet(zset)是Redis提供的一个非常特别的数据结构，<strong>一方面它等价于Java的数据结构Map&lt;String, Double&gt;，可以给每一个元素value赋予一个权重score，另一方面它又类似于TreeSet，内部的元素会按照权重score进行排序，可以得到每个元素的名次，还可以通过score的范围来获取元素的列表。</strong></p>
-<p>zset底层实现使用了两个数据结构</p>
-<ul>
-<li>第一个是hash<ul>
-<li>hash的作用就是关联元素value和权重score，保障元素value的唯一性，可以通过元素value找到相应的score值。</li>
-</ul>
-</li>
-<li>第二个是跳跃列表<ul>
-<li>跳跃列表的目的在于给元素value排序，根据score的范围获取元素列表。</li>
-</ul>
-</li>
-</ul>
-<p>增加元素 通过zadd指令可以增加一到多个value/score对，score放在前面</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; zadd ireader 4.0 python</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line"></span><br><span class="line">\&gt; zadd ireader 4.0 java 1.0 go</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 2</span><br></pre></td></tr></table></figure>
-
-<p>长度 通过指令zcard可以得到zset的元素个数</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; zcard ireader</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 3</span><br></pre></td></tr></table></figure>
-
-<p>删除元素 通过指令zrem可以删除zset中的元素，可以一次删除多个</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; zrem ireader go python</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 2</span><br></pre></td></tr></table></figure>
-
-<p>计数器 同hash结构一样，zset也可以作为计数器使用。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; zadd ireader 4.0 python 4.0 java 1.0 go</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 3</span><br><span class="line"></span><br><span class="line">\&gt; zincrby ireader 1.0 python</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;5&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>获取排名和分数 通过zscore指令获取指定元素的权重，通过zrank指令获取指定元素的正向排名，通过zrevrank指令获取指定元素的反向排名[倒数第一名]。正向是由小到大，负向是由大到小。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&gt; zscore ireader python</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;5&quot;</span></span><br><span class="line"></span><br><span class="line">\&gt; zrank ireader go <span class="comment"># 分数低的排名考前，rank值小</span></span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 0</span><br><span class="line"></span><br><span class="line">\&gt; zrank ireader java</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 1</span><br><span class="line"></span><br><span class="line">\&gt; zrank ireader python</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 2</span><br><span class="line"></span><br><span class="line">\&gt; zrevrank ireader python</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 0</span><br></pre></td></tr></table></figure>
-
-<p>根据排名范围获取元素列表 通过zrange指令指定排名范围参数获取对应的元素列表，携带withscores参数可以一并获取元素的权重。通过zrevrange指令按负向排名获取元素列表[倒数]。正向是由小到大，负向是由大到小。</p>
-<p>\</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&gt; zrange ireader 0 -1 <span class="comment"># 获取所有元素</span></span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;go&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;java&quot;</span></span><br><span class="line"></span><br><span class="line">3) <span class="string">&quot;python&quot;</span></span><br><span class="line"></span><br><span class="line">\&gt; zrange ireader 0 -1 withscores</span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;go&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;1&quot;</span></span><br><span class="line"></span><br><span class="line">3) <span class="string">&quot;java&quot;</span></span><br><span class="line"></span><br><span class="line">4) <span class="string">&quot;4&quot;</span></span><br><span class="line"></span><br><span class="line">5) <span class="string">&quot;python&quot;</span></span><br><span class="line"></span><br><span class="line">6) <span class="string">&quot;5&quot;</span></span><br><span class="line"></span><br><span class="line">\&gt; zrevrange ireader 0 -1 withscores</span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;python&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;5&quot;</span></span><br><span class="line"></span><br><span class="line">3) <span class="string">&quot;java&quot;</span></span><br><span class="line"></span><br><span class="line">4) <span class="string">&quot;4&quot;</span></span><br><span class="line"></span><br><span class="line">5) <span class="string">&quot;go&quot;</span></span><br><span class="line"></span><br><span class="line">6) <span class="string">&quot;1&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>根据score范围获取列表 通过zrangebyscore指令指定score范围获取对应的元素列表。通过zrevrangebyscore指令获取倒排元素列表。正向是由小到大，负向是由大到小。参数-inf表示负无穷，+inf表示正无穷。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&gt; zrangebyscore ireader 0 5</span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;go&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;java&quot;</span></span><br><span class="line"></span><br><span class="line">3) <span class="string">&quot;python&quot;</span></span><br><span class="line"></span><br><span class="line">\&gt; zrangebyscore ireader -inf +inf withscores</span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;go&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;1&quot;</span></span><br><span class="line"></span><br><span class="line">3) <span class="string">&quot;java&quot;</span></span><br><span class="line"></span><br><span class="line">4) <span class="string">&quot;4&quot;</span></span><br><span class="line"></span><br><span class="line">5) <span class="string">&quot;python&quot;</span></span><br><span class="line"></span><br><span class="line">6) <span class="string">&quot;5&quot;</span></span><br><span class="line"></span><br><span class="line">\&gt; zrevrangebyscore ireader +inf -inf withscores <span class="comment"># 注意正负反过来了</span></span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;python&quot;</span></span><br><span class="line"></span><br><span class="line">2) <span class="string">&quot;5&quot;</span></span><br><span class="line"></span><br><span class="line">3) <span class="string">&quot;java&quot;</span></span><br><span class="line"></span><br><span class="line">4) <span class="string">&quot;4&quot;</span></span><br><span class="line"></span><br><span class="line">5) <span class="string">&quot;go&quot;</span></span><br><span class="line"></span><br><span class="line">6) <span class="string">&quot;1&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>根据范围移除元素列表 可以通过排名范围，也可以通过score范围来一次性移除多个元素</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt; zremrangebyrank ireader 0 1</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 2 <span class="comment"># 删掉了2个元素</span></span><br><span class="line"></span><br><span class="line">\&gt; zadd ireader 4.0 java 1.0 go</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 2</span><br><span class="line"></span><br><span class="line">\&gt; zremrangebyscore ireader -inf 4</span><br><span class="line"></span><br><span class="line">(<span class="built_in">integer</span>) 2</span><br><span class="line"></span><br><span class="line">\&gt; zrange ireader 0 -1</span><br><span class="line"></span><br><span class="line">1) <span class="string">&quot;python&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
-<li>zset 可以用做排行榜，但是和list不同的是zset它能够实现动态的排序，例如： 可以用来存储粉丝列表，value 值是粉丝的用户 ID，score 是关注时间，我们可以对粉丝列表按关注时间进行排序。</li>
-<li>zset 还可以用来存储学生的成绩， value 值是学生的 ID, score 是他的考试成绩。 我们对成绩按分数进行排序就可以得到他的名次。</li>
-</ul>
-<h3 id="跳跃列表"><a href="#跳跃列表" class="headerlink" title="跳跃列表"></a>跳跃列表</h3><p>zset内部的排序功能是通过「跳跃列表」数据结构来实现的，它的结构非常特殊，也比较复杂。这一块的内容深度读者要有心理准备。</p>
-<p>因为zset要支持随机的插入和删除，所以它不好使用数组来表示。我们先看一个普通的链表结构。</p>
-<p> <img src="/2020/08/30/Redis/image-20200827025827674.png" alt="image-20200827025827674"></p>
-<p>我们需要这个链表按照score值进行排序。这意味着当有新元素需要插入时，需要定位到特定位置的插入点，这样才可以继续保证链表是有序的。通常我们会通过二分查找来找到插入点，但是二分查找的对象必须是数组，只有数组才可以支持快速位置定位，链表做不到，那该怎么办？</p>
-<p>想想一个创业公司，刚开始只有几个人，团队成员之间人人平等，都是联合创始人。随着公司的成长，人数渐渐变多，团队沟通成本随之增加。这时候就会引入组长制，对团队进行划分。每个团队会有一个组长。开会的时候分团队进行，多个组长之间还会有自己的会议安排。公司规模进一步扩展，需要再增加一个层级——部门，每个部门会从组长列表中推选出一个代表来作为部长。部长们之间还会有自己的高层会议安排。</p>
-<p>跳跃列表就是类似于这种层级制，最下面一层所有的元素都会串起来。然后每隔几个元素挑选出一个代表来，再将这几个代表使用另外一级指针串起来。然后在这些代表里再挑出二级代表，再串起来。最终就形成了金字塔结构。</p>
-<p>想想你老家在世界地图中的位置：亚洲–&gt;中国-&gt;安徽省-&gt;安庆市-&gt;枞阳县-&gt;汤沟镇-&gt;田间村-&gt;xxxx号，也是这样一个类似的结构。</p>
-<p> <img src="/2020/08/30/Redis/image-20200827025902384.png" alt="image-20200827025902384"></p>
-<p>「跳跃列表」之所以「跳跃」，是因为内部的元素可能「身兼数职」，比如上图中间的这个元素，同时处于L0、L1和L2层，可以快速在不同层次之间进行「跳跃」。</p>
-<p>定位插入点时，先在顶层进行定位，然后下潜到下一级定位，一直下潜到最底层找到合适的位置，将新元素插进去。你也许会问那新插入的元素如何才有机会「身兼数职」呢？</p>
-<p>跳跃列表采取一个随机策略来决定新元素可以兼职到第几层，首先L0层肯定是100%了，L1层只有50%的概率，L2层只有25%的概率，L3层只有12.5%的概率，一直随机到最顶层L31层。绝大多数元素都过不了几层，只有极少数元素可以深入到顶层。列表中的元素越多，能够深入的层次就越深，能进入到顶层的概率就会越大。</p>
-<p>这还挺公平的，能不能进入中央不是靠拼爹，而是看运气。</p>
-<p>Redis 使用了 单线程架构 和 I/O 多路复用模型 来实现 高性能 的 内存数据库服务。那为什么 单线程 还能这么快，下面分析原因：</p>
-<h1 id="单线程架构"><a href="#单线程架构" class="headerlink" title="单线程架构"></a>单线程架构</h1><h2 id="纯内存访问"><a href="#纯内存访问" class="headerlink" title="纯内存访问"></a>纯内存访问</h2><p>Redis 将所有数据放在 内存 中，内存的响应时长大约为 100 纳秒，这是 Redis 达到每秒万级别访问的重要基础。</p>
-<h2 id="非阻塞I-O"><a href="#非阻塞I-O" class="headerlink" title="非阻塞I/O"></a>非阻塞I/O</h2><p><strong>Redis 使用 epoll 作为 I/O 多路复用技术的实现</strong>，再加上Redis 自身的事件处理模型将 epoll 中的 连接、读写、关闭 都转换为 事件，从而不用在网络 I/O 上浪费过多的时间，如图所示：</p>
-<p><img src="/2020/08/30/Redis/clip_image002.jpg" alt="img"></p>
-<h2 id="单线程避免线程切换和竞态产生的消耗"><a href="#单线程避免线程切换和竞态产生的消耗" class="headerlink" title="单线程避免线程切换和竞态产生的消耗"></a>单线程避免线程切换和竞态产生的消耗</h2><p>采用单线程就能达到如此高的性能，那么不失为一种不错的选择，因为单线程能带来几个好处：</p>
-<ol>
-<li><p>单线程可以简化数据结构和算法的实现，开发人员不需要了解复杂的并发数据结构。</p>
-</li>
-<li><p>单线程避免了线程切换和竞态产生的消耗，对于服务端开发来说，锁和线程切换通常是性能杀手。</p>
-</li>
-</ol>
-<h1 id="内存淘汰"><a href="#内存淘汰" class="headerlink" title="内存淘汰"></a>内存淘汰</h1><p>Redis对于过期键有三种清除策略：</p>
-<ol>
-<li><p>定时删除：在设置键的过期时间的同时，创建一个timer，让定时器在键的过期时间到达时，立即执行对键的删除操作。</p>
-</li>
-<li><p>被动删除：<strong>当读/写一个已经过期的key时，会触发惰性删除策略，直接删除掉这个过期key</strong></p>
-</li>
-<li><p>主动删除：由于惰性删除策略无法保证冷数据被及时删掉，所以Redis会定期主动淘汰一批已过期的key</p>
-</li>
-</ol>
-<h2 id="被动删除"><a href="#被动删除" class="headerlink" title="被动删除"></a>被动删除</h2><p><strong>只有key被操作时(如GET)，REDIS才会被动检查该key是否过期，如果过期则删除之并且返回NIL</strong>。 </p>
-<ol>
-<li><p>这种删除策略对CPU是友好的，删除操作只有在不得不的情况下才会进行，不会对其他的expire key上浪费无谓的CPU时间。</p>
-</li>
-<li><p>但是这种策略对内存不友好，一个key已经过期，但是在它被操作之前不会被删除，仍然占据内存空间。如果有大量的过期键存在但是又很少被访问到，那会造成大量的内存空间浪费。</p>
-</li>
-</ol>
-<h2 id="主动删除"><a href="#主动删除" class="headerlink" title="主动删除"></a>主动删除</h2><p><strong>Redis会周期性的随机测试一批设置了过期时间的key并进行处理。测试到的已过期的key将被删除。</strong></p>
-<p>典型的方式为,Redis每秒做10次如下的步骤：</p>
-<ol>
-<li><p>随机测试100个设置了过期时间的key</p>
-</li>
-<li><p>删除所有发现的已过期的key</p>
-</li>
-<li><p>若删除的key超过25个则重复步骤1</p>
-</li>
-</ol>
-<p>这是一个基于概率的简单算法，基本的假设是抽出的样本能够代表整个key空间，<strong>redis持续清理过期的数据直至将要过期的key的百分比降到了25%以下。</strong>这也意味着在任何给定的时刻已经过期但仍占据着内存空间的key的量最多为每秒的写操作量除以4.</p>
-<p><strong>如果定期删除漏掉了很多过期key，然后你也没及时去查，也就没走惰性删除，此时会怎么样？</strong></p>
-<p><strong>如果大量过期key堆积在内存里，导致redis内存块耗尽了，怎么办？</strong></p>
-<p><strong>答案是：走内存淘汰机制。</strong></p>
-<ol>
-<li><strong>noeviction：当内存不足以容纳新写入数据时，新写入操作会报错</strong></li>
-<li><strong>allkeys-lru：当内存不足以容纳新写入数据时，在键空间中，移除最近最少使用的key（这个是最常用的）</strong></li>
-<li><strong>allkeys-random：当内存不足以容纳新写入数据时，在键空间中，随机移除某个key</strong></li>
-<li><strong>volatile-lru：当内存不足以容纳新写入数据时，在设置了过期时间的键空间中，移除最近最少使用的key（这个一般不太合适）</strong></li>
-<li><strong>volatile-random：当内存不足以容纳新写入数据时，在设置了过期时间的键空间中，随机移除某个key</strong></li>
-<li><strong>volatile-ttl：当内存不足以容纳新写入数据时，在设置了过期时间的键空间中，有更早过期时间的key优先移除</strong></li>
-</ol>
-<h2 id="LRU在Redis中的实现"><a href="#LRU在Redis中的实现" class="headerlink" title="LRU在Redis中的实现"></a>LRU在Redis中的实现</h2><p><strong>近似LRU算法</strong></p>
-<p>Redis使用的是近似LRU算法，它跟常规的LRU算法还不太一样。<strong>近似LRU算法通过随机采样法淘汰数据，每次随机出5（默认）个key，从里面淘汰掉最近最少使用的key。</strong></p>
-<p>可以通过maxmemory-samples参数修改采样数量： 例：<code>maxmemory-samples 10</code> <code>maxmenory-samples</code>配置的越大，淘汰的结果越接近于严格的LRU算法</p>
-<p>Redis为了实现近似LRU算法，给每个key增加了一个额外增加了一个24bit的字段，用来存储该key最后一次被访问的时间。</p>
-<h3 id="Redis3-0对近似LRU的优化"><a href="#Redis3-0对近似LRU的优化" class="headerlink" title="Redis3.0对近似LRU的优化"></a>Redis3.0对近似LRU的优化</h3><p>Redis3.0对近似LRU算法进行了一些优化。</p>
-<p>新算法会维护一个候选池（大小为16），池中的数据根据访问时间进行排序，第一次随机选取的key都会放入池中，随后每次随机选取的key只有在访问时间小于池中最小的时间才会放入池中，直到候选池被放满。当放满后，如果有新的key需要放入，则将池中最后访问时间最大（最近被访问）的移除。</p>
-<p><strong>当需要淘汰的时候，则直接从池中选取最近访问时间最小（最久没被访问）的key淘汰掉就行。</strong></p>
-<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>由于Redis是一种内存型数据库，即服务器在运行时，系统为其分配了一部分内存存储数据，一旦服务器挂了，或者突然宕机了，那么数据库里面的数据将会丢失，<strong>为了使服务器即使突然关机也能保存数据，必须通过持久化的方式将数据从内存保存到磁盘中。</strong></p>
-<h2 id="Redis的持久化"><a href="#Redis的持久化" class="headerlink" title="Redis的持久化"></a>Redis的持久化</h2><p>redis有RDB和AOF两种持久化方式。</p>
-<ul>
-<li><strong>RDB是快照文件的方式，redis通过执行<code>SAVE/BGSAVE</code>命令，执行数据的备份，将redis当前的数据保存到<code>*.rdb</code>文件中，文件保存了所有的数据集合。</strong></li>
-<li><strong>AOF是服务器通过读取配置，在指定的时间里，追加redis写操作的命令到<code>*.aof</code>文件中，是一种增量的持久化方式。</strong></li>
-</ul>
-<h2 id="RDB-Redis-Database"><a href="#RDB-Redis-Database" class="headerlink" title="RDB(Redis Database)"></a>RDB(Redis Database)</h2><ol>
-<li><p>RDB文件通过SAVE或BGSAVE命令实现。</p>
-</li>
-<li><p>SAVE命令会阻塞Redis服务进程，直到RDB文件创建完成为止。</p>
-</li>
-<li><p>BGSAVE命令通过fork子进程，有子进程来进行创建RDB文件，父进程和子进程共享数据段，父进程继续提供读写服务，子进程实现备份功能。</p>
-</li>
-<li><p>BGSAVE阶段只有在需要修改共享数据段的时候才进行拷贝，也就是COW（Copy On Write）。SAVE创建RDB文件可以通过设置多个保存条件，只要其中一个条件满足，就可以在后台执行SAVE操作。</p>
-</li>
-</ol>
-<p><strong><code>BGSAVE</code>命令执行过程中，只有fork子进程时会阻塞服务器，而对于save命令，整个过程都会阻塞服务器，因此save已基本被废弃，线上环境要杜绝save的使用。此外，在自动触发RDB持久化时，Redis也会选择bgsave而不是save来进行持久化。</strong></p>
-<p><strong>有了RDB文件之后，如果服务器关机了，或者需要新增一个服务器，重新启动数据库服务器之后，就可以通过载入RDB文件恢复之前备份的数据。但是bgsave会耗费较长时间，不够实时，会导致在停机的时候丢失大量数据。</strong>(一般不采用)</p>
-<p>Redis.conf配置 ：默认是如下配置</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 900秒之内，如果超过1个key被修改，则发起快照保存；</span></span><br><span class="line">save 900 1 </span><br><span class="line"><span class="comment"># 300秒内，如果超过10个key被修改，则发起快照保存；</span></span><br><span class="line">save 300 10</span><br><span class="line"><span class="comment"># 1分钟之内，如果1万个key被修改，则发起快照保存；</span></span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure>
-
-<h2 id="AOF（Append-Only-File）"><a href="#AOF（Append-Only-File）" class="headerlink" title="AOF（Append Only File）"></a>AOF（Append Only File）</h2><p>RDB文件保存的是数据库的键值对数据，AOF保存的是数据库执行的写命令。</p>
-<p>AOF的实现流程有三步：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">append-&gt;write-&gt;fsync</span><br></pre></td></tr></table></figure>
-
-<p><strong>append追加命令到AOF缓冲区，write将缓冲区的内容写入到程序缓冲区，fsync将程序缓冲区的内容写入到文件。</strong></p>
-<p>当AOF持久化功能处于开启状态时，服务器每执行完一个命令，就会将命令以协议格式追加写入到redisServer结构体的aof_buf缓冲区，具体的协议这里不展开阐述。</p>
-<p>AOF的持久化发生时期有个配置选项：appendfsync。该选项有三个值：</p>
-<ol>
-<li><p>always：命令写入aof_buf后立即调用系统fsync操作同步到AOF文件，fsync完成后线程返回。这种情况下，每次有写命令都要同步到AOF文件，硬盘IO成为性能瓶颈，Redis只能支持大约几百TPS写入，严重降低了Redis的性能；即便是使用固态硬盘（SSD），每秒大约也只能处理几万个命令，而且会大大降低SSD的寿命。</p>
-</li>
-<li><p>no：命令写入aof_buf后调用系统write操作，不对AOF文件做fsync同步；同步由操作系统负责，通常同步周期为30秒。这种情况下，文件同步的时间不可控，且缓冲区中堆积的数据会很多，数据安全性无法保证。</p>
-</li>
-<li><p><strong>everysec：命令写入aof_buf后调用系统write操作，write完成后线程返回；fsync同步文件操作由专门的线程每秒调用一次。everysec是前述两种策略的折中，是性能和数据安全性的平衡，因此是Redis的默认配置，也是我们推荐的配置。</strong></p>
-</li>
-</ol>
-<p>Redis.conf配置</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">appendfsync yes  </span><br><span class="line"></span><br><span class="line">appendfsync always   <span class="comment">#每次有数据修改发生时都会写入AOF文件。</span></span><br><span class="line"></span><br><span class="line">appendfsync everysec  <span class="comment">#每秒钟同步一次，该策略为AOF的缺省策略。</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="AOF重写"><a href="#AOF重写" class="headerlink" title="AOF重写"></a>AOF重写</h3><p>AOF持久化模式每个写命令都会追加到AOF文件，随着服务器不断运行，AOF文件会越来越大，为了避免AOF产生的文件太大，服务器会对AOF文件进行重写，<strong>将操作相同key的相同命令合并，从而减少文件的大小。</strong></p>
-<p>举个例子，要保存一个员工的名字、性别等信息：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; hset employee_12345 name <span class="string">&quot;hoohack&quot;</span></span><br><span class="line"></span><br><span class="line">&gt; hset employee_12345 good_at <span class="string">&quot;php&quot;</span></span><br><span class="line"></span><br><span class="line">&gt; hset employee_12345 gender <span class="string">&quot;male&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>只是录入这个哈希键的状态，AOF文件就需要保存三条命令，如果还有其他，比如删除，或者更新值的操作，那命令将会更多，文件会更大，有了重写后，就可以适当地减少文件的大小。</p>
-<p>AOF重写的实现原理是先打开服务器中的数据库，然后遍历数据库，找出每个数据库中的所有键对象，获取键值对的键和值，根据键的类型对键值对进行重写。比如上面的例子，可以合并为下面的一条命令：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; hset employee_12345 name <span class="string">&quot;hoohack&quot;</span> good_at <span class="string">&quot;php&quot;</span> gender <span class="string">&quot;male&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>AOF的重写会执行大量的写入操作，Redis是单线程的，所以如果有服务器直接调用重写，服务器就不能处理其他命令了，因此<strong>Redis服务器新起了单独一个进程来执行AOF重写。</strong></p>
-<p>Redis执行重写的流程：</p>
-<p>在子进程执行AOF重写时，服务端接收到客户端的命令之后，先执行客户端发来的命令，然后将执行后的写命令追加到AOF缓冲区中，同时将执行后的写命令追加到AOF重写缓冲区中。 等到子进程完成了重写工作后，会发一个完成的信号给服务器，服务器就将AOF重写缓冲区中的所有内容追加到AOF文件中，然后原子性地覆盖现有的AOF文件。</p>
-<p><img src="/2020/08/30/Redis/clip_image002.png" alt="img"></p>
-<h2 id="RDB和AOF的优缺点"><a href="#RDB和AOF的优缺点" class="headerlink" title="RDB和AOF的优缺点"></a>RDB和AOF的优缺点</h2><ol>
-<li><p>RDB持久化方式可以只通过服务器读取数据就能加载备份中的文件到程序中，而AOF方式必须创建一个伪客户端才能执行。</p>
-</li>
-<li><p><strong>RDB的文件较小，保存了某个时间点之前的数据，适合做灾备和主从同步。</strong></p>
-</li>
-<li><p>RDB备份耗时较长，如果数据量大，在遇到宕机的情况下，可能会丢失部分数据。另外，RDB是通过配置使达到某种条件的时候才执行，如果在这段时间内宕机，那么这部分数据也会丢失。</p>
-</li>
-<li><p>AOF方式，在相同数据集的情况下，文件大小会比RDB方式的大。</p>
-</li>
-<li><p>AOF的持久化方式也是通过配置的不同，默认配置的是每秒同步，最快的模式是同步每一个命令，最坏的方式是等待系统执行fsync将缓冲同步到磁盘文件中，大部分操作系统是30s。通常情况下会配置为每秒同步一次，所以最多会有1s的数据丢失。</p>
-</li>
-</ol>
-<h2 id="怎样的同步方式更好？"><a href="#怎样的同步方式更好？" class="headerlink" title="怎样的同步方式更好？"></a>怎样的同步方式更好？</h2><p>RDB和AOF方式结合。起一个定时任务，每小时备份一份服务器当前状态的数据，以日期和小时命名，另外起一个定时任务，定时删除无效的备份文件（比如48小时之前）。AOF配置为1s一次。这样一来，最多会丢失1s的数据，同时如果redis发生雪崩，也能迅速恢复为前一天的状态，不至于停止服务。</p>
-<p><strong>同时开启两种持久化方式：在这种情况下，当redis重启的时候会优先载入AOF文件来恢复原始的数据。因为在通常情况下AOF文件保存的数据集要比RDB文件保存的数据集要完整。</strong></p>
-<p>RDB的数据不实时，同时使用两者时服务器重启也只会找AOF文件。那要不要只使用AOF呢？建议不要，因为RDB更适合用于备份数据库(AOF在不断变化不好备份)。</p>
-<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><h2 id="主从模式"><a href="#主从模式" class="headerlink" title="主从模式"></a>主从模式</h2><p>主从模式是三种模式中最简单的，在主从复制中，数据库分为两类：主数据库(master)和从数据库(slave)。</p>
-<p><img src="/2020/08/30/Redis/clip_image002-1598591686368.png" alt="img"></p>
-<p>其中主从复制有如下特点：</p>
-<ol>
-<li><p>主数据库可以进行读写操作，当读写操作导致数据变化时会自动将数据同步给从数据库</p>
-</li>
-<li><p>从数据库一般都是只读的，并且接收主数据库同步过来的数据</p>
-</li>
-<li><p>一个master可以拥有多个slave，但是一个slave只能对应一个master</p>
-</li>
-<li><p>slave挂了不影响其他slave的读和master的读和写，重新启动后会将数据从master同步过来</p>
-</li>
-<li><p>master挂了以后，不影响slave的读，但redis不再提供写服务，master重启后redis将重新对外提供写服务</p>
-</li>
-<li><p>master挂了以后，不会在slave节点中重新选一个master</p>
-</li>
-</ol>
-<h3 id="工作机制："><a href="#工作机制：" class="headerlink" title="工作机制："></a>工作机制：</h3><p><img src="/2020/08/30/Redis/clip_image003.png" alt="img"></p>
-<ol>
-<li><p>当slave启动后，主动向master发送SYNC命令。</p>
-</li>
-<li><p>master接收到SYNC命令后在后台保存快照（RDB持久化）和缓存保存快照这段时间的命令，然后将保存的快照文件和缓存的命令发送给slave。</p>
-</li>
-<li><p>slave接收到快照文件和命令后加载快照文件和缓存的执行命令。</p>
-</li>
-<li><p>复制初始化后，master每次接收到的写命令都会同步发送给slave，保证主从数据一致性。</p>
-</li>
-</ol>
-<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><ol>
-<li><p>支持主从复制，主机会自动将数据同步到从机，可以进行读写分离；</p>
-</li>
-<li><p>为了分载Master的读操作压力，Slave服务器可以为客户端提供只读操作的服务，写服务仍然必须由Master来完成；</p>
-</li>
-<li><p>Slave同样可以接受其它Slaves的连接和同步请求，这样可以有效的分载Master的同步压力；</p>
-</li>
-<li><p>Master Server是以非阻塞的方式为Slaves提供服务。所以在Master-Slave同步期间，客户端仍然可以提交查询或修改请求；</p>
-</li>
-<li><p>Slave Server同样是以非阻塞的方式完成数据同步。在同步期间，如果有客户端提交查询请求，Redis则返回同步之前的数据；</p>
-</li>
-</ol>
-<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>从上面可以看出，master节点在主从模式中唯一，若master挂掉，则redis无法对外提供写服务。</p>
-<h2 id="Sentinel模式"><a href="#Sentinel模式" class="headerlink" title="Sentinel模式"></a>Sentinel模式</h2><p><img src="/2020/08/30/Redis/clip_image005.png" alt="img"></p>
-<p>主从模式的弊端就是不具备高可用性，当master挂掉以后，Redis将不能再对外提供写入操作，因此sentinel应运而生。</p>
-<p>sentinel中文含义为哨兵，顾名思义，它的作用就是监控redis集群的运行状况，特点如下：</p>
-<ol>
-<li><p>sentinel模式是建立在主从模式的基础上，如果只有一个Redis节点，sentinel就没有任何意义</p>
-</li>
-<li><p>当master挂了以后，sentinel会在slave中选择一个做为master，并修改它们的配置文件，其他slave的配置文件也会被修改，比如slaveof属性会指向新的master</p>
-</li>
-<li><p>当master重新启动后，它将不再是master而是做为slave接收新的master的同步数据</p>
-</li>
-<li><p>sentinel因为也是一个进程有挂掉的可能，所以sentinel也会启动多个形成一个sentinel集群</p>
-</li>
-<li><p>多sentinel配置的时候，sentinel之间也会自动监控</p>
-</li>
-<li><p>当主从模式配置密码时，sentinel也会同步将配置信息修改到配置文件中，不需要担心</p>
-</li>
-<li><p>一个sentinel或sentinel集群可以管理多个主从Redis，多个sentinel也可以监控同一个redis</p>
-</li>
-<li><p>sentinel最好不要和Redis部署在同一台机器，不然Redis的服务器挂了以后，sentinel也挂了</p>
-</li>
-</ol>
-<p><img src="/2020/08/30/Redis/clip_image007.png" alt="img"></p>
-<h3 id="工作机制：-1"><a href="#工作机制：-1" class="headerlink" title="工作机制："></a>工作机制：</h3><ol>
-<li><p>每个sentinel以每秒钟一次的频率向它所知的master，slave以及其他sentinel实例发送一个 PING 命令 </p>
-</li>
-<li><p><strong>如果一个实例距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds 选项所指定的值， 则这个实例会被sentinel标记为主观下线。</strong></p>
-</li>
-<li><p>如果一个master被标记为主观下线，则正在监视这个master的所有sentinel要以每秒一次的频率确认master的确进入了主观下线状态</p>
-</li>
-<li><p><strong>当有足够数量的sentinel（大于等于配置文件指定的值）在指定的时间范围内确认master的确进入了主观下线状态， 则master会被标记为客观下线</strong> </p>
-</li>
-<li><p>在一般情况下， 每个sentinel会以每 10 秒一次的频率向它已知的所有master，slave发送 INFO 命令 </p>
-</li>
-<li><p>当master被sentinel标记为客观下线时，sentinel向下线的master的所有slave发送 INFO 命令的频率会从 10 秒一次改为 1 秒一次</p>
-</li>
-<li><p><strong>若没有足够数量的sentinel同意master已经下线，master的客观下线状态就会被移除；</strong></p>
-</li>
-<li><p><strong>若master重新向sentinel的 PING 命令返回有效回复，master的主观下线状态就会被移除</strong></p>
-</li>
-</ol>
-<p>当使用sentinel模式的时候，客户端就不要直接连接Redis，而是连接sentinel的ip和port，由sentinel来提供具体的可提供服务的Redis实现，这样当master节点挂掉以后，sentinel就会感知并将新的master节点提供给使用者。</p>
-<h2 id="Cluster模式"><a href="#Cluster模式" class="headerlink" title="Cluster模式"></a>Cluster模式</h2><p>sentinel模式基本可以满足一般生产的需求，具备高可用性。但是当数据量过大到一台服务器存放不下的情况时，主从模式或sentinel模式就不能满足需求了，这个时候需要对存储的数据进行分片，将数据存储到多个Redis实例中。<strong>cluster模式的出现就是为了解决单机Redis容量有限的问题，将Redis的数据根据一定的规则分配到多台机器。</strong></p>
-<p><img src="/2020/08/30/Redis/clip_image008.png" alt="img"></p>
-<p>cluster可以说是sentinel和主从模式的结合体，通过cluster可以实现主从和master重选功能，所以如果配置两个副本三个分片的话，就需要六个Redis实例。因为Redis的数据是根据一定规则分配到cluster的不同机器的，当数据量过大时，可以新增机器进行扩容。</p>
-<p>根据官方推荐，集群部署至少要 3 台以上的master节点，最好使用 3 主 3 从六个节点的模式。使用集群，只需要将redis配置文件中的cluster-enable配置打开即可。每个集群中至少需要三个主数据库才能正常运行，新增节点非常方便。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#开启redis的集群模式</span></span><br><span class="line"></span><br><span class="line">cluster-enabled yes </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#配置集群模式下的配置文件</span></span><br><span class="line"></span><br><span class="line">cluster-config-file nodes-6379.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#集群内节点之间支持最长响应时间</span></span><br><span class="line"></span><br><span class="line">cluster-node-timeout 15000</span><br></pre></td></tr></table></figure>
-
-<h3 id="cluster集群特点："><a href="#cluster集群特点：" class="headerlink" title="cluster集群特点："></a>cluster集群特点：</h3><ol>
-<li><p>多个redis节点网络互联，数据共享</p>
-</li>
-<li><p><strong>所有的节点都是一主一从（也可以是一主多从），其中从不提供服务，仅作为备用</strong></p>
-</li>
-<li><p>不支持同时处理多个key（如MSET/MGET），因为redis需要把key均匀分布在各个节点上，</p>
-</li>
-<li><p>并发量很高的情况下同时创建key-value会降低性能并导致不可预测的行为</p>
-</li>
-<li><p>支持在线增加、删除节点</p>
-</li>
-<li><p>客户端可以连接任何一个主节点进行读写</p>
-</li>
-</ol>
-<h3 id="集群的工作方式"><a href="#集群的工作方式" class="headerlink" title="集群的工作方式"></a>集群的工作方式</h3><p>在 Redis 的每一个节点上，都有这么两个东西，一个是插槽（slot），它的的取值范围是：0-16383。还有一个就是cluster，可以理解为是一个集群管理的插件。<strong>当我们的存取的 Key到达的时候，Redis 会根据 crc16的算法得出一个结果，然后把结果对 16384 求余数，这样每个 key 都会对应一个编号在 0-16383 之间的哈希槽，通过这个值，去找到对应的插槽所对应的节点，然后直接自动跳转到这个对应的节点上进行存取操作。</strong></p>
-<p>为了保证高可用，redis-cluster集群引入了主从模式，一个主节点对应一个或者多个从节点，当主节点宕机的时候，就会启用从节点。当其它主节点ping一个主节点A时，如果半数以上的主节点与A通信超时，那么认为主节点A宕机了。如果主节点A和它的从节点A1都宕机了，那么该集群就无法再提供服务了。</p>
-<h3 id="数据分片"><a href="#数据分片" class="headerlink" title="数据分片"></a>数据分片</h3><p>Redis 集群使用数据分片（sharding）而非一致性哈希（consistency hashing）来实现： 一个 Redis 集群包含 16384 个哈希槽（hash slot）， 数据库中的每个键都属于这 16384 个哈希槽的其中一个， 集群使用公式 CRC16(key) % 16384 来计算键 key 属于哪个槽， 其中 CRC16(key) 语句用于计算键 key 的 CRC16 校验和 。</p>
-<p>集群中的每个节点负责处理一部分哈希槽。 举个例子， 一个集群可以有三个哈希槽， 其中：</p>
-<ul>
-<li>节点 A 负责处理 0 号至 5500 号哈希槽。</li>
-<li>节点 B 负责处理 5501 号至 11000 号哈希槽。</li>
-<li>节点 C 负责处理 11001 号至 16384 号哈希槽。</li>
-</ul>
-<p>这种将哈希槽分布到不同节点的做法使得用户可以很容易地向集群中添加或者删除节点。 比如说：</p>
-<p>我现在想设置一个key, 叫my_name:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> my_name zhangguoji</span><br></pre></td></tr></table></figure>
-
-<p>按照Redis Cluster的哈希槽算法，CRC16(‘my_name’)%16384 = 2412 那么这个key就被分配到了节点A上</p>
-<p>同样的，当我连接(A,B,C)的任意一个节点想获取my_name这个key,都会转到节点A上</p>
-<p>再比如</p>
-<p><strong>如果用户将新节点 D 添加到集群中， 那么集群只需要将节点 A 、B 、 C 中的某些槽移动到节点 D 就可以了。</strong></p>
-<p>增加一个D节点的结果可能如下：</p>
-<ul>
-<li>节点A覆盖1365-5460</li>
-<li>节点B覆盖6827-10922</li>
-<li>节点C覆盖12288-16383</li>
-<li>节点D覆盖0-1364,5461-6826,10923-1228</li>
-</ul>
-<p>与此类似， <strong>如果用户要从集群中移除节点 A ， 那么集群只需要将节点 A 中的所有哈希槽移动到节点 B 和节点 C ， 然后再移除空白（不包含任何哈希槽）的节点 A 就可以了。</strong></p>
-<p>因为将一个哈希槽从一个节点移动到另一个节点不会造成节点阻塞， 所以无论是添加新节点还是移除已存在节点， 又或者改变某个节点包含的哈希槽数量， 都不会造成集群下线。</p>
-<h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><h2 id="setnx"><a href="#setnx" class="headerlink" title="setnx"></a>setnx</h2><p>其实目前通常所说的setnx命令，并非单指redis的setnx key value这条命令。</p>
-<p>一般代指redis中对set命令加上nx参数进行使用， set这个命令，目前已经支持这么多参数可选：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET key value [EX seconds|PX milliseconds] [NX|XX] [KEEPTTL]</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/08/30/Redis/clip_image002-1598592216138.jpg" alt="img"></p>
-<p>上图是笔者画的setnx大致原理，主要依托了它的key不存在才能set成功的特性，进程A拿到锁，在没有删除锁的Key时，进程B自然获取锁就失败了。</p>
-<p>那么为什么要使用PX 30000去设置一个超时时间？</p>
-<p>是怕进程A不讲道理啊，锁没等释放呢，万一崩了，直接原地把锁带走了，导致系统中谁也拿不到锁。</p>
-<p>就算这样，还是不能保证万无一失。</p>
-<p>如果进程A又不讲道理，操作锁内资源超过笔者设置的超时时间，那么就会导致其他进程拿到锁，等进程A回来了，回手就是把其他进程的锁删了，如图：</p>
-<p><img src="/2020/08/30/Redis/clip_image004.jpg" alt="img"></p>
-<p>还是刚才那张图，将T5时刻改成了锁超时，被redis释放。</p>
-<p>进程B在T6开开心心拿到锁不到一会，进程A操作完成，回手一个del，就把锁释放了。</p>
-<p>当进程B操作完成，去释放锁的时候（图中T8时刻）：找不到锁</p>
-<p>找不到锁其实还算好的，万一T7时刻有个进程C过来加锁成功，那么进程B就把进程C的锁释放了。</p>
-<p>以此类推，进程C可能释放进程D的锁，进程D….(禁止套娃)，具体什么后果就不得而知了。</p>
-<p>所以在用setnx的时候，key虽然是主要作用，但是value也不能闲着，可以设置一个唯一的客户端ID，或者用UUID这种随机数。</p>
-<p>当解锁的时候，先获取value判断是否是当前进程加的锁，再去删除。伪代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">String uuid = xxxx;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 伪代码，具体实现看项目中用的连接工具</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 有的提供的方法名为set 有的叫setIfAbsent</span></span><br><span class="line"></span><br><span class="line">set Test uuid NX PX <span class="number">3000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// biz handle....</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// unlock</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(uuid.equals(redisTool.get(<span class="string">&#x27;Test&#x27;</span>))&#123;</span><br><span class="line"></span><br><span class="line">	redisTool.del(<span class="string">&#x27;Test&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这回看起来是不是稳了。</p>
-<p>相反，这回的问题更明显了，在finally代码块中，get和del并非原子操作，还是有进程安全问题。</p>
-<p>为什么有问题还说这么多呢？</p>
-<p>第一，搞清劣势所在，才能更好的完善。</p>
-<p>第二点，其实上文中最后这段代码，还是有很多公司在用的。</p>
-<p>那么删除锁的正确姿势之一，就是可以使用lua脚本，通过redis的eval/evalsha命令来运行：</p>
-<ul>
-<li>– lua删除锁：</li>
-<li>– KEYS和ARGV分别是以集合方式传入的参数，对应上文的Test和uuid。</li>
-<li>– 如果对应的value等于传入的uuid。</li>
-</ul>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> redis.call(<span class="string">&#x27;get&#x27;</span>, KEYS[<span class="number">1</span>]) == ARGV[<span class="number">1</span>] </span><br><span class="line">  <span class="keyword">then</span> </span><br><span class="line">    <span class="comment">-- 执行删除操作</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> redis.call(<span class="string">&#x27;del&#x27;</span>, KEYS[<span class="number">1</span>]) </span><br><span class="line"></span><br><span class="line">  <span class="keyword">else</span> </span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 不成功，返回0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span> </span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>通过lua脚本能保证原子性的原因说的通俗一点：</p>
-<p>就算你在lua里写出花，执行也是一个命令(eval/evalsha)去执行的，一条命令没执行完，其他客户端是看不到的。</p>
-<p>那么既然这么麻烦，有没有比较好的工具呢？ 就要说到redisson了。</p>
-<h2 id="redisson"><a href="#redisson" class="headerlink" title="redisson"></a>redisson</h2><p>介绍redisson之前，笔者简单解释一下为什么现在的setnx默认是指set命令带上nx参数，而不是直接说是setnx这个命令。</p>
-<p>因为redis版本在2.6.12之前，set是不支持nx参数的，如果想要完成一个锁，那么需要两条命令：</p>
-<ol>
-<li><p>setnx Test uuid</p>
-</li>
-<li><p>expire Test 30</p>
-</li>
-</ol>
-<p>即放入Key和设置有效期，是分开的两步，理论上会出现1刚执行完，程序挂掉，无法保证原子性。</p>
-<p>但是早在2013年，也就是7年前，Redis就发布了2.6.12版本，并且官网(set命令页)，也早早就说明了“SETNX, SETEX, PSETEX可能在未来的版本中，会弃用并永久删除”。</p>
-<p>笔者曾阅读过一位大佬的文章，其中就有一句指导入门者的面试小套路，具体文字忘记了，大概意思如下：</p>
-<p>说到redis锁的时候，可以先从setnx讲起，最后慢慢引出set命令的可以加参数，可以体现出自己的知识面。</p>
-<p>如果有缘你也阅读过这篇文章，并且学到了这个套路，作为本文的笔者我要加一句提醒：</p>
-<p>请注意你的工作年限！首先回答官网表明即将废弃的命令，再引出set命令七年前的“新特性”，如果是刚毕业不久的人这么说，面试官会以为自己穿越了。</p>
-<p><strong>Redisson是java的redis客户端之一，提供了一些api方便操作redis。</strong></p>
-<p>Redisson普通的锁实现源码主要是RedissonLock这个类，还没有看过它源码的盆友，不妨去瞧一瞧。</p>
-<p>源码中加锁/释放锁操作都是用lua脚本完成的，封装的非常完善，开箱即用。</p>
-<p>这里有个小细节，加锁使用setnx就能实现，也采用lua脚本是不是多此一举？ 笔者也非常严谨的思考了一下：这么厉害的东西哪能写废代码？</p>
-<p>其实笔者仔细看了一下，加锁解锁的lua脚本考虑的非常全面，其中就包括锁的重入性，这点可以说是考虑非常周全</p>
-<h2 id="RedLock"><a href="#RedLock" class="headerlink" title="RedLock"></a>RedLock</h2><p>redLock的中文是直译过来的，就叫红锁。</p>
-<p>红锁并非是一个工具，而是redis官方提出的一种分布式锁的算法。</p>
-<p>就在刚刚介绍完的redisson中，就实现了redLock版本的锁。也就是说除了getLock方法，还有getRedLock方法。</p>
-<p><img src="/2020/08/30/Redis/clip_image006.jpg" alt="img"></p>
-<p>如果你不熟悉redis高可用部署，那么没关系。redLock算法虽然是需要多个实例，但是这些实例都是独自部署的，没有主从关系。</p>
-<p>RedLock作者指出，之所以要用独立的，是避免了redis异步复制造成的锁丢失，比如：主节点没来的及把刚刚set进来这条数据给从节点，就挂了。</p>
-<p>有些人是不是觉得大佬们都是杠精啊，天天就想着极端情况。 其实高可用嘛，拼的就是99.999…% 中小数点后面的位数。</p>
-<p>回到上面那张简陋的图片，<strong>红锁算法认为，只要(N/2) + 1个节点加锁成功，那么就认为获取了锁， 解锁时将所有实例解锁。</strong> 流程为：</p>
-<ol>
-<li><p>顺序向五个节点请求加锁</p>
-</li>
-<li><p>根据一定的超时时间来推断是不是跳过该节点</p>
-</li>
-<li><p>三个节点加锁成功并且花费时间小于锁的有效期</p>
-</li>
-<li><p>认定加锁成功</p>
-</li>
-</ol>
-<p>也就是说，假设锁30秒过期，三个节点加锁花了31秒，自然是加锁失败了。</p>
-<p>这只是举个例子，实际上并不应该等每个节点那么长时间，就像官网所说的那样，假设有效期是10秒，那么单个redis实例操作超时时间，应该在5到50毫秒(注意时间单位)</p>
-<p>还是假设我们设置有效期是30秒，图中超时了两个redis节点。</p>
-<p>那么加锁成功的节点总共花费了3秒，所以锁的实际有效期是小于27秒的。</p>
-<p>即扣除加锁成功三个实例的3秒，还要扣除等待超时redis实例的总共时间。</p>
-<h1 id="缓存问题"><a href="#缓存问题" class="headerlink" title="缓存问题"></a>缓存问题</h1><ol>
-<li><p>缓存雪崩：大面积key过期导致大量请求直接打到db，db挂了。解决：设置过期时间加随机时间</p>
-</li>
-<li><p>缓存穿透：就是要查询的东西，redis和数据库都没有，那么这样的请求一样是直接打到db了，量上来，一样要挂。解决：要做好入仓检查</p>
-</li>
-<li><p>缓存击穿：热点缓存的key突然失效了，也会导致大量请求直接打到db，那么将key的时间设置长一点或者设为永久。</p>
-</li>
-</ol>
-<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩:"></a>缓存雪崩:</h2><p>现象: 影响轻则，查询变慢，重则当请求并发更高时，出来大面积服务不可用。</p>
-<p>原因：同一时间缓存大面积失效，就像没有缓存一样，所有的请求直接打到数据库上来，DB扛不住挂了，如果是重要的库，例如用户库，那牵联就一大片了，瞬间倒一片。</p>
-<p>案例: 电商首页缓存，如果首页的key全部都在某一时刻失效，刚好在那一时刻有秒杀活动，那这样的话就所有的请求都被打到了DB。并发大的情况下DB必然扛不住，没有其他降级之类的方案的话，DBA也只能重启DB，但是这样又会被新的流量搞挂。</p>
-<p><strong>解决方案：</strong></p>
-<p><strong>批量往redis存数据的时候，把每个key的失效时间加上个随机数，这样的话就能保证数据不会在同一个时间大面积失效。</strong></p>
-<h2 id="缓存穿透："><a href="#缓存穿透：" class="headerlink" title="缓存穿透："></a>缓存穿透：</h2><p>现象与原因：就是指用户不断发起请求的数据，<strong>在缓存和DB中都没有</strong>，比如DB中的用户ID是自增的，但是用户请求传了-1，或者是一个特别大的数字，这个时候用户很有可能就是一个攻击者，这样的功击会导致DB的压力过大，严重的话就是把DB搞挂了。因为每次都绕开了缓存直接查询DB</p>
-<p>解决方案：</p>
-<ol>
-<li><strong>在接口层增加校验，不合法的参数直接返回。</strong>不相信任务调用方，根据自己提供的API接口规范来，作为被调用方，要考虑可能任何的参数传值。</li>
-<li><strong>在缓存查不到，DB中也没有的情况，可以将对应的key的value写为null，或者其他特殊值写入缓存，同时将过期失效时间设置短一点，以免影响正常情况。</strong>这样是可以防止反复用同一个ID来暴力攻击。</li>
-<li>正常用户是不会这样暴力功击，只有是恶意者才会这样做，可以<strong>在网关NG作一个配置项，为每一个IP设置访问阀值</strong>。</li>
-<li><strong>高级用户布隆过滤器（Bloom Filter),这个也能很好地防止缓存穿透</strong>。原理就是利用高效的数据结构和算法快速判断出你这个Key是否在DB中存在，不存在你return就好了，存在你就去查了DB刷新KV再return。</li>
-</ol>
-<h2 id="缓存击穿："><a href="#缓存击穿：" class="headerlink" title="缓存击穿："></a>缓存击穿：</h2><p>现象与原因：跟缓存雪崩类似，但是又有点不一样。雪崩是因为大面积缓存失效，请求全打到DB；而缓存击穿是<strong>指一个key是热点，不停地扛住大并发请求，全都集中访问此key,而当此key过期瞬间，持续的大并发就击穿缓存，全都打在DB上。</strong>就又引发雪崩的问题。</p>
-<p>解决方案：</p>
-<p><strong>设置热点key不过期。或者加上互斥锁。</strong></p>
-<h2 id="BloomFilter"><a href="#BloomFilter" class="headerlink" title="BloomFilter"></a>BloomFilter</h2><p><strong>布隆过滤器的原理是，当一个元素被加入集合时，通过K个散列函数将这个元素映射成一个位数组中的K个点，把它们置为1。检索时，我们只要看看这些点是不是都是1就（大约）知道集合中有没有它了：如果这些点有任何一个0，则被检元素一定不在；如果都是1，则被检元素很可能在。这就是布隆过滤器的基本思想。</strong></p>
-<p>Bloom Filter跟单哈希函数Bit-Map不同之处在于：Bloom Filter使用了k个哈希函数，每个字符串跟k个bit对应。从而降低了冲突的概率</p>
-<p><img src="/2020/08/30/Redis/clip_image002-1598598031651.png" alt="img"></p>
-<p>布隆过滤器说某个元素在，可能会被误判。</p>
-<p>布隆过滤器说某个元素不在，那么一定不在。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/30/Redis/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

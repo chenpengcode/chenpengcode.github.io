@@ -22,15 +22,15 @@
     var CONFIG = {"hostname":"chenpengcode.github.io","root":"/","scheme":"Gemini","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="String Strings 是最基本的key-value类型，一个 key 对应一个 value，value 最大不能超过512M. string 类型是二进制安全的  字符串类型实际上可以是字符串（简单的字符串、复杂的字符串（xml、json）、数字（整数、浮点数）、二进制（图片、音频、视频). 应用场景 缓存功能：字符串最经典的使用场景，redis最为缓存层，Mysql作为储存层，绝大部分请">
+  <meta name="description" content="String Strings 是最基本的key-value类型，一个 key 对应一个 value，value 最大不能超过512M. string 类型是二进制安全的  字符串类型实际上可以是字符串（简单的字符串、复杂的字符串（xml、json）、数字（整数、浮点数）、二进制（图片、音频、视频).">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis数据类型">
 <meta property="og:url" content="http://chenpengcode.github.io/2020/08/31/Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
 <meta property="og:site_name" content="耳朵大侠">
-<meta property="og:description" content="String Strings 是最基本的key-value类型，一个 key 对应一个 value，value 最大不能超过512M. string 类型是二进制安全的  字符串类型实际上可以是字符串（简单的字符串、复杂的字符串（xml、json）、数字（整数、浮点数）、二进制（图片、音频、视频). 应用场景 缓存功能：字符串最经典的使用场景，redis最为缓存层，Mysql作为储存层，绝大部分请">
+<meta property="og:description" content="String Strings 是最基本的key-value类型，一个 key 对应一个 value，value 最大不能超过512M. string 类型是二进制安全的  字符串类型实际上可以是字符串（简单的字符串、复杂的字符串（xml、json）、数字（整数、浮点数）、二进制（图片、音频、视频).">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-08-31T06:22:20.000Z">
-<meta property="article:modified_time" content="2020-08-31T06:45:37.778Z">
+<meta property="article:modified_time" content="2020-09-09T03:07:49.111Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="缓存">
@@ -283,10 +283,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2020-08-31 14:22:20 / 修改时间：14:45:37" itemprop="dateCreated datePublished" datetime="2020-08-31T14:22:20+08:00">2020-08-31</time>
+      <time title="创建时间：2020-08-31 14:22:20" itemprop="dateCreated datePublished" datetime="2020-08-31T14:22:20+08:00">2020-08-31</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-09-09 11:07:49" itemprop="dateModified" datetime="2020-09-09T11:07:49+08:00">2020-09-09</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -336,6 +342,8 @@
 <li><strong>string 类型是二进制安全的</strong></li>
 </ul>
 <p>字符串类型实际上可以是字符串（简单的字符串、复杂的字符串（xml、json）、数字（整数、浮点数）、二进制（图片、音频、视频).</p>
+<a id="more"></a>
+
 <h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ol>
 <li><p><strong>缓存功能</strong>：<strong>字符串最经典的使用场景，redis最为缓存层，Mysql作为储存层，</strong>绝大部分请求数据都是redis中获取，由于redis具有支撑高并发特性，所以缓存通常能起到加速读写和降低后端压力的作用。</p>
 </li>
