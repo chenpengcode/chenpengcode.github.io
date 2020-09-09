@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"chenpengcode.github.io","root":"/","scheme":"Gemini","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="IterableCollection 接口中继承 Iterable 接口。这个接口为 for each 循环设计、接口方法中有返回Iterator对象 12345678910111213141516public interface Iterable&lt;T&gt; &amp;#123;    Iterator&lt;T&gt; iterator();    default void forEach(">
+  <meta name="description" content="Collection和Map&lt;K,V&gt;是java.util框架中的两个根接口，代表了两种不同的数据结构：集合和映射表。而List、Set则是继承自Collection下最核心的两个接口，List有序可重复并可以通过整数索引来访问，Set不包含重复元素。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java集合">
 <meta property="og:url" content="http://chenpengcode.github.io/2020/09/03/Java%E9%9B%86%E5%90%88/index.html">
 <meta property="og:site_name" content="耳朵大侠">
-<meta property="og:description" content="IterableCollection 接口中继承 Iterable 接口。这个接口为 for each 循环设计、接口方法中有返回Iterator对象 12345678910111213141516public interface Iterable&lt;T&gt; &amp;#123;    Iterator&lt;T&gt; iterator();    default void forEach(">
+<meta property="og:description" content="Collection和Map&lt;K,V&gt;是java.util框架中的两个根接口，代表了两种不同的数据结构：集合和映射表。而List、Set则是继承自Collection下最核心的两个接口，List有序可重复并可以通过整数索引来访问，Set不包含重复元素。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/03/Java%E9%9B%86%E5%90%88/17329d0f3d7f91a3">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/03/Java%E9%9B%86%E5%90%88/17329d0f3db3c82a">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/03/Java%E9%9B%86%E5%90%88/17329d0f6c1067fa">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/03/Java%E9%9B%86%E5%90%88/17329d0f71b1f1fd">
 <meta property="article:published_time" content="2020-09-02T16:04:06.000Z">
-<meta property="article:modified_time" content="2020-09-02T16:41:03.716Z">
+<meta property="article:modified_time" content="2020-09-09T01:19:50.112Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JavaSE">
@@ -210,7 +210,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -293,10 +293,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2020-09-03 00:04:06 / 修改时间：00:41:03" itemprop="dateCreated datePublished" datetime="2020-09-03T00:04:06+08:00">2020-09-03</time>
+      <time title="创建时间：2020-09-03 00:04:06" itemprop="dateCreated datePublished" datetime="2020-09-03T00:04:06+08:00">2020-09-03</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-09-09 09:19:50" itemprop="dateModified" datetime="2020-09-09T09:19:50+08:00">2020-09-09</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -323,7 +329,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>8.3k</span>
+      <span>8.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -343,6 +349,11 @@
     <div class="post-body" itemprop="articleBody">
         <p><img src="/2020/09/03/Java%E9%9B%86%E5%90%88/17329d0f3d7f91a3" alt="img"></p>
 <p><img src="/2020/09/03/Java%E9%9B%86%E5%90%88/17329d0f3db3c82a" alt="img"></p>
+<p>Collection<E>和Map&lt;K,V&gt;是java.util框架中的两个根接口，代表了两种不同的数据结构：集合和映射表。而List<E>、Set<E>则是继承自Collection<E>下最核心的两个接口，List<E>有序可重复并可以通过整数索引来访问，Set<E>不包含重复元素。</E></E></E></E></E></E></p>
+<a id="more"></a>
+
+
+
 <h2 id="Iterable"><a href="#Iterable" class="headerlink" title="Iterable"></a>Iterable</h2><p>Collection 接口中继承 Iterable 接口。这个接口为 for each 循环设计、接口方法中有返回Iterator对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">forEach</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> T&gt; action)</span> </span>&#123;</span><br><span class="line">        Objects.requireNonNull(action);</span><br><span class="line">        <span class="keyword">for</span> (T t : <span class="keyword">this</span>) &#123;</span><br><span class="line">            action.accept(t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> Spliterator&lt;T&gt; <span class="title">spliterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Spliterators.spliteratorUnknownSize(iterator(), <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -414,7 +425,7 @@
 </ul>
 <h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><p>HashMap 是数组+链表+红黑树（JDK1.8增加了红黑树部分）实现的，如下如所示。</p>
 <p><img src="/2020/09/03/Java%E9%9B%86%E5%90%88/17329d0f3e969b68" alt="img"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br><span class="line"><span class="comment">// 实际存储的 key-value 的数量</span></span><br><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> size;</span><br><span class="line"><span class="comment">// 阈值、当存放在 table 中的 key-value 大于这个值的时候需要进行扩容</span></span><br><span class="line"><span class="keyword">int</span> threshold;</span><br><span class="line"><span class="comment">// 负载因子 因为 threshold = loadFactor * table.length</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">float</span> loadFactor;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br><span class="line"><span class="comment">// 实际存储的 key-value 的数量</span></span><br><span class="line"><span class="keyword">transient</span> <span class="keyword">int</span> size;</span><br><span class="line"><span class="comment">// 阈值、当存放在 table 中的 key-value 大于这个值的时候需要进行扩容</span></span><br><span class="line"><span class="keyword">int</span> threshold;</span><br><span class="line"><span class="comment">// 负载因子 因为 threshold = loadFactor * table.length</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">float</span> loadFactor;</span><br></pre></td></tr></table></figure>
 
 <p>table 的长度默认是 16 、loadFactor 的默认值是 0.75</p>
 <p>继续看看 Node 的数据结构</p>
@@ -554,14 +565,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">246k</span>
+    <span title="站点总字数">255k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">3:44</span>
+    <span title="站点阅读时长">3:52</span>
   </span>
 </div>
 
