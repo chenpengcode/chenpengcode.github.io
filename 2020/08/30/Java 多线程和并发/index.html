@@ -24,39 +24,39 @@
 
   <meta name="description" content="线程创建继承Thread类学习：查看jdk帮助文档">
 <meta property="og:type" content="article">
-<meta property="og:title" content="多线程和并发">
-<meta property="og:url" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/index.html">
+<meta property="og:title" content="Java 多线程和并发">
+<meta property="og:url" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/index.html">
 <meta property="og:site_name" content="耳朵大侠">
 <meta property="og:description" content="线程创建继承Thread类学习：查看jdk帮助文档">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826110232835.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826114131507.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826121009923.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598415864462.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416040064.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416150861.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416150862.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201771.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826154846579.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/20180127143333280">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/ThreadPoolExecutor.png">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826173240906.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826110232835.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826114131507.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826121009923.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598415864462.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416040064.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416150861.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416150862.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201771.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826154846579.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/20180127143333280">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/ThreadPoolExecutor.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826173240906.png">
 <meta property="article:published_time" content="2020-08-30T02:22:16.000Z">
-<meta property="article:modified_time" content="2020-09-09T03:05:59.515Z">
+<meta property="article:modified_time" content="2020-10-16T10:57:38.473Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="操作系统">
 <meta property="article:tag" content="多线程">
 <meta property="article:tag" content="并发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826110232835.png">
+<meta name="twitter:image" content="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826110232835.png">
 
 
-<link rel="canonical" href="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/">
+<link rel="canonical" href="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/">
 
 
 <script class="page-configurations">
@@ -69,7 +69,7 @@
   };
 </script>
 
-  <title>多线程和并发 | 耳朵大侠</title>
+  <title>Java 多线程和并发 | 耳朵大侠</title>
   
 
 
@@ -275,7 +275,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/duck.jpg">
@@ -291,7 +291,7 @@
     
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          多线程和并发
+          Java 多线程和并发
         </h1>
 
         <div class="post-meta-container">
@@ -309,7 +309,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-09-09 11:05:59" itemprop="dateModified" datetime="2020-09-09T11:05:59+08:00">2020-09-09</time>
+        <time title="修改时间：2020-10-16 18:57:38" itemprop="dateModified" datetime="2020-10-16T18:57:38+08:00">2020-10-16</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -427,7 +427,7 @@
 <li>限期等待 TIMED_WAITING：有条件的等待，当线程调用sleep(睡眠时间)/wait(等待时间)/join(等待时间)/ LockSupport.parkNanos(等待时间)/LockSupport.parkUntil(等待时间)方法之后所处的状态，在指定的时间没有被唤醒或者等待线程没有结束，会被系统自动唤醒，正常退出。</li>
 <li>TERMINATED：执行完了run()方法。</li>
 </ol>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826110232835.png" alt="image-20200826110232835"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826110232835.png" alt="image-20200826110232835"></p>
 <h3 id="wait方法"><a href="#wait方法" class="headerlink" title="wait方法"></a>wait方法</h3><ol>
 <li>wait()方法的作用是将当前运行的线程挂起（即让其进入阻塞状态），直到notify或notifyAll方法来唤醒线程.</li>
 <li>wait(long timeout)，该方法与wait()方法类似，唯一的区别就是在指定时间内，如果没有notify或notifAll方法的唤醒，也会自动唤醒。</li>
@@ -457,7 +457,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo07</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>利用javap -verbose 反编译查看生成的class文件信息来分析Synchronize的实现</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826114131507.png" alt="image-20200826114131507"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826114131507.png" alt="image-20200826114131507"></p>
 <p>Synchronized的语义底层是通过一个monitor的对象来完成，其实wait/notify等方法也依赖于monitor对象，这就是为什么只有在同步的块或者方法中才能调用wait/notify等方法，否则会抛出java.lang.IllegalMonitorStateException的异常的原因。</p>
 <p><strong>从反编译的结果来看，方法的同步并没有通过指令monitorenter和monitorexit来完成，不过相对于普通方法，其常量池中多了ACC_SYNCHRONIZED标示符。JVM就是根据该标示符来实现方法的同步的：当方法调用时，调用指令将会检查方法的 ACC_SYNCHRONIZED 访问标志是否被设置，如果设置了，执行线程将先获取monitor，获取成功之后才能执行方法体，方法执行完后再释放monitor。在方法执行期间，其他任何线程都无法再获得同一个monitor对象。 其实本质上没有区别，只是方法的同步是一种隐式的方式来实现，无需通过字节码来完成。</strong></p>
 <h3 id="Java对象头"><a href="#Java对象头" class="headerlink" title="Java对象头"></a>Java对象头</h3><p>Java对象头一般占有两个机器码，但是如果对象是数组类型，则需要三个机器码，因为JVM虚拟机可以通过Java对象的元数据信息确定Java对象的大小，但是无法从数组的元数据来确认数组的大小，所以用一块来记录数组长度。下图是Java对象头的存储结构（32位虚拟机）：</p>
@@ -520,7 +520,7 @@
 <li>ptr_to_heavyweight_monitor：指向管程Monitor的指针。</li>
 </ul>
 <h3 id="Monitor"><a href="#Monitor" class="headerlink" title="Monitor"></a>Monitor</h3><p>我们可以把它理解为一个同步工具，也可以描述为一种同步机制，它通常被描述为一个对象。 与一切皆对象一样，所有的Java对象是天生的Monitor，每一个Java对象都有成为Monitor的潜质，因为在Java的设计中 ，每一个Java对象自打娘胎里出来就带了一把看不见的锁，它叫做内部锁或者Monitor锁。 Monitor 是线程私有的数据结构，每一个线程都有一个可用monitor record列表，同时还有一个全局的可用列表。每一个被锁住的对象都会和一个monitor关联（对象头的MarkWord中的LockWord指向monitor的起始地址），同时monitor中有一个Owner字段存放拥有该锁的线程的唯一标识，表示该锁被这个线程占用。其结构如下：</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826121009923.png" alt="image-20200826121009923"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826121009923.png" alt="image-20200826121009923"></p>
 <ol>
 <li>Owner：初始时为NULL表示当前没有任何线程拥有该monitor record，当线程成功拥有该锁后保存线程唯一标识，当锁被释放时又设置为NULL；</li>
 <li>EntryQ:关联一个系统互斥锁（semaphore），阻塞所有试图锁住monitor record失败的线程。</li>
@@ -581,7 +581,7 @@
 </li>
 </ol>
 <p>对于轻量级锁，<strong>其性能提升的依据是“对于绝大部分的锁，在整个生命周期内都是不会存在竞争的”</strong>，如果打破这个依据则除了互斥的开销外，还有额外的CAS操作，因此在有多线程竞争的情况下，轻量级锁比重量级锁更慢；</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard.png" alt="img"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard.png" alt="img"></p>
 <h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p>引入偏向锁主要目的是：<strong>为了在无多线程竞争的情况下尽量减少不必要的轻量级锁执行路径。</strong></p>
 <p>大多数情况下锁不仅不存在多线程竞争，而且总是由同一线程多次获得，为了让线程获得锁的代价更低而引入了偏向锁，减少不必要的CAS操作。只需要检查是否为偏向锁、锁标识为以及ThreadID即可，处理流程如下：</p>
 <p><strong>获取锁</strong></p>
@@ -603,7 +603,7 @@
 <li><p>暂停拥有偏向锁的线程，判断锁对象是否还处于被锁定状态；</p>
 </li>
 <li><p>撤销偏向锁，恢复到无锁状态（01）或者轻量级锁的状态；</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598415864462.png" alt="img"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598415864462.png" alt="img"></p>
 </li>
 </ol>
 <h3 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h3><p>重量级锁通过对象内部的监视器（monitor）实现，<strong>其中monitor的本质是依赖于底层操作系统的Mutex Lock实现</strong>，操作系统实现线程之间的切换需要从用户态到内核态的切换，切换成本非常高。</p>
@@ -639,7 +639,7 @@
 <p><strong>Java编程语言允许线程访问共享变量，为了确保共享变量能被准确和一致地更新，线程应该确保通过排他锁单独获得这个变量。</strong></p>
 <p>一个变量如果用volatile修饰了，则<strong>Java可以确保所有线程看到这个变量的值是一致的，如果某个线程对volatile修饰的共享变量进行更新，那么其他线程可以立马看到这个更新，这就是线程可见性。</strong></p>
 <h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p><strong>死锁是指两个或两个以上的进程在执行过程中，由于竞争资源或者由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去</strong>。此时称系统处于死锁状态或系统产生了死锁，这些永远在<strong>互相等待的进程称为死锁进程</strong>。</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416040064.png" alt="img"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416040064.png" alt="img"></p>
 <p><strong>死锁产生的必要条件</strong></p>
 <ul>
 <li><strong>互斥条件：任意时刻一个资源只能给一个进程使用</strong>，其他进程若申请一个资源，而该资源被另一进程占有时，则申请者等待直到资源被占有者释放。</li>
@@ -652,23 +652,23 @@
 <li><strong>使用 jps + jstack</strong></li>
 </ul>
 <p>在windons命令窗口，使用jps -l</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416150861.png" alt="img"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416150861.png" alt="img"></p>
 <p>使用 jstack -l 12316</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416150862.png" alt="img"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416150862.png" alt="img"></p>
 <ul>
 <li><strong>使用jconsole</strong></li>
 </ul>
 <p>在windons命令窗口 ，输出JConsole</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201771.png" alt="img"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201771.png" alt="img"></p>
 <p>选择到线程的tab上</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png" alt="img"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png" alt="img"></p>
 <ul>
 <li><strong>使用Java Visual VM</strong></li>
 </ul>
 <p>在windons命令窗口 ，输出 jvisualvm</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png" alt="img"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png" alt="img"></p>
 <p>依然是切换到线程这个TAB上，很明显的就有提示！</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png" alt="img"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/clipboard-1598416201772.png" alt="img"></p>
 <p>如果一个变量使用volatile，则它比使用synchronized的成本更加低，因为它不会引起线程上下文的切换和调度。Java语言规范对volatile的定义如下：</p>
 <p><strong>Java编程语言允许线程访问共享变量，为了确保共享变量能被准确和一致地更新，线程应该确保通过排他锁单独获得这个变量。</strong></p>
 <p>一个变量如果用volatile修饰了，则<strong>Java可以确保所有线程看到这个变量的值是一致的，如果某个线程对volatile修饰的共享变量进行更新，那么其他线程可以立马看到这个更新，这就是线程可见性。</strong></p>
@@ -688,7 +688,7 @@
 </ol>
 <p>方案1存在一个问题，它是采用一种独占的方式来实现的，即总线加LOCK#锁的话，只能有一个CPU能够运行，其他CPU都得阻塞，效率较为低下。</p>
 <p><strong>第二种方案，缓存一致性协议（MESI协议）它确保每个缓存中使用的共享变量的副本是一致的。其核心思想如下：当某个CPU在写数据时，如果发现操作的变量是共享变量，则会通知其他CPU告知该变量的缓存行是无效的，因此其他CPU在读取该变量时，发现其无效会重新从主存中加载数据。</strong></p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826154846579.png" alt="image-20200826154846579"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826154846579.png" alt="image-20200826154846579"></p>
 <h3 id="JMM可见性"><a href="#JMM可见性" class="headerlink" title="JMM可见性"></a>JMM可见性</h3><ul>
 <li><strong>Java提供了volatile来保证可见性。 当一个变量被volatile修饰后，表示着线程本地内存无效，当一个线程修改共享变量后他会立即被更新到主内存中，当其他线程读取共享变量时，它会直接从主内存中读取。</strong></li>
 </ul>
@@ -720,7 +720,7 @@
 <h2 id="Lock锁"><a href="#Lock锁" class="headerlink" title="Lock锁"></a>Lock锁</h2><p>Sychronized存在的问题：那么如果这个获取锁的线程由于要等待IO或者其他原因（比如调用sleep方法）被阻塞了，但是又没有释放锁，其他线程便只能干巴巴地等待，试想一下，这多么影响程序执行效率。</p>
 <p>为了更清晰的表达如何加锁和释放锁，从Java5开始提供了一个新的锁对象Lock</p>
 <p><strong>java.util.concurrent.locks</strong>包为锁和等待条件提供一个框架的接口和类，结构如下图所示。</p>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/20180127143333280" alt="这里写图片描述"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/20180127143333280" alt="这里写图片描述"></p>
 <p><strong>Lock和ReadWriteLock是两大锁根接口，Lock代表实现类是ReentrantLock（可重入锁），ReadWriteLock（读写锁）的代表实现类是ReentrantReadWriteLock。</strong></p>
 <ul>
 <li>Lock 接口支持那些语义不同（重入、公平等）的锁规则，可以在非阻塞式结构的上下文（包括 hand-over-hand 和锁重排算法）中使用这些规则。主要的实现是 ReentrantLock。</li>
@@ -749,7 +749,7 @@
 <li><p><strong>重复利用。</strong> 线程用完，再放回池子，可以达到重复利用的效果，节省资源。</p>
 </li>
 </ol>
-<p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/ThreadPoolExecutor.png" alt="ThreadPoolExecutor"></p>
+<p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/ThreadPoolExecutor.png" alt="ThreadPoolExecutor"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">int</span> maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">long</span> keepAliveTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                          TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                          BlockingQueue&lt;Runnable&gt; workQueue,</span></span></span><br><span class="line"><span class="function"><span class="params">                          ThreadFactory threadFactory,</span></span></span><br><span class="line"><span class="function"><span class="params">                          RejectedExecutionHandler handler)</span></span></span><br></pre></td></tr></table></figure>
 
 <p>参数说明：</p>
@@ -799,7 +799,7 @@
 <li>它采用DelayQueue存储等待的任务；DelayQueue内部封装了一个PriorityQueue，它会根据time的先后时间排序，若time相同则根据sequenceNumber排序；DelayQueue也是一个无界队列；</li>
 <li>工作线程的执行过程：<br>a)    工作线程会从DelayQueue取已经到期的任务去执行；<br>b)    执行结束后重新设置任务的到期时间，再次放回DelayQueue</li>
 </ol>
-<h3 id="线程池的处理流程"><a href="#线程池的处理流程" class="headerlink" title="线程池的处理流程"></a>线程池的处理流程</h3><p><img src="/2020/08/30/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826173240906.png" alt="image-20200826173240906"></p>
+<h3 id="线程池的处理流程"><a href="#线程池的处理流程" class="headerlink" title="线程池的处理流程"></a>线程池的处理流程</h3><p><img src="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/image-20200826173240906.png" alt="image-20200826173240906"></p>
 <ol>
 <li><p>线程池判断核心线程池里是的线程是否都在执行任务，如果不是，则创建一个新的工作线程来执行任务。如果核心线程池里的线程都在执行任务，则进入下一个流程</p>
 </li>
