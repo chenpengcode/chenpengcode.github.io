@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chenpengcode.github.io","root":"/","scheme":"Gemini","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="索引是存储引擎用于快速找到记录的一种数据结构. 索引的目的在于提高查询效率，这个过程可以类比查字典。 索引本质上是独立的索引文件，里面按照特定的顺序（一般采用B+树结构）记录了数据字段（A,B）和实际数据存储位置 在没有索引的时候，如果要查询某个字段&#x3D;值，则需要遍历所有实际数据，然后和字段对比，也就是全表扫描 然而在拥有索引的时候，则不需要查询原始数据，只需要查询索引文件，分别查询出A和B匹配的记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL索引">
+<meta property="og:url" content="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/index.html">
+<meta property="og:site_name" content="耳朵大侠">
+<meta property="og:description" content="索引是存储引擎用于快速找到记录的一种数据结构. 索引的目的在于提高查询效率，这个过程可以类比查字典。 索引本质上是独立的索引文件，里面按照特定的顺序（一般采用B+树结构）记录了数据字段（A,B）和实际数据存储位置 在没有索引的时候，如果要查询某个字段&#x3D;值，则需要遍历所有实际数据，然后和字段对比，也就是全表扫描 然而在拥有索引的时候，则不需要查询原始数据，只需要查询索引文件，分别查询出A和B匹配的记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image002-1601194818245.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image004-1601194818245.jpg">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image006-1601194818245.jpg">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image008-1601194818245.jpg">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/8.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/9.png">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image010-1601194818245.jpg">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image012-1601194818246.jpg">
+<meta property="article:published_time" content="2020-09-27T08:19:12.000Z">
+<meta property="article:modified_time" content="2020-09-27T09:16:01.770Z">
+<meta property="article:author" content="耳朵大侠">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image002-1601194818245.png">
+
+
+<link rel="canonical" href="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MySQL索引 | 耳朵大侠</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">耳朵大侠</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">持续学习</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">索引的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">数据结构分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash%E7%B4%A2%E5%BC%95"><span class="nav-number">2.1.</span> <span class="nav-text">Hash索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-Tree%E7%B4%A2%E5%BC%95"><span class="nav-number">2.2.</span> <span class="nav-text">B+Tree索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#B-Tree%E7%B4%A2%E5%BC%95%E5%92%8CHash%E7%B4%A2%E5%BC%95%E5%8C%BA%E5%88%AB"><span class="nav-number">2.2.1.</span> <span class="nav-text">B+ Tree索引和Hash索引区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%84%E7%BB%87%E6%96%B9%E5%BC%8F%E5%88%86%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">数据组织方式分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95"><span class="nav-number">3.1.</span> <span class="nav-text">聚簇索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95"><span class="nav-number">3.2.</span> <span class="nav-text">非聚集索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E5%AD%97%E6%AE%B5%E4%B8%AA%E6%95%B0%E5%88%86%E7%B1%BB"><span class="nav-number">4.</span> <span class="nav-text">包含字段个数分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%88%86%E7%B1%BB"><span class="nav-number">5.</span> <span class="nav-text">其他分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95"><span class="nav-number">5.1.</span> <span class="nav-text">唯一索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95"><span class="nav-number">5.2.</span> <span class="nav-text">覆盖索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-number">6.</span> <span class="nav-text">创建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95%E5%92%8C%E7%B4%A2%E5%BC%95%E9%80%89%E6%8B%A9%E6%80%A7"><span class="nav-number">6.1.</span> <span class="nav-text">前缀索引和索引选择性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95"><span class="nav-number">7.</span> <span class="nav-text">联合索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%B7%A6%E5%89%8D%E7%BC%80%E5%8C%B9%E9%85%8D"><span class="nav-number">7.1.</span> <span class="nav-text">最左前缀匹配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95-1"><span class="nav-number">8.</span> <span class="nav-text">聚簇索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95-1"><span class="nav-number">9.</span> <span class="nav-text">覆盖索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95%E5%92%8C%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95%E6%97%A0%E6%B3%95%E4%B8%80%E8%B5%B7%E4%BD%BF%E7%94%A8"><span class="nav-number">9.1.</span> <span class="nav-text">为什么前缀索引和覆盖索引无法一起使用?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%8E%89%E5%86%97%E4%BD%99%E5%92%8C%E9%87%8D%E5%A4%8D%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-number">9.2.</span> <span class="nav-text">删除掉冗余和重复的索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyISAM%E7%B4%A2%E5%BC%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">10.</span> <span class="nav-text">MyISAM索引实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB%E7%B4%A2%E5%BC%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">11.</span> <span class="nav-text">InnoDB索引实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B5%E5%88%86%E8%A3%82"><span class="nav-number">11.1.</span> <span class="nav-text">页分裂</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5"><span class="nav-number">12.</span> <span class="nav-text">索引使用策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8"><span class="nav-number">13.</span> <span class="nav-text">索引下推</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">14.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="耳朵大侠"
+      src="/images/duck.jpg">
+  <p class="site-author-name" itemprop="name">耳朵大侠</p>
+  <div class="site-description" itemprop="description">要好好学习，不然别人只会指着你的鼻子说“你看那个人，除了帅，一无是处。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenpengcode" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenpengcode" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cpcoder@aliyun.com" title="E-Mail → mailto:cpcoder@aliyun.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/duck.jpg">
+      <meta itemprop="name" content="耳朵大侠">
+      <meta itemprop="description" content="要好好学习，不然别人只会指着你的鼻子说“你看那个人，除了帅，一无是处。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耳朵大侠">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL索引
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2020-09-27 16:19:12 / 修改时间：17:16:01" itemprop="dateCreated datePublished" datetime="2020-09-27T16:19:12+08:00">2020-09-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>11k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>索引是存储引擎用于快速找到记录的一种数据结构.</p>
+<p>索引的目的在于提高查询效率，这个过程可以类比查字典。</p>
+<p>索引本质上是独立的索引文件，里面按照特定的顺序（一般采用B+树结构）记录了数据字段（A,B）和实际数据存储位置 在没有索引的时候，如果要查询某个字段=值，则需要遍历所有实际数据，然后和字段对比，也就是全表扫描 然而在拥有索引的时候，则不需要查询原始数据，只需要查询索引文件，分别查询出A和B匹配的记录，然后计算他们的交集，最后再根据索引中记录的实际位置去读取数据，避免了全表扫描 。</p>
+<a id="more"></a>
+
+<h2 id="索引的特点"><a href="#索引的特点" class="headerlink" title="索引的特点"></a>索引的特点</h2><p>总结一下索引的优点就是(《高性能》书中总结的):</p>
+<ol>
+<li><p>减少查询需要扫描的数据量(加快了查询速度)</p>
+</li>
+<li><p>减少服务器的排序操作和创建临时表的操作(加快了group by和order by等操作)</p>
+</li>
+<li><p>将服务器的随机IO变为顺序IO(加快查询速度).</p>
+</li>
+</ol>
+<p>索引有哪些缺点呢?</p>
+<p>首先索引也是数据, 也需要存储, 因此会<strong>带来额外的存储空间占用</strong>. 其次, 在插入, 更新和删除操作的同时, 需要维护索引, 因此会带来额外的时间开销.</p>
+<h2 id="数据结构分类"><a href="#数据结构分类" class="headerlink" title="数据结构分类"></a>数据结构分类</h2><p>索引是在MYSQL的存储引擎层中实现的，而不是在服务层实现的。所以每种存储引擎的索引都不一定完全相同，也不是所有的存储引擎都支持所有的索引类型。MYSQL目前提供了一下4种索引 :</p>
+<ul>
+<li>B-Tree 索引：最常见的索引类型，大部分引擎都支持B树索引。</li>
+<li>HASH 索引：只有Memory引擎支持，使用场景简单。</li>
+<li>R-Tree 索引(空间索引)：空间索引是MyISAM的一种特殊索引类型，主要用于地理空间数据类型。</li>
+<li>Full-text (全文索引)：全文索引也是MyISAM的一种特殊索引类型，主要用于全文索引，InnoDB从MYSQL5.6版本提供对全文索引的支持。全文索引是一种特殊类型的索引，通过建立倒排索引，快速匹配文档的方式。它查找的是文本中的关键字，而不是直接比较索引中的值。全文索引跟其它几种索引类型的匹配方式完全不一样。它有许多需要注意的细节，比如停用词、词干和复数、布尔搜索等。另外，只有字段类型为 char、varchar 和 text 的字段才能设置全文索引</li>
+</ul>
+<h3 id="Hash索引"><a href="#Hash索引" class="headerlink" title="Hash索引"></a>Hash索引</h3><p>需要注意的是，MySQL并没有显式支持Hash索引，而是作为内部的一种优化，对于热点的数据会自动生成Hash索引，也叫自适应Hash索引。</p>
+<p><strong>Hash索引在等值查询中，可以O（1）时间复杂度定位到数据，效率非常高，但是不支持范围查询。</strong>在许多编程语言以及数据库中都会用到这个数据结构，如Redis支持的Hash数据结构。具体结构如下：</p>
+<p><img src="/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image002-1601194818245.png" alt="img"></p>
+<h3 id="B-Tree索引"><a href="#B-Tree索引" class="headerlink" title="B+Tree索引"></a>B+Tree索引</h3><p>提到B+Tree首先不得不提B-Tree，B-Tree（多路搜索树，并不是二叉的）是一种常见的数据结构。使用B-tree结构可以显著减少定位记录时所经历的中间过程，从而加快存取速度。</p>
+<p>B+ 树是基于B-Tree升级后的一种树数据结构，通常用于数据库和操作系统的文件系统中。B+ 树的特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反。</p>
+<p>MySQL索引的实现也是基于这种高效的数据结构。</p>
+<p>①  <strong>B+Tree只在叶子节点存储数据，而B-Tree的数据存储在各个节点中</strong></p>
+<p>②  <strong>B+Tree的叶子节点间通过指针链接，可以通过遍历叶子节点即可获取所有数据。</strong></p>
+<h4 id="B-Tree索引和Hash索引区别"><a href="#B-Tree索引和Hash索引区别" class="headerlink" title="B+ Tree索引和Hash索引区别"></a>B+ Tree索引和Hash索引区别</h4><ul>
+<li><strong>哈希索引适合等值查询，但是无法进行范围查询</strong></li>
+<li><strong>哈希索引没办法利用索引完成排序</strong></li>
+<li><strong>哈希索引不支持多列联合索引的最左匹配规则</strong></li>
+<li><strong>如果有大量重复键值得情况下，哈希索引的效率会很低，因为存在哈希碰撞问题</strong></li>
+</ul>
+<h2 id="数据组织方式分类"><a href="#数据组织方式分类" class="headerlink" title="数据组织方式分类"></a>数据组织方式分类</h2><p>根据数据的组织方式，可以分为聚簇索引和非聚簇索引（也叫聚集索引和非聚集索引）。</p>
+<h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><p><strong>聚簇索引就是按照每张表的主键构造一棵B+Tree，同时叶子节点存放了整张表的行记录数据。</strong></p>
+<p>在InnoDB中聚簇索引和主键索引概念等价，MySQL中规定所以每张表都必须有主键索引，主键索引只能有一个，不能为null同时必须保证唯一性。建表时如果没有指定主键索引，则会自动生成一个隐藏的字段作为主键索引。</p>
+<p><img src="/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image004-1601194818245.jpg" alt="img"></p>
+<h3 id="非聚集索引"><a href="#非聚集索引" class="headerlink" title="非聚集索引"></a>非聚集索引</h3><p>非聚集索引又可以称之为为非主键索引，辅助索引，二级索引。<strong>主键索引的叶子节点存储了完整的数据行，而非主键索引的叶子节点存储的则是主键索引值，通过非主键索引查询数据时，会先查找到主键索引，然后再到主键索引上去查找对应的数据，这个过程叫做回表</strong>（下文中会再次提到）。</p>
+<p><img src="/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image006-1601194818245.jpg" alt="img"></p>
+<p>需要补充的是MyISAM中索引和数据文件分开存储，所有的索引都是非聚簇索引。B+Tree的叶子节点存储的是数据存放的地址，而不是具体的数据 。</p>
+<h2 id="包含字段个数分类"><a href="#包含字段个数分类" class="headerlink" title="包含字段个数分类"></a>包含字段个数分类</h2><p>为了能应对不同的数据检索需求，索引即可以仅包含一个字段，也可以同时包含多个字段。单个字段组成的索引可以称为<strong>单值索引</strong>，否则称之为复合索引（或者称为组合索引或多值索引）。上文中演示的都是单值索引，所以接下来展示一下复合索引作为对比。</p>
+<p><strong>复合索引的索引的数据顺序跟字段的顺序相关，包含多个值的索引中，如果当前面字段的值重复时，将会按照其后面的值进行排序。</strong></p>
+<p><img src="/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image008-1601194818245.jpg" alt="img"></p>
+<h2 id="其他分类"><a href="#其他分类" class="headerlink" title="其他分类"></a>其他分类</h2><h3 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h3><p>唯一索引，不允许具有索引值相同的行，从而禁止重复的索引或键值。系统在创建该索引时检查是否有重复的键值，并在每次使用 INSERT 或 UPDATE 语句添加数据时进行检查， 如果有重复的值，则会操作失败，抛出异常。</p>
+<p>需要注意的是，主键索引一定是唯一索引，而唯一索引不一定是主键索引。唯一索引可以理解为仅仅是将索引设置一个唯一性的属性。</p>
+<h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><p>上文提到了一个回表的概念，既如果通过非主键索引查询数据时，会先查询到主键索引的值，然后再去主键索引中查询具体的数据，整个查询流程需要扫描两次索引，显然回表是一个耗时的操作。</p>
+<p><strong>为了减少回表次数，在设计索引时我们可以让索引中包含要查询的结果，在辅助索引中检索到数据后直接返回，而不需要进行回表操作。</strong></p>
+<p>但是需要注意的是，使用覆盖索引的前提是字段长度比较短，对于值长度较长的字段则不适合使用覆盖索引，原因有很多，比如索引一般存储在内存中，如果占用空间较大，则可能会从磁盘中加载，影响性能。当然还有其他原因，具体情况将会在下一篇文章中介绍。</p>
+<h2 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h2><p>由于优化索引和优化查询一般是分不开的,因此这一块可能会包含部分的查询优化内容.</p>
+<h3 id="前缀索引和索引选择性"><a href="#前缀索引和索引选择性" class="headerlink" title="前缀索引和索引选择性"></a>前缀索引和索引选择性</h3><p><strong>如果希望给一个很长的字符串上添加索引,那么可以考虑使用前缀索引</strong></p>
+<p>在正式介绍前缀索引之前,我们先大概考虑一下索引的工作步骤,数据库使用索引进行查找的时候,一般是如下几步:</p>
+<ol>
+<li><p>在索引的B+树上找到对应的值,比如找到学校名称为卡塞尔学院的一条记录,并且拿到这条数据在磁盘上的地址.</p>
+</li>
+<li><p>根据地址去磁盘上查找,拿到该条数据所有的值.</p>
+</li>
+</ol>
+<p>那么假如在所有的学校名称的值中,卡塞尔就可以唯一的标识这条数据,那么用卡塞尔来做索引是否可以达到和卡塞尔学院做索引相同的效果?</p>
+<p>答案是肯定的, 而使用卡塞尔的话,是可以减少索引的大小到原来的60%的. 这就是前缀索引的作用.</p>
+<p><strong>前缀索引: 在对一个比较长的字符串进行索引时,可以仅索引开始的一部分字符,这样可以大大的节约索引空间,从而提高索引效率.但是这样也会降低索引的选择性.</strong></p>
+<p>索引的选择性: 不重复的值/所有的值. 可以看出索引的选择性为0-1,最高的就是该列唯一,没有重复值.所以唯一索引的效率是比较好的.</p>
+<p>但是在一般情况下,较长的字符串的一些前缀的选择性也是比较好的,这个我们可以算出来.使用下面的语句:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">  <span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="keyword">left</span>(school_name,<span class="number">3</span>))/<span class="keyword">count</span>(*) <span class="keyword">as</span> sch3, </span><br><span class="line">  <span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="keyword">left</span>(school_name,<span class="number">4</span>))/<span class="keyword">count</span>(*) <span class="keyword">as</span> sch4,</span><br><span class="line">  <span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="keyword">left</span>(school_name,<span class="number">5</span>))/<span class="keyword">count</span>(*) <span class="keyword">as</span> sch5,</span><br><span class="line">  <span class="keyword">count</span>(<span class="keyword">distinct</span> school_name)/<span class="keyword">count</span>(*) <span class="keyword">as</span> original</span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">  <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中查找到的original就是原本的选择性,sch3,sch4,sch5分别是取该列的前3,4,5个字符作为索引的时候的选择性.逐步增加这个数值,当选择性与原来相差不大的时候,就是一个比较合适的前缀索引的长度.(一般情况下是这样,但是也有例外,当数据极其不均匀时,这样的前缀索引会在某个特殊的case上表现很差劲).</p>
+<p>找到合适的长度之后,就可以创建一个前缀索引了:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="keyword">user</span> <span class="keyword">add</span> <span class="keyword">index</span> sch_pre3(<span class="string">`school(3)`</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注意: 前缀索引和覆盖索引是很难一起使用的</p>
+<h2 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h2><p>一般我们都是有对多个列进行索引的需求的,因为查询的需求多种多样. 这个时候我们可以选择建立多个独立的索引或者建立一个联合索引. 大多数时候都是联合索引更加合适一些.</p>
+<p>假设我们要执行这个语句:<code>select * from user where school_name = &#39;卡塞尔&#39; and age &gt; 20</code>, 我们在school和age上分别建立两个独立的索引,那么我们预期这条查询语句会命中两个索引,但是使用explain命令查看会发现不一定.这是一个玄学的过程.个人没有研究清楚.</p>
+<p>从理论上来讲,MySQL在5.0之后的版本里面对支持合并索引,也就是同时使用两个索引,但是MySQL的优化器不一定这样认为,他可能会认为,查询两次B+树的代价高于查询一次索引之后去数据表进行过滤,因此会选择只用一个索引.</p>
+<p>创建联合索引的语法:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="keyword">user</span> <span class="keyword">add</span> <span class="keyword">index</span> school_age(<span class="string">`school`</span>,<span class="string">`age`</span>).</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用联合索引的时候,有一个非常重要的因素就是所有的索引列只可以进行最左前缀匹配</strong>, 例如上面的school_age联合索引,当仅使用age作为查询条件的时候是不能使用的,也就是说<code>select * from user where age = 20</code>是不能命中上面的联合索引的.</p>
+<p>在不考虑任何查询的情况下,我们应该讲选择性高的列放在联合索引的前面,但是实际上我们更多的是通过查询来反推索引,以使某个固定的查询可以尽可能的命中索引以提高查询速度.毕竟我们建立索引的目的也是为了加快查询的速度.</p>
+<p>因此联合索引的优化更多的是根据某个或者某些语句来优化的,不具备一个通用的法则.</p>
+<h3 id="最左前缀匹配"><a href="#最左前缀匹配" class="headerlink" title="最左前缀匹配"></a>最左前缀匹配</h3><p>当数据列有序的时候,mysql可以使用索引,那么假设我们建立了school_age索引,示例数据如下:</p>
+<table>
+<thead>
+<tr>
+<th><strong>school</strong></th>
+<th><strong>age</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a</td>
+<td>12</td>
+</tr>
+<tr>
+<td>b</td>
+<td>12</td>
+</tr>
+<tr>
+<td>b</td>
+<td>14</td>
+</tr>
+<tr>
+<td>b</td>
+<td>15</td>
+</tr>
+<tr>
+<td>c</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>在这份数据中,school字段是完全有序的,索引school可以使用索引.</p>
+<p>而从全表来看,age字段不是有序的,因此无法直接使用索引,那么观察一下数据表,在什么时候age有序呢?在school进行定值匹配的时候,例如当school=b的时候,对于这三条数据而言,age是有序的,因此可以使用age索引.这就是最左前缀的原理.</p>
+<p>此外, <strong>最左前缀索引只能使用一个范围查询</strong>, 例如<code>select * from user where school &gt; a</code>, <code>select * from user where school = a and age &gt; 12</code>,都是可以命中索引的, 但是<code>select * from user where school &gt; a and age &gt; 12</code>中, 仅school可以命中索引, 这也可以从上面得出结论. 因为当school是范围匹配的时候, mysql 无法确认 age 字段是否严格有序,比如 school 的范围匹配命中了 b,c 的四条数据,那么 age 就不是有序的. 无法使用后续的索引.</p>
+<ol>
+<li><p>如果不是按照索引的最左列开始查找，则无法使用索引；</p>
+</li>
+<li><p>不能跳过联合索引中的某些列；</p>
+</li>
+<li><p>如果查询中有某个列的范围查询，则其右边所有列都无法使用索引优化查找；</p>
+</li>
+</ol>
+<h2 id="聚簇索引-1"><a href="#聚簇索引-1" class="headerlink" title="聚簇索引"></a>聚簇索引</h2><p>聚簇索引不是一种索引类型, 而是一种存储数据的方式. <strong>Innodb的聚簇索引是在同一个数据结构中保存了索引和数据</strong>.</p>
+<p>因为数据真正的数据只能有一种排序方式, 所以一个表上只能有一个聚簇索引. Innodb使用主键来进行聚簇索引,没有主键的话就会选择一个唯一的非空索引, 如果还还没有, innodb会选择生成一个隐式的主键来进行聚簇索引. 为什么innodb这么执着的需要搞一个聚簇索引呢,<strong>因为一个数据表中的数据总得有且只有一种排序方式来存储在磁盘上,因此这是必须的.</strong></p>
+<p>这也是innodb推荐我们使用自增主键的原因, 因为自增主键自增且连续, 在插入的时候只需要不断的在数据后面追加即可. <strong>设想一下使用UUID来作为主键,那么每一次的插入操作,都需要找到当前主键在已排序的主键中的位置,然后插入,并且要移动该主键后的数据,以使得数据和主键保持相同的顺序,这无疑是代价非常高的.</strong></p>
+<p>也是因为这个原因,<strong>在其他索引的叶子节点中,存储的”数据”其实不是该数据的真实物理地址,而是该数据的主键,查找到主键之后,再根据主键进行一次索引,拿到数据.</strong></p>
+<p>聚簇索引和非聚簇索引的区别可以用一个简单的例子来说明:</p>
+<p>当我们拿到一本书的时候,目录就是主键,是一个聚簇索引,因为在目录中连续的内容,在正文中也是连续的,当我们想要查看迎着阳光盛大逃亡章节,只需要在目录中找到它对应的页面,比如459,然后去对应的页码查看正文即可.</p>
+<p>而非聚簇索引呢,则类似于书后面的附录专有名词索引一样(二级普通索引),当你查找邦达列夫的时候,附录会告诉你,这个名词出现在了迎着阳光盛大逃亡一节,然后你需要去目录(主键索引)中再次查找到对应的页码.</p>
+<h2 id="覆盖索引-1"><a href="#覆盖索引-1" class="headerlink" title="覆盖索引"></a>覆盖索引</h2><p>当一个索引包含(或者说是覆盖)需要查询的所有字段的值时,我们称之为覆盖索引.</p>
+<p>设想有如下的查询语句:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line"> school_name,age</span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line"> <span class="keyword">user</span></span><br><span class="line"><span class="keyword">where</span> </span><br><span class="line"> school_name = <span class="string">&#x27;金色莺尾花学院&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>这个语句根据学校名称来查询数据行的学校名称和年龄,从上面的数据查询的步骤我们可以知道,当在索引中找到要求的值的时候,还需要根据主键去进行一次索引,以拿到全部的数据,然后从其中挑选出需要的列,返回.但是现在索引中已经包含了所有的需要返回的列,那么就不用进行回数据表查询的操作了,此外索引的大小一般是远远小于真正的数据大小的,覆盖索引可以极大的减少从磁盘加载数据的数量.</p>
+<h3 id="为什么前缀索引和覆盖索引无法一起使用"><a href="#为什么前缀索引和覆盖索引无法一起使用" class="headerlink" title="为什么前缀索引和覆盖索引无法一起使用?"></a><strong>为什么前缀索引和覆盖索引无法一起使用?</strong></h3><p>因为前缀索引的目的是用前缀来代表真正的值,他们在选择性上几乎没有区别,但是MySQL仍然无法判断真正的数据是什么,比如阿里巴巴和阿里妈妈在前缀为2的时候是一样的,但是为了确保你查询阿里巴巴的时候不会出现阿里妈妈的内容,是需要回到数据表拿到数据再次进行一个精准匹配来进行过滤的.</p>
+<h3 id="删除掉冗余和重复的索引"><a href="#删除掉冗余和重复的索引" class="headerlink" title="删除掉冗余和重复的索引"></a>删除掉冗余和重复的索引</h3><p>有一些索引是从未在查询中使用过,却白白增加数据插入时开销的,对于这种索引我们应该及时的进行删除.</p>
+<p>比如在主键上再建立一个普通索引,无疑是毫无作用的.</p>
+<p>还比如在有联合索引school_age的情况下,再建立一个school的独立索引,因为索引的最左前缀匹配原则,school_age是完全可以命中对school的单独查询的,因此后者可以删掉.</p>
+<h2 id="MyISAM索引实现"><a href="#MyISAM索引实现" class="headerlink" title="MyISAM索引实现"></a>MyISAM索引实现</h2><p>MyISAM引擎使用B+Tree作为索引结构，<strong>叶节点的data域存放的是数据记录的地址</strong>。下图是MyISAM索引的原理图：</p>
+<p><img src="/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/8.png" alt="img"></p>
+<p>这里设表一共有三列，假设我们以Col1为主键，则上图是一个MyISAM表的主索引（Primary key）示意。可以看出MyISAM的索引文件仅仅保存数据记录的地址。在MyISAM中，主索引和辅助索引（Secondary key）在结构上没有任何区别，只是主索引要求key是唯一的，而辅助索引的key可以重复。如果我们在Col2上建立一个辅助索引，则此索引的结构如下图所示：</p>
+<p><img src="/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/9.png" alt="img"></p>
+<p>同样也是一颗B+Tree，data域保存数据记录的地址。因此，MyISAM中索引检索的算法为首先按照B+Tree搜索算法搜索索引，如果指定的Key存在，则取出其data域的值，然后以data域的值为地址，读取相应数据记录。</p>
+<p>MyISAM的索引方式也叫做“非聚集”的，之所以这么称呼是为了与InnoDB的聚集索引区分。</p>
+<h2 id="InnoDB索引实现"><a href="#InnoDB索引实现" class="headerlink" title="InnoDB索引实现"></a>InnoDB索引实现</h2><p>虽然InnoDB也使用B+Tree作为索引结构，但具体实现方式却与MyISAM截然不同。</p>
+<p>第一个重大区别是InnoDB的数据文件本身就是索引文件。从上文知道，MyISAM索引文件和数据文件是分离的，索引文件仅保存数据记录的地址。而在InnoDB中，表数据文件本身就是按B+Tree组织的一个索引结构，这棵树的叶节点data域保存了完整的数据记录。这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引。</p>
+<p><img src="/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image010-1601194818245.jpg" alt="img"></p>
+<p>上图是InnoDB主索引（同时也是数据文件）的示意图，可以看到叶节点包含了完整的数据记录。这种索引叫做聚集索引。因为InnoDB的数据文件本身要按主键聚集，所以InnoDB要求表必须有主键（MyISAM可以没有），如果没有显式指定，则MySQL系统会自动选择一个可以唯一标识数据记录的列作为主键，如果不存在这种列，则MySQL自动为InnoDB表生成一个隐含字段作为主键，这个字段长度为6个字节，类型为长整形。</p>
+<p>InnoDB 的表中要求必须有一个主键，那么可能有人会将身份证号这种唯一性的标识作为主索引，这样就大错特错了。刚刚说到主键也被称为聚簇索引，它是要按照顺序进行排序的，要求有聚簇性<strong>。如果将身份证号作为主键，不能保证每次插入的数据都是按照身份证号的顺序进行排列的，这就使得每次主键的插入都变得完全随机，可能导致每次插入一条数据都会引起页分裂的问题</strong></p>
+<h3 id="页分裂"><a href="#页分裂" class="headerlink" title="页分裂"></a>页分裂</h3><p><strong>InnoDB 中数据是存储在数据页中的，而数据是按照索引的顺序插入到数据页中的，所以数据是紧凑排序的，但如果随机对数据进行插入，就有可能导致数据页分裂的问题。</strong></p>
+<p>假设一个数据页只能存储 3 条数据，且已经有 3 条数据（100， 200， 300）了，这时候想插入一条 150 的数据，就会再申请一个新的数据页，100，150 两条数据存放在原来的数据页中，200 和 300 存放在新的数据页中，这样可能会存在数据页利用率不高的问题。</p>
+<p>不仅仅是插入数据会导致上述问题，删除数据也会。这里要注意，<strong>如果删除掉了一个数据页中的某条数据，这条数据所留下的位置并不会缩小而是等待复用，如果是一整个页的数据被删除了，那这个页也是出于被复用状态。</strong>如果相邻的两个数据页的利用率很小，系统会把这两个页的数据合到其中一个页上，另一个页就处于可被复用的状态。<strong>所以通过 delete 删除数据并不会回收表空间。</strong></p>
+<p>为了解决频繁删除数据导致的没有回收表空间的问题，可以通过重建表来解决，比如以下命令：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> table_name engin=<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这个命令的流程基本上是：</p>
+<ol>
+<li><p>新建一个临时表，结果同原表相同；</p>
+</li>
+<li><p>按照主键 id 递增的顺序将数据从原表读出插入到新表中；</p>
+</li>
+<li><p>用新的表替换旧表，删除旧表；</p>
+</li>
+</ol>
+<p>所以我们使用 AUTO INCREMENT 主键的插入数据模式，正符合了递增插入的场景。每次插入一条新记录，都是追加操作，都不涉及到挪动其他记录，也不会触发叶子节点的分裂。</p>
+<p>第二个与MyISAM索引的不同是<strong>InnoDB的辅助索引data域存储相应记录主键的值而不是地址</strong>。换句话说，InnoDB的所有辅助索引都引用主键作为data域。例如，定义在Col3上的一个辅助索引：</p>
+<p><img src="/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/clip_image012-1601194818246.jpg" alt="img"></p>
+<p>这里以英文字符的ASCII码作为比较准则。聚集索引这种实现方式使得按主键的搜索十分高效，但是辅助索引搜索需要检索两遍索引：首先检索辅助索引获得主键，然后用主键到主索引中检索获得记录。</p>
+<h2 id="索引使用策略"><a href="#索引使用策略" class="headerlink" title="索引使用策略"></a>索引使用策略</h2><ol>
+<li><p>较频繁的作为查询条件的字段应该创建索引</p>
+</li>
+<li><p>唯一性太差的字段不适合单独创建索引，即使频繁作为查询条件</p>
+</li>
+<li><p>更新非常频繁的字段不适合创建索引</p>
+<p>当然，并不是存在更新的字段就适合创建索引，从判定策略的用语上也可以看出，是”非常频繁”的字段。到底什么样的更新频率应该算是”非常频繁”呢？每秒？每分钟？还是每小时呢？说实话，还真难定义。很多时候是通过比较同一时间段内被更新的次数和利用该字段作为条件的查询次数来判断的，如果通过该字段的查询并不是很多，可能几个小时或是更长才会执行一次，更新反而比查询更频繁，那这样的字段肯定不适合创建索引。反之，如果我们通过该字段的查询比较频繁，但更新并不是特别多，比如查询几十次或更多才可能会产生一次更新，那我个人觉得更新所带来的附加成本也是可以接受的。</p>
+</li>
+<li><p>不会出现在 WHERE 子句中的字段不该创建索引</p>
+<p>性能优化过程中，选择在哪个列上创建索引是最非常重要的。可以考虑使用索引的主要有两种类型的列：在where子句中出现的列，在join子句中出现的列，而不是在SELECT关键字后选择列表的列</p>
+<p>索引列的基数越大，索引的效果越好。例如，存放出生日期的列具有不同的值，很容易区分行，而用来记录性别的列，只有”M”和”F”,则对此进行索引没有多大用处，因此不管搜索哪个值，都会得出大约一半的行</p>
+<p>使用短索引，如果对字符串列进行索引，应该指定一个前缀长度，可节省大量索引空间，提升查询速度</p>
+<p>例如，有一个CHAR(200)列，如果在前10个或20个字符内，多数值是唯一的，那么就不要对整个列进行索引。对前10个或者20个字符进行索引能够节省大量索引空间，也可能会使查询更快。较小的索引涉及的磁盘IO较少，较短的值比较起来更快。更为重要的是，对于较短的键值，所以高速缓存中的快能容纳更多的键值，因此，MYSQL也可以在内存中容纳更多的值。这样就增加了找到行而不用读取索引中较多快的可能性</p>
+</li>
+<li><p>不建议使用索引的情况</p>
+<p>表记录比较少，例如一两千条甚至只有几百条记录的表，没必要建索引，让查询做全表扫描就好了 .至于多少条记录才算多，这个个人有个人的看法，我个人的经验是以2000作为分界线，记录数不超过 2000可以考虑不建索引，超过2000条可以酌情考虑索引。</p>
+<p>索引的选择性较低。所谓索引的选择性（Selectivity），是指不重复的索引值（也叫基数，Cardinality）与表记录数（#T）的比值 。怎样叫太小？一半说来，同值的数据超过表的百分之15，那就没必要建索引了 。显然选择性的取值范围为(0, 1]，选择性越高的索引价值越大，这是由B+Tree的性质决定的</p>
+<p>MySQL只对一下操作符才使用索引：&lt;,&lt;=,=,&gt;,&gt;=,between,in, 以及某些时候的like(不以通配符%或_开头的情形) 。 &lt;&gt;，not in ，！=，WHERE index=1 OR A=10 ，对列进行函数运算的情况（如 where md5(password) = “xxxx”）</p>
+<p>存了数值的字符串类型字段（如手机号），查询时记得不要丢掉值的引号，否则无法用到该字段相关索引，反之则没关系 也即 select * from test where mobile = 13711112222; 可是无法用到mobile字段的索引的哦（如果mobile是char 或 varchar类型的话）</p>
+<p>不要过度索引，只保持所需的索引。每个额外的索引都要占用额外的磁盘空间，并降低写操作的性能。 在修改表的内容时，索引必须进行更新，有时可能需要重构，因此，索引越多，所花的时间越</p>
+</li>
+<li><p>最左前缀原理</p>
+<p>MySQL 对联合索引的顺序是敏感的。例如我们建立了一个 (a,b,c,d) 顺序的索引，假如现在需要执行这样一个 a = 1 and b = 2 and c &gt; 3 and d = 4 WHERE 查询语句，MySQL 会一直向右匹配直到遇到范围查询（&gt;、&lt;、between、like）就停止索引的匹配，因此 d 字段是没有办法使用索引的。</p>
+<p>另外，查询条件用到了索引中列的精确匹配，但是中间某个条件未提供，此时也是没有办法使用索引的。例如我们有一个 (a,b,c) 顺序的索引，假如现在需要执行一个 a = 1 and c = 2 的 WHERE 查询，因为 b 未提供，所以查询只用到了索引的第一列，而后面的 c 虽然也在索引中，但是由于 b 不存在而无法和左前缀连接，因此 c 字段也是没有办法使用索引的。</p>
+<p>有一点需要注意，在精确匹配（= 和 IN）中索引的顺序可以是任意的，MySQL 的查询优化器会帮用户优化成索引可以识别的形式。比如对于 (a,b,c) 顺序的索引来说，a = 1 and b = 2 and c = 3 和 a = 1 and c = 3 and b = 2、c = 3 and a = 1 and b = 2 等 SQL 语句效果都是一样的。</p>
+</li>
+<li><p>尽量的扩展索引，不要新建索引。比如表中已经有 a 的索引，现在要加 (a,b) 的索引，那么只需要修改原来的索引即可</p>
+</li>
+</ol>
+<h2 id="索引下推"><a href="#索引下推" class="headerlink" title="索引下推"></a>索引下推</h2><ul>
+<li><strong>索引下推</strong>（index condition pushdown ）简称ICP，在<strong>Mysql5.6</strong>的版本上推出，用于优化查询。</li>
+<li>在不使用ICP的情况下，在使用<strong>非主键索引（又叫普通索引或者二级索引）</strong>进行查询时，存储引擎通过索引检索到数据，然后返回给MySQL服务器，服务器然后判断数据是否符合条件 。</li>
+<li>在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。</li>
+<li><strong>索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数</strong>。</li>
+</ul>
+<p>MySQL 5.6引入了索引下推优化，默认开启，使用<code>SET optimizer_switch = ‘index_condition_pushdown=off’;</code>可以将其关闭。</p>
+<p>people表中（zipcode，lastname，firstname）构成一个索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> people <span class="keyword">WHERE</span> zipcode=‘<span class="number">95054</span>’ <span class="keyword">AND</span> lastname <span class="keyword">LIKE</span> ‘%etrunia%’ <span class="keyword">AND</span> address <span class="keyword">LIKE</span> ‘%<span class="keyword">Main</span> Street%’;</span><br></pre></td></tr></table></figure>
+
+<p>如果没有使用索引下推技术，则MySQL会通过zipcode=’95054’从存储引擎中查询对应的数据，返回到MySQL服务端，然后MySQL服务端基于<code>lastname LIKE &#39;%etrunia%&#39;</code>和<code>address LIKE &#39;%Main Street%&#39;</code>来判断数据是否符合条件。</p>
+<p>如果使用了索引下推技术，则MYSQL首先会返回符合zipcode=’95054’的索引，然后根据<code>lastname LIKE &#39;%etrunia%&#39;</code>和<code>address LIKE &#39;%Main Street%&#39;</code>来判断索引是否符合条件。如果符合条件，则根据该索引来定位对应的数据，如果不符合，则直接reject掉。 </p>
+<p><strong>有了索引下推优化，可以在有like条件查询的情况下，减少回表次数。</strong></p>
+<p>对于user_table表，我们现在有（username,age）联合索引<br>如果现在有一个需求，查出名称中以“张”开头且年龄大于10的用户信息，语句如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> user_table <span class="keyword">where</span> username <span class="keyword">like</span> <span class="string">&#x27;张%&#x27;</span> <span class="keyword">and</span> age &gt; <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>语句有两种执行可能：</p>
+<ol>
+<li>根据（username,age）联合索引查询所有满足名称以“张”开头的索引，然后回表查询出相应的全行数据，然后再筛选出满足年龄小于等于10的用户数据</li>
+<li>根据（username,age）联合索引查询所有满足名称以“张”开头的索引，然后直接再筛选出年龄小于等于10的索引，之后再回表查询全行数据。</li>
+</ol>
+<p>明显的，第二种方式需要回表查询的全行数据比较少，这就是mysql的索引下推。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="http://blog.codinglabs.org/articles/theory-of-mysql-index.html">http://blog.codinglabs.org/articles/theory-of-mysql-index.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/09/25/MySQL%20%E4%BA%8B%E5%8A%A1/" rel="prev" title="MySQL事务">
+                  <i class="fa fa-chevron-left"></i> MySQL事务
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/27/Redis%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="next" title="Redis数据类型及底层数据结构">
+                  Redis数据类型及底层数据结构 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+  
+  
+  
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">耳朵大侠</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">334k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5:04</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
