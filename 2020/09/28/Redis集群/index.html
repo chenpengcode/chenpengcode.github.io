@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/28/Redis%E9%9B%86%E7%BE%A4/clip_image007.png">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/28/Redis%E9%9B%86%E7%BE%A4/clip_image008.png">
 <meta property="article:published_time" content="2020-09-27T16:24:05.000Z">
-<meta property="article:modified_time" content="2020-09-27T16:38:54.599Z">
+<meta property="article:modified_time" content="2020-10-14T16:34:07.829Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="缓存">
@@ -289,10 +289,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2020-09-28 00:24:05 / 修改时间：00:38:54" itemprop="dateCreated datePublished" datetime="2020-09-28T00:24:05+08:00">2020-09-28</time>
+      <time title="创建时间：2020-09-28 00:24:05" itemprop="dateCreated datePublished" datetime="2020-09-28T00:24:05+08:00">2020-09-28</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-10-15 00:34:07" itemprop="dateModified" datetime="2020-10-15T00:34:07+08:00">2020-10-15</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -349,15 +355,15 @@
 <p><img src="/2020/09/28/Redis%E9%9B%86%E7%BE%A4/clip_image002-1598591686368.png" alt="img"></p>
 <p>其中主从复制有如下特点：</p>
 <ol>
-<li><p>主数据库可以进行读写操作，当读写操作导致数据变化时会自动将数据同步给从数据库</p>
+<li><p><strong>主数据库可以进行读写操作</strong>，当读写操作导致数据变化时会自动将数据同步给从数据库</p>
 </li>
-<li><p>从数据库一般都是只读的，并且接收主数据库同步过来的数据</p>
+<li><p><strong>从数据库一般都是只读的</strong>，并且接收主数据库同步过来的数据</p>
 </li>
-<li><p>一个master可以拥有多个slave，但是一个slave只能对应一个master</p>
+<li><p><strong>一个master可以拥有多个slave，但是一个slave只能对应一个master</strong></p>
 </li>
 <li><p>slave挂了不影响其他slave的读和master的读和写，重新启动后会将数据从master同步过来</p>
 </li>
-<li><p>master挂了以后，不影响slave的读，但redis不再提供写服务，master重启后redis将重新对外提供写服务</p>
+<li><p><strong>master挂了以后，不影响slave的读，但redis不再提供写服务</strong>，master重启后redis将重新对外提供写服务</p>
 </li>
 <li><p>master挂了以后，不会在slave节点中重新选一个master</p>
 </li>
@@ -385,7 +391,7 @@
 <li><p>Slave Server同样是以非阻塞的方式完成数据同步。在同步期间，如果有客户端提交查询请求，Redis则返回同步之前的数据；</p>
 </li>
 </ol>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>从上面可以看出，master节点在主从模式中唯一，若master挂掉，则redis无法对外提供写服务。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>从上面可以看出，master节点在主从模式中唯一，<strong>若master挂掉，则redis无法对外提供写服务，不具备高可用性</strong>。</p>
 <h2 id="Sentinel模式"><a href="#Sentinel模式" class="headerlink" title="Sentinel模式"></a>Sentinel模式</h2><p><img src="/2020/09/28/Redis%E9%9B%86%E7%BE%A4/clip_image005.png" alt="img"></p>
 <p>主从模式的弊端就是不具备高可用性，当master挂掉以后，Redis将不能再对外提供写入操作，因此sentinel应运而生。</p>
 <p>sentinel中文含义为哨兵，顾名思义，它的作用就是监控redis集群的运行状况，特点如下：</p>
@@ -427,7 +433,7 @@
 </li>
 </ol>
 <p>当使用sentinel模式的时候，客户端就不要直接连接Redis，而是连接sentinel的ip和port，由sentinel来提供具体的可提供服务的Redis实现，这样当master节点挂掉以后，sentinel就会感知并将新的master节点提供给使用者。</p>
-<h2 id="Cluster模式"><a href="#Cluster模式" class="headerlink" title="Cluster模式"></a>Cluster模式</h2><p>sentinel模式基本可以满足一般生产的需求，具备高可用性。但是当数据量过大到一台服务器存放不下的情况时，主从模式或sentinel模式就不能满足需求了，这个时候需要对存储的数据进行分片，将数据存储到多个Redis实例中。<strong>cluster模式的出现就是为了解决单机Redis容量有限的问题，将Redis的数据根据一定的规则分配到多台机器。</strong></p>
+<h2 id="Cluster模式"><a href="#Cluster模式" class="headerlink" title="Cluster模式"></a>Cluster模式</h2><p>sentinel模式基本可以满足一般生产的需求，具备高可用性。<strong>但是当数据量过大到一台服务器存放不下的情况时，主从模式或sentinel模式就不能满足需求了</strong>，这个时候需要对存储的数据进行分片，将数据存储到多个Redis实例中。<strong>cluster模式的出现就是为了解决单机Redis容量有限的问题，将Redis的数据根据一定的规则分配到多台机器。</strong></p>
 <p><img src="/2020/09/28/Redis%E9%9B%86%E7%BE%A4/clip_image008.png" alt="img"></p>
 <p>cluster可以说是sentinel和主从模式的结合体，通过cluster可以实现主从和master重选功能，所以如果配置两个副本三个分片的话，就需要六个Redis实例。因为Redis的数据是根据一定规则分配到cluster的不同机器的，当数据量过大时，可以新增机器进行扩容。</p>
 <p>根据官方推荐，集群部署至少要 3 台以上的master节点，最好使用 3 主 3 从六个节点的模式。使用集群，只需要将redis配置文件中的cluster-enable配置打开即可。每个集群中至少需要三个主数据库才能正常运行，新增节点非常方便。</p>
@@ -449,7 +455,7 @@
 </ol>
 <h3 id="集群的工作方式"><a href="#集群的工作方式" class="headerlink" title="集群的工作方式"></a>集群的工作方式</h3><p>在 Redis 的每一个节点上，都有这么两个东西，一个是插槽（slot），它的的取值范围是：0-16383。还有一个就是cluster，可以理解为是一个集群管理的插件。<strong>当我们的存取的 Key到达的时候，Redis 会根据 crc16的算法得出一个结果，然后把结果对 16384 求余数，这样每个 key 都会对应一个编号在 0-16383 之间的哈希槽，通过这个值，去找到对应的插槽所对应的节点，然后直接自动跳转到这个对应的节点上进行存取操作。</strong></p>
 <p>为了保证高可用，redis-cluster集群引入了主从模式，一个主节点对应一个或者多个从节点，当主节点宕机的时候，就会启用从节点。当其它主节点ping一个主节点A时，如果半数以上的主节点与A通信超时，那么认为主节点A宕机了。如果主节点A和它的从节点A1都宕机了，那么该集群就无法再提供服务了。</p>
-<h3 id="数据分片"><a href="#数据分片" class="headerlink" title="数据分片"></a>数据分片</h3><p>Redis 集群使用数据分片（sharding）而非一致性哈希（consistency hashing）来实现： 一个 Redis 集群包含 16384 个哈希槽（hash slot）， 数据库中的每个键都属于这 16384 个哈希槽的其中一个， 集群使用公式 CRC16(key) % 16384 来计算键 key 属于哪个槽， 其中 CRC16(key) 语句用于计算键 key 的 CRC16 校验和 。</p>
+<h3 id="数据分片"><a href="#数据分片" class="headerlink" title="数据分片"></a>数据分片</h3><p>Redis 集群使用数据分片（sharding）而非一致性哈希（consistency hashing）来实现： <strong>一个 Redis 集群包含 16384 个哈希槽（hash slot）， 数据库中的每个键都属于这 16384 个哈希槽的其中一个， 集群使用公式 CRC16(key) % 16384 来计算键 key 属于哪个槽， 其中 CRC16(key) 语句用于计算键 key 的 CRC16 校验和 。</strong></p>
 <p>集群中的每个节点负责处理一部分哈希槽。 举个例子， 一个集群可以有三个哈希槽， 其中：</p>
 <ul>
 <li>节点 A 负责处理 0 号至 5500 号哈希槽。</li>
@@ -579,14 +585,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">332k</span>
+    <span title="站点总字数">333k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:01</span>
+    <span title="站点阅读时长">5:03</span>
   </span>
 </div>
 
