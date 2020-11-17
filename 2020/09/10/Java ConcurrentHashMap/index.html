@@ -29,21 +29,19 @@
 <meta property="og:site_name" content="耳朵大侠">
 <meta property="og:description" content="ConcurrentHashMap解决了HashMap的线程不安全问题 jdk 1.7 和 jdk 1.8 中，ConcurrentHashMap 的结构有着很大的变化">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/16ef52f1ce824293">
-<meta property="og:image" content="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/16ef52f1cf5e2104">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/160485161b7e9174">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/1604851619098fed">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/1604851619dba9c0">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/1604851654f9c50a">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/1709b3d592f3d036">
 <meta property="article:published_time" content="2020-09-10T07:53:04.000Z">
-<meta property="article:modified_time" content="2020-10-16T11:11:40.381Z">
+<meta property="article:modified_time" content="2020-11-08T11:12:32.591Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JavaSE">
 <meta property="article:tag" content="JUC">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/16ef52f1ce824293">
+<meta name="twitter:image" content="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/160485161b7e9174">
 
 
 <link rel="canonical" href="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/">
@@ -208,20 +206,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -299,7 +297,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-10-16 19:11:40" itemprop="dateModified" datetime="2020-10-16T19:11:40+08:00">2020-10-16</time>
+        <time title="修改时间：2020-11-08 19:12:32" itemprop="dateModified" datetime="2020-11-08T19:12:32+08:00">2020-11-08</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -349,14 +347,14 @@
 <p>jdk 1.7 和 jdk 1.8 中，ConcurrentHashMap 的结构有着很大的变化</p>
 <a id="more"></a>
 
-<h2 id="jdk-1-7-中结构"><a href="#jdk-1-7-中结构" class="headerlink" title="jdk 1.7 中结构"></a>jdk 1.7 中结构</h2><p><img src="/2020/09/10/Java%20ConcurrentHashMap/16ef52f1ce824293" alt="jdk1.7 ConcurrentHashMap结构"></p>
+<h2 id="jdk-1-7-中结构"><a href="#jdk-1-7-中结构" class="headerlink" title="jdk 1.7 中结构"></a>jdk 1.7 中结构</h2><p>![Java ConcurrentHashMap](Java ConcurrentHashMap/16ef52f1ce824293)</p>
 <ul>
 <li>在 jdk 1.7 中，ConcurrentHashMap 是由 <strong>Segment 数据结构和 HashEntry 数组结构构成</strong>。</li>
 <li><strong>采取分段锁来保证安全性</strong>。</li>
 <li><strong>Segment 是 ReentrantLock 重入锁</strong>，在 ConcurrentHashMap 中扮演锁的角色；HashEntry 则用于存储键值对数据。</li>
 <li>一个 ConcurrentHashMap 里包含一个 Segment 数组，一个 Segment 里包含一个 HashEntry 数组，Segment 的结构和 HashMap 类似，是一个数组和链表结构。</li>
 </ul>
-<h2 id="jdk-1-8-中结构"><a href="#jdk-1-8-中结构" class="headerlink" title="jdk 1.8 中结构"></a>jdk 1.8 中结构</h2><p><img src="/2020/09/10/Java%20ConcurrentHashMap/16ef52f1cf5e2104" alt="jdk1.8 ConcurrentHashMap结构"></p>
+<h2 id="jdk-1-8-中结构"><a href="#jdk-1-8-中结构" class="headerlink" title="jdk 1.8 中结构"></a>jdk 1.8 中结构</h2><p>![jdk1.8 ConcurrentHashMap结构](Java ConcurrentHashMap/16ef52f1cf5e2104)</p>
 <p>JDK1.8 的实现已经摒弃了 Segment 的概念，而是<strong>直接用 Node 数组+链表+红黑树的数据结构</strong>来实现，<strong>并发控制使用 Synchronized 和 CAS 来操作</strong>，<strong>整个看起来就像是优化过且线程安全的 HashMap</strong>，虽然在 JDK1.8 中还能看到 Segment 的数据结构，但是已经简化了属性，只是为了兼容旧版本。</p>
 <h2 id="JDK-1-7-中的实现"><a href="#JDK-1-7-中的实现" class="headerlink" title="JDK 1.7 中的实现"></a>JDK 1.7 中的实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//默认的数组大小16(HashMap里的那个数组)</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//扩容因子0.75</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//ConcurrentHashMap中的数组</span></span><br><span class="line"><span class="keyword">final</span> Segment&lt;K,V&gt;[] segments</span><br><span class="line"></span><br><span class="line"><span class="comment">//默认并发标准16</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CONCURRENCY_LEVEL = <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Segment是ReentrantLock子类，因此拥有锁的操作</span></span><br><span class="line"> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Segment</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">ReentrantLock</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">  <span class="comment">//HashMap的那一套，分别是数组、键值对数量、阈值、负载因子</span></span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">volatile</span> HashEntry&lt;K,V&gt;[] table;</span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">int</span> count;</span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">int</span> threshold;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">float</span> loadFactor;</span><br><span class="line"></span><br><span class="line">  Segment(<span class="keyword">float</span> lf, <span class="keyword">int</span> threshold, HashEntry&lt;K,V&gt;[] tab) &#123;</span><br><span class="line">            <span class="keyword">this</span>.loadFactor = lf;</span><br><span class="line">            <span class="keyword">this</span>.threshold = threshold;</span><br><span class="line">            <span class="keyword">this</span>.table = tab;</span><br><span class="line">        &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="comment">//HashEntry对象，存key、value、hash值以及下一个节点</span></span><br><span class="line"> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HashEntry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">        <span class="keyword">final</span> K key;</span><br><span class="line">        <span class="keyword">volatile</span> V value;</span><br><span class="line">        <span class="keyword">volatile</span> HashEntry&lt;K,V&gt; next;</span><br><span class="line"> &#125;</span><br><span class="line"><span class="comment">//segment中HashEntry[]数组最小长度</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MIN_SEGMENT_TABLE_CAPACITY = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//用于定位在segments数组中的位置，下面介绍</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> segmentMask;</span><br><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> segmentShift;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -610,14 +608,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">334k</span>
+    <span title="站点总字数">1.2m</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:04</span>
+    <span title="站点阅读时长">17:38</span>
   </span>
 </div>
 

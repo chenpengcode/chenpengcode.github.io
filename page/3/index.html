@@ -194,20 +194,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -250,7 +250,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/28/Redis%20%E6%8C%81%E4%B9%85%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/duck.jpg">
@@ -267,7 +267,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">设计模式</a>
+            <a href="/2020/09/28/Redis%20%E6%8C%81%E4%B9%85%E5%8C%96/" class="post-title-link" itemprop="url">Redis持久化</a>
         </h2>
 
         <div class="post-meta-container">
@@ -277,27 +277,25 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2020-08-31 19:26:23" itemprop="dateCreated datePublished" datetime="2020-08-31T19:26:23+08:00">2020-08-31</time>
+      <time title="创建时间：2020-09-28 00:20:07 / 修改时间：00:22:16" itemprop="dateCreated datePublished" datetime="2020-09-28T00:20:07+08:00">2020-09-28</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-09-09 11:06:05" itemprop="dateModified" datetime="2020-09-09T11:06:05+08:00">2020-09-09</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" itemprop="url" rel="index"><span itemprop="name">面向对象</span></a>
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98/" itemprop="url" rel="index"><span itemprop="name">缓存</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
         </span>
     </span>
 
@@ -309,14 +307,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.4k</span>
+      <span>3.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>3 分钟</span>
     </span>
 </div>
 
@@ -327,10 +325,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>程序员对代码经验的总结，用来提高代码复用性、可维护性、可读性、稳健性以及安全性的解决方案</p>
+          <p>由于Redis是一种内存型数据库，即服务器在运行时，系统为其分配了一部分内存存储数据，一旦服务器挂了，或者突然宕机了，那么数据库里面的数据将会丢失，<strong>为了使服务器即使突然关机也能保存数据，必须通过持久化的方式将数据从内存保存到磁盘中。</strong></p>
+<p>redis有RDB和AOF两种持久化方式。</p>
+<ul>
+<li><strong>RDB是快照文件的方式，redis通过执行<code>SAVE/BGSAVE</code>命令，执行数据的备份，将redis当前的数据保存到<code>*.rdb</code>文件中，文件保存了所有的数据集合。</strong></li>
+<li><strong>AOF是服务器通过读取配置，在指定的时间里，追加redis写操作的命令到<code>*.aof</code>文件中，是一种增量的持久化方式。</strong></li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/08/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/#more" rel="contents">
+              <a class="btn" href="/2020/09/28/Redis%20%E6%8C%81%E4%B9%85%E5%8C%96/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -356,7 +359,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/30/Redis/">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/27/Redis%20%E8%BF%87%E6%9C%9F%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5%E5%92%8C%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/duck.jpg">
@@ -373,7 +376,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/30/Redis/" class="post-title-link" itemprop="url">Redis</a>
+            <a href="/2020/09/27/Redis%20%E8%BF%87%E6%9C%9F%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5%E5%92%8C%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" class="post-title-link" itemprop="url">Redis过期删除策略和内存淘汰策略</a>
         </h2>
 
         <div class="post-meta-container">
@@ -384,14 +387,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-08-30 10:37:41" itemprop="dateCreated datePublished" datetime="2020-08-30T10:37:41+08:00">2020-08-30</time>
+      <time title="创建时间：2020-09-27 22:40:11" itemprop="dateCreated datePublished" datetime="2020-09-27T22:40:11+08:00">2020-09-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-09-09 11:07:44" itemprop="dateModified" datetime="2020-09-09T11:07:44+08:00">2020-09-09</time>
+        <time title="修改时间：2020-09-28 00:21:11" itemprop="dateModified" datetime="2020-09-28T00:21:11+08:00">2020-09-28</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -419,14 +422,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>25k</span>
+      <span>2.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>23 分钟</span>
+      <span>2 分钟</span>
     </span>
 </div>
 
@@ -437,11 +440,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string"><a href="#string" class="headerlink" title="string"></a>string</h2><p><img src="/2020/08/30/Redis/image-20200827023141366.png" alt="image-20200827023141366">    </p>
-<p>**在Redis中String是可以修改的，称为动态字符串(Simple Dynamic String 简称 SDS)**，string表示的是一个可变的字节数组，我们初始化字符串的内容、可以拿到字符串的长度，可以获取string的子串，可以覆盖string的子串内容，可以追加子串。</p>
+          <p>Redis对于过期键有三种清除策略：定时删除、被动删除和主动删除，如果定期删除漏掉了很多过期key，然后你也没及时去查，也就没走惰性删除，此时会有大量过期key堆积在内存里，导致redis内存块耗尽了，走内存淘汰策略。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/08/30/Redis/#more" rel="contents">
+              <a class="btn" href="/2020/09/27/Redis%20%E8%BF%87%E6%9C%9F%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5%E5%92%8C%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -467,7 +469,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/30/Java%20SpringMVC/">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/27/Redis%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/duck.jpg">
@@ -484,7 +486,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/30/Java%20SpringMVC/" class="post-title-link" itemprop="url">SpringMVC</a>
+            <a href="/2020/09/27/Redis%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-title-link" itemprop="url">Redis数据类型及底层数据结构</a>
         </h2>
 
         <div class="post-meta-container">
@@ -495,14 +497,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-08-30 10:32:21" itemprop="dateCreated datePublished" datetime="2020-08-30T10:32:21+08:00">2020-08-30</time>
+      <time title="创建时间：2020-09-27 21:39:23" itemprop="dateCreated datePublished" datetime="2020-09-27T21:39:23+08:00">2020-09-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-09-09 09:38:07" itemprop="dateModified" datetime="2020-09-09T09:38:07+08:00">2020-09-09</time>
+        <time title="修改时间：2020-10-15 00:36:13" itemprop="dateModified" datetime="2020-10-15T00:36:13+08:00">2020-10-15</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -510,19 +512,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98/" itemprop="url" rel="index"><span itemprop="name">缓存</span></a>
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/JavaWeb/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/JavaWeb/Spring/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
         </span>
     </span>
 
@@ -534,14 +532,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>0</span>
+      <span>7.6k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>7 分钟</span>
     </span>
 </div>
 
@@ -552,115 +550,19 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/30/Java%20Spring/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/duck.jpg">
-      <meta itemprop="name" content="耳朵大侠">
-      <meta itemprop="description" content="要好好学习，不然别人只会指着你的鼻子说“你看那个人，除了帅，一无是处。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="耳朵大侠">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/30/Java%20Spring/" class="post-title-link" itemprop="url">Spring</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-08-30 10:32:13" itemprop="dateCreated datePublished" datetime="2020-08-30T10:32:13+08:00">2020-08-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-09-09 11:07:58" itemprop="dateModified" datetime="2020-09-09T11:07:58+08:00">2020-09-09</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/JavaWeb/" itemprop="url" rel="index"><span itemprop="name">JavaWeb</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/JavaWeb/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
-        </span>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>13k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>12 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="1-IOC的本质"><a href="#1-IOC的本质" class="headerlink" title="1. IOC的本质"></a>1. IOC的本质</h1><p>控制反转 IOC(Inversion of Control) 是一种设计思想, DI (依赖注入) 是实现 IOC 的一种方法. 在没有IOC的程序中, 我们使用面向对象编程, 对象的创建与对象间的依赖关系完全硬编码在程序中, 对象的创建由程序自己控制, 控制反转后将对象的创建转移到第三方, 个人认为所谓控制反转就是获得依赖对象的方式反转了.</p>
-<p>IOC 是 Spring 框架的核心内容.</p>
-<p>采用 XML 方式配置Bean 的时候, Bean 的定义信息和实现是分离的, 采用注解的方式可以把两者合为一体, Bean 的定义信息直接以注解的形式定义在实现类中, 从而达到零配置的目的.</p>
-<p>控制反转时一种通过描述 (XML 或注解) 并通过第三方去生产或获取特定对象的方式, 在Spring 中实现控制反转的时 IOC 容器, 其实现方式时依赖注入 (Dependence Injection, DI).</p>
+          <p>Redis 并不是简单的 key-value 存储，实际上他是一个数据结构服务器，支持不同类型的值。也就是说，你不必仅仅把字符串当作键所指向的值。下列这些数据类型都可作为值类型：</p>
+<ul>
+<li>二进制安全的字符串</li>
+<li>Lists: 按插入顺序排序的字符串元素的集合。他们基本上就是<em>链表（linked lists）</em>。</li>
+<li>Sets: 不重复且无序的字符串元素的集合。</li>
+<li>Sorted sets,类似Sets,但是每个字符串元素都关联到一个叫<em>score</em>浮动数值（floating number value）。里面的元素总是通过score进行着排序，所以不同的是，它是可以检索的一系列元素。（例如你可能会问：给我前面10个或者后面10个元素）。</li>
+<li>Hashes,由field和关联的value组成的map。field和value都是字符串的。这和Ruby、Python的hashes很像。</li>
+<li>Bit arrays (或者说 simply bitmaps): 通过特殊的命令，你可以将 String 值当作一系列 bits 处理：可以设置和清除单独的 bits，数出所有设为 1 的 bits 的数量，找到最前的被设为 1 或 0 的 bit，等等。</li>
+<li>HyperLogLogs: 这是被用于估计一个 set 中元素数量的概率性的数据结构。</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/08/30/Java%20Spring/#more" rel="contents">
+              <a class="btn" href="/2020/09/27/Redis%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -686,7 +588,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/30/Java%20SE/">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/duck.jpg">
@@ -703,7 +605,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/30/Java%20SE/" class="post-title-link" itemprop="url">JavaSE</a>
+            <a href="/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/" class="post-title-link" itemprop="url">MySQL索引</a>
         </h2>
 
         <div class="post-meta-container">
@@ -714,340 +616,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-08-30 10:30:01" itemprop="dateCreated datePublished" datetime="2020-08-30T10:30:01+08:00">2020-08-30</time>
+      <time title="创建时间：2020-09-27 16:19:12" itemprop="dateCreated datePublished" datetime="2020-09-27T16:19:12+08:00">2020-09-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-09-09 11:06:30" itemprop="dateModified" datetime="2020-09-09T11:06:30+08:00">2020-09-09</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
-        </span>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>13k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>12 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h2><p><img src="/2020/08/30/Java%20SE/image-20200825070318585.png" alt="image-20200825070318585"></p>
-<p>HashMap是由数组和链表组合构成的数据结构。</p>
-<p>数组里面每个地方都存了Key-Value这样的实例，在Java7叫Entry在Java8中叫Node。</p>
-<p>因为他本身所有的位置都为null，在put插入的时候会根据key的hash去计算一个index值。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/30/Java%20SE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/duck.jpg">
-      <meta itemprop="name" content="耳朵大侠">
-      <meta itemprop="description" content="要好好学习，不然别人只会指着你的鼻子说“你看那个人，除了帅，一无是处。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="耳朵大侠">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/" class="post-title-link" itemprop="url">Java 多线程和并发</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-08-30 10:22:16" itemprop="dateCreated datePublished" datetime="2020-08-30T10:22:16+08:00">2020-08-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-10-16 19:08:11" itemprop="dateModified" datetime="2020-10-16T19:08:11+08:00">2020-10-16</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/%E5%B9%B6%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">并发</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/%E5%B9%B6%E5%8F%91/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
-        </span>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>22k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>20 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="线程创建"><a href="#线程创建" class="headerlink" title="线程创建"></a>线程创建</h2><h3 id="继承Thread类"><a href="#继承Thread类" class="headerlink" title="继承Thread类"></a>继承Thread类</h3><p>学习：查看jdk帮助文档</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/30/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%B9%B6%E5%8F%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/30/Java%20Mybatis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/duck.jpg">
-      <meta itemprop="name" content="耳朵大侠">
-      <meta itemprop="description" content="要好好学习，不然别人只会指着你的鼻子说“你看那个人，除了帅，一无是处。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="耳朵大侠">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/30/Java%20Mybatis/" class="post-title-link" itemprop="url">Mybatis</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-08-30 10:18:36" itemprop="dateCreated datePublished" datetime="2020-08-30T10:18:36+08:00">2020-08-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-09-09 11:06:50" itemprop="dateModified" datetime="2020-09-09T11:06:50+08:00">2020-09-09</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/Mybatis/" itemprop="url" rel="index"><span itemprop="name">Mybatis</span></a>
-        </span>
-    </span>
-
-  
-      </div>
-      <div class="post-meta">
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>79k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1:12</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="什么是-MyBatis？"><a href="#什么是-MyBatis？" class="headerlink" title="什么是 MyBatis？"></a>什么是 MyBatis？</h2><p>MyBatis 是一款优秀的持久层框架，它支持自定义 SQL、存储过程以及高级映射。MyBatis 免除了几乎所有的 JDBC 代码以及设置参数和获取结果集的工作。MyBatis 可以通过简单的 XML 或注解来配置和映射原始类型、接口和 Java POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。</p>
-<p>中文文档：<a target="_blank" rel="noopener" href="https://mybatis.org/mybatis-3/zh/index.html">https://mybatis.org/mybatis-3/zh/index.html</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/30/Java%20Mybatis/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/30/MySQL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/duck.jpg">
-      <meta itemprop="name" content="耳朵大侠">
-      <meta itemprop="description" content="要好好学习，不然别人只会指着你的鼻子说“你看那个人，除了帅，一无是处。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="耳朵大侠">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/30/MySQL/" class="post-title-link" itemprop="url">MySQL</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-08-30 09:49:14" itemprop="dateCreated datePublished" datetime="2020-08-30T09:49:14+08:00">2020-08-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-09-26 01:15:26" itemprop="dateModified" datetime="2020-09-26T01:15:26+08:00">2020-09-26</time>
+        <time title="修改时间：2020-11-06 00:41:47" itemprop="dateModified" datetime="2020-11-06T00:41:47+08:00">2020-11-06</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1067,14 +643,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>19k</span>
+      <span>11k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>17 分钟</span>
+      <span>10 分钟</span>
     </span>
 </div>
 
@@ -1085,10 +661,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>知识点分类：存储引擎（主要使使MyISAM和InnoDB的区别和适用场景），事务，MVCC，锁机制，索引，以及优化技术</p>
+          <p>索引是存储引擎用于快速找到记录的一种数据结构.</p>
+<p>索引的目的在于提高查询效率，这个过程可以类比查字典。</p>
+<p>索引本质上是独立的索引文件，里面按照特定的顺序（一般采用B+树结构）记录了数据字段（A,B）和实际数据存储位置 在没有索引的时候，如果要查询某个字段=值，则需要遍历所有实际数据，然后和字段对比，也就是全表扫描 然而在拥有索引的时候，则不需要查询原始数据，只需要查询索引文件，分别查询出A和B匹配的记录，然后计算他们的交集，最后再根据索引中记录的实际位置去读取数据，避免了全表扫描 。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/08/30/MySQL/#more" rel="contents">
+              <a class="btn" href="/2020/09/27/MySQL%20%E7%B4%A2%E5%BC%95/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1114,7 +692,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/25/MySQL%20%E4%BA%8B%E5%8A%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/duck.jpg">
@@ -1131,7 +709,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" class="post-title-link" itemprop="url">计算机网络 网络协议</a>
+            <a href="/2020/09/25/MySQL%20%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">MySQL事务</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1142,14 +720,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-08-29 09:05:09" itemprop="dateCreated datePublished" datetime="2020-08-29T09:05:09+08:00">2020-08-29</time>
+      <time title="创建时间：2020-09-25 23:44:32" itemprop="dateCreated datePublished" datetime="2020-09-25T23:44:32+08:00">2020-09-25</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-10-16 22:12:06" itemprop="dateModified" datetime="2020-10-16T22:12:06+08:00">2020-10-16</time>
+        <time title="修改时间：2020-09-27 21:35:32" itemprop="dateModified" datetime="2020-09-27T21:35:32+08:00">2020-09-27</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1157,11 +735,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a>
+          <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
         </span>
     </span>
 
@@ -1173,14 +747,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>18k</span>
+      <span>9.9k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>16 分钟</span>
+      <span>9 分钟</span>
     </span>
 </div>
 
@@ -1191,11 +765,19 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>网络协议指的是计算机网络中互相通信的对等实体之间交换信息时所必须遵守的规则的集合。</p>
-<p>对等实体通常是指计算机网络体系结构中处于相同层次的信息单元。一般系统网络协议包括五个部分：通信环境，传输服务，词汇表，信息的编码格式，时序、规则和过程。1969年美国国防部建立最早的网络——阿帕计算机网络时，发布了一组计算机通信协议的军用标准，它包括了五个协议，习惯上以其中的TCP和IP两个协议作为这组协议的通称。</p>
+          <p>事务是MySQL等关系型数据库区别于NoSQL的重要方面，是保证数据一致性的重要手段。</p>
+<p>事务（Transaction）是访问和更新数据库的程序执行单元；事务中可能包含一个或多个sql语句，这些语句要么都执行，要么都不执行。</p>
+<p>ACID是衡量事务的四个特性：</p>
+<ul>
+<li>原子性（Atomicity，或称不可分割性）</li>
+<li>一致性（Consistency）</li>
+<li>隔离性（Isolation）</li>
+<li>持久性（Durability）</li>
+</ul>
+<p>按照严格的标准，只有同时满足ACID特性才是事务；但是在各大数据库厂商的实现中，真正满足ACID的事务少之又少。例如MySQL的NDB Cluster事务不满足持久性和隔离性；InnoDB默认事务隔离级别是可重复读，不满足隔离性；Oracle默认的事务隔离级别为READ COMMITTED，不满足隔离性……<strong>因此与其说ACID是事务必须满足的条件，不如说它们是衡量事务的四个维度。</strong></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/08/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/#more" rel="contents">
+              <a class="btn" href="/2020/09/25/MySQL%20%E4%BA%8B%E5%8A%A1/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1221,7 +803,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/08/29/Java%20JVM/">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/17/Java%20Sychronized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/duck.jpg">
@@ -1238,7 +820,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/29/Java%20JVM/" class="post-title-link" itemprop="url">Java JVM</a>
+            <a href="/2020/09/17/Java%20Sychronized/" class="post-title-link" itemprop="url">Sychronized</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1249,14 +831,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-08-29 08:56:23" itemprop="dateCreated datePublished" datetime="2020-08-29T08:56:23+08:00">2020-08-29</time>
+      <time title="创建时间：2020-09-17 15:05:46" itemprop="dateCreated datePublished" datetime="2020-09-17T15:05:46+08:00">2020-09-17</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-10-16 19:13:18" itemprop="dateModified" datetime="2020-10-16T19:13:18+08:00">2020-10-16</time>
+        <time title="修改时间：2020-09-19 14:53:20" itemprop="dateModified" datetime="2020-09-19T14:53:20+08:00">2020-09-19</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1280,14 +862,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>13k</span>
+      <span>1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>12 分钟</span>
+      <span>1 分钟</span>
     </span>
 </div>
 
@@ -1298,10 +880,445 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="JVM-内存结构"><a href="#JVM-内存结构" class="headerlink" title="JVM 内存结构"></a>JVM 内存结构</h2><p><img src="/2020/08/29/Java%20JVM/image-20200825055735726.png" alt="image-20200825055735726"></p>
+          <p>在Java中， 每个对象（object）都拥有一把锁，这把锁存在于对象头中，锁中记录了当前对象被哪个对象所占用</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/08/29/Java%20JVM/#more" rel="contents">
+              <a class="btn" href="/2020/09/17/Java%20Sychronized/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/12/Java%20ArrayList%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/duck.jpg">
+      <meta itemprop="name" content="耳朵大侠">
+      <meta itemprop="description" content="要好好学习，不然别人只会指着你的鼻子说“你看那个人，除了帅，一无是处。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耳朵大侠">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/12/Java%20ArrayList%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">Java ArrayList源码分析</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-12 16:59:02" itemprop="dateCreated datePublished" datetime="2020-09-12T16:59:02+08:00">2020-09-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-10-16 19:10:13" itemprop="dateModified" datetime="2020-10-16T19:10:13+08:00">2020-10-16</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/JavaSE/Java%E9%9B%86%E5%90%88/" itemprop="url" rel="index"><span itemprop="name">Java集合</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>ArrayList的底层实现是一个长度可变的数组，因为其使用数组结构，所以根据索引操作ArrayList的方法会非常快，时间复杂度为0(1)，例如：<code>get(int index)</code>,<code>set(int index, E element)</code>;但是，添加和删除元素相对较慢。<br>ArrayList不是同步的，也就是在多线程的情况下，如果使用ArrayList可能存在安全问题。如果需要在多线程下使用ArrayList,可以使用Vector,或者使用Collections工具类<code>List list = Collections.synchronizedList（new ArrayList（...））</code>，将ArrayList转化为线程安全的；还可以使用并发容器<code>CopyOnWriteArrayList</code></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/12/Java%20ArrayList%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/10/Java%20ConcurrentHashMap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/duck.jpg">
+      <meta itemprop="name" content="耳朵大侠">
+      <meta itemprop="description" content="要好好学习，不然别人只会指着你的鼻子说“你看那个人，除了帅，一无是处。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耳朵大侠">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/10/Java%20ConcurrentHashMap/" class="post-title-link" itemprop="url">Java ConcurrentHashMap</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-10 15:53:04" itemprop="dateCreated datePublished" datetime="2020-09-10T15:53:04+08:00">2020-09-10</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-08 19:12:32" itemprop="dateModified" datetime="2020-11-08T19:12:32+08:00">2020-11-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/JavaSE/" itemprop="url" rel="index"><span itemprop="name">JavaSE</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/JavaSE/JUC/" itemprop="url" rel="index"><span itemprop="name">JUC</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>21k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>19 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>ConcurrentHashMap解决了HashMap的线程不安全问题</p>
+<p>jdk 1.7 和 jdk 1.8 中，ConcurrentHashMap 的结构有着很大的变化</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/10/Java%20ConcurrentHashMap/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/09/Java%20CMS%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/duck.jpg">
+      <meta itemprop="name" content="耳朵大侠">
+      <meta itemprop="description" content="要好好学习，不然别人只会指着你的鼻子说“你看那个人，除了帅，一无是处。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耳朵大侠">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/09/Java%20CMS%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/" class="post-title-link" itemprop="url">Java CMS垃圾收集器</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-09 11:43:03" itemprop="dateCreated datePublished" datetime="2020-09-09T11:43:03+08:00">2020-09-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-10-16 19:11:09" itemprop="dateModified" datetime="2020-10-16T19:11:09+08:00">2020-10-16</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>CMS是老年代垃圾收集器，在收集过程中可以与用户线程并发操作。它可以与Serial收集器和Parallel New收集器搭配使用。CMS牺牲了系统的吞吐量来追求收集速度，适合追求垃圾收集速度的服务器上。可以通过JVM启动参数：<code>-XX:+UseConcMarkSweepGC</code>来开启CMS。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/09/Java%20CMS%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/09/09/MySQL%20InnoDB%E4%B8%8EMyISAM%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%AF%B9%E6%AF%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/duck.jpg">
+      <meta itemprop="name" content="耳朵大侠">
+      <meta itemprop="description" content="要好好学习，不然别人只会指着你的鼻子说“你看那个人，除了帅，一无是处。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耳朵大侠">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/09/MySQL%20InnoDB%E4%B8%8EMyISAM%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%AF%B9%E6%AF%94/" class="post-title-link" itemprop="url">MySQL InnoDB与MyISAM存储引擎对比</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-09 11:23:40" itemprop="dateCreated datePublished" datetime="2020-09-09T11:23:40+08:00">2020-09-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-10-16 18:54:51" itemprop="dateModified" datetime="2020-10-16T18:54:51+08:00">2020-10-16</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>334</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="InnoDB存储引擎"><a href="#InnoDB存储引擎" class="headerlink" title="InnoDB存储引擎"></a>InnoDB存储引擎</h3><p><strong>InnoDB引擎是Mysql的默认的存储引擎</strong></p>
+<ul>
+<li><strong>支持事务</strong>，InnoDB存储引擎<strong>主要就是为了在线事务处理（OLTP）的应用而设计的</strong>。</li>
+<li><strong>行锁设计</strong>，支持外键，非锁定读。</li>
+<li>支持多版本的并发控制（MVCC）来获得高并发性。</li>
+<li>提供了插入缓冲、二次写、自适应哈希索引、预读等高性能和高可用的功能。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/09/MySQL%20InnoDB%E4%B8%8EMyISAM%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%AF%B9%E6%AF%94/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1326,7 +1343,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1379,14 +1396,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">334k</span>
+    <span title="站点总字数">1.2m</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:04</span>
+    <span title="站点阅读时长">17:38</span>
   </span>
 </div>
 
