@@ -54,7 +54,7 @@
 <meta property="og:image" content="http://chenpengcode.github.io/2020/10/22/Java-%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E6%94%B6%E9%9B%86/1717443eb25a3d9b">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/10/22/Java-%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E6%94%B6%E9%9B%86/1717443ebe68c24f">
 <meta property="article:published_time" content="2020-10-22T13:31:11.000Z">
-<meta property="article:modified_time" content="2020-11-17T05:39:25.278Z">
+<meta property="article:modified_time" content="2020-11-19T15:13:19.182Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="面试">
@@ -208,7 +208,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8C%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.1.</span> <span class="nav-text">Lambda表达式和函数式接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E4%B8%AD%E5%8F%98%E9%87%8F%EF%BC%8C%E4%BB%A3%E7%A0%81%E5%9D%97%EF%BC%8C%E6%9E%84%E9%80%A0%E5%99%A8%E4%B9%8B%E9%97%B4%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="nav-number">1.2.</span> <span class="nav-text">Java中变量，代码块，构造器之间执行顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final-finally-finalize%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.</span> <span class="nav-text">final finally finalize区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static"><span class="nav-number">1.4.</span> <span class="nav-text">static</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%80%81%E6%9C%BA%E5%88%B6"><span class="nav-number">1.5.</span> <span class="nav-text">多态机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.6.</span> <span class="nav-text">抽象类和接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">1.7.</span> <span class="nav-text">内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%92%8C-equals-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.8.</span> <span class="nav-text">&#x3D;&#x3D; 和 equals 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IO-%E6%B5%81"><span class="nav-number">1.9.</span> <span class="nav-text">IO 流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6"><span class="nav-number">1.10.</span> <span class="nav-text">反射机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E9%83%A8%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">集合部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap"><span class="nav-number">2.1.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap"><span class="nav-number">2.2.</span> <span class="nav-text">ConcurrentHashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList"><span class="nav-number">2.3.</span> <span class="nav-text">ArrayList</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">2.4.</span> <span class="nav-text">一些面试题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E9%83%A8%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">异常部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%BC%82%E5%B8%B8%E6%9E%B6%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">Java异常架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%BC%82%E5%B8%B8%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">3.2.</span> <span class="nav-text">Java异常关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%BC%82%E5%B8%B8%E8%A7%84%E8%8C%83"><span class="nav-number">3.3.</span> <span class="nav-text">Java异常规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98-1"><span class="nav-number">3.4.</span> <span class="nav-text">一些面试题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E9%83%A8%E5%88%86"><span class="nav-number">4.</span> <span class="nav-text">并发部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="nav-number">4.1.</span> <span class="nav-text">线程状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA"><span class="nav-number">4.2.</span> <span class="nav-text">线程创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%96%B9%E6%B3%95"><span class="nav-number">4.3.</span> <span class="nav-text">线程方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS"><span class="nav-number">4.4.</span> <span class="nav-text">CAS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Synchronized"><span class="nav-number">4.5.</span> <span class="nav-text">Synchronized</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile"><span class="nav-number">4.6.</span> <span class="nav-text">volatile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">4.7.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">4.8.</span> <span class="nav-text">ThreadLocal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98-2"><span class="nav-number">4.9.</span> <span class="nav-text">一些面试题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E9%83%A8%E5%88%86"><span class="nav-number">5.</span> <span class="nav-text">JVM部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">5.1.</span> <span class="nav-text">内存结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="nav-number">5.2.</span> <span class="nav-text">类加载机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GC%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">5.3.</span> <span class="nav-text">GC垃圾回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">5.4.</span> <span class="nav-text">垃圾收集算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">5.5.</span> <span class="nav-text">垃圾收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E4%BC%98"><span class="nav-number">5.6.</span> <span class="nav-text">调优</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98-3"><span class="nav-number">5.7.</span> <span class="nav-text">一些面试题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minor-GC%E3%80%81Major-GC%E3%80%81Full-GC%E5%8C%BA%E5%88%AB%E5%8F%8A%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6"><span class="nav-number">5.8.</span> <span class="nav-text">Minor GC、Major GC、Full GC区别及触发条件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E9%83%A8%E5%88%86"><span class="nav-number">6.</span> <span class="nav-text">框架部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mybatis"><span class="nav-number">6.1.</span> <span class="nav-text">Mybatis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring"><span class="nav-number">6.2.</span> <span class="nav-text">Spring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringMVC"><span class="nav-number">6.3.</span> <span class="nav-text">SpringMVC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC%E6%A1%86%E6%9E%B6"><span class="nav-number">7.</span> <span class="nav-text">MVC框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MVC%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9FMVC%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%A5%BD%E5%A4%84%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">7.1.</span> <span class="nav-text">MVC是什么？MVC设计模式的好处有哪些</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="nav-number">8.</span> <span class="nav-text">常用注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">8.1.</span> <span class="nav-text">注解原理是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E5%B8%B8%E7%94%A8%E7%9A%84%E6%B3%A8%E8%A7%A3%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">8.2.</span> <span class="nav-text">Spring MVC常用的注解有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpingMvc%E4%B8%AD%E7%9A%84%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E6%B3%A8%E8%A7%A3%E4%B8%80%E8%88%AC%E7%94%A8%E5%93%AA%E4%B8%AA-%E6%9C%89%E6%B2%A1%E6%9C%89%E5%88%AB%E7%9A%84%E6%B3%A8%E8%A7%A3%E5%8F%AF%E4%BB%A5%E6%9B%BF%E4%BB%A3%EF%BC%9F"><span class="nav-number">8.3.</span> <span class="nav-text">SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">8.4.</span> <span class="nav-text">@Controller注解的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RequestMapping%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">8.5.</span> <span class="nav-text">@RequestMapping注解的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ResponseBody%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">8.6.</span> <span class="nav-text">@ResponseBody注解的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PathVariable%E5%92%8C-RequestParam%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">8.7.</span> <span class="nav-text">@PathVariable和@RequestParam的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">9.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E4%B8%8EStruts2%E5%8C%BA%E5%88%AB"><span class="nav-number">9.1.</span> <span class="nav-text">Spring MVC与Struts2区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E6%80%8E%E4%B9%88%E6%A0%B7%E8%AE%BE%E5%AE%9A%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8C%E8%BD%AC%E5%8F%91%E7%9A%84%EF%BC%9F"><span class="nav-number">9.2.</span> <span class="nav-text">Spring MVC怎么样设定重定向和转发的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E6%80%8E%E4%B9%88%E5%92%8CAJAX%E7%9B%B8%E4%BA%92%E8%B0%83%E7%94%A8%E7%9A%84%EF%BC%9F"><span class="nav-number">9.3.</span> <span class="nav-text">Spring MVC怎么和AJAX相互调用的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3POST%E8%AF%B7%E6%B1%82%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%EF%BC%8CGET%E7%9A%84%E5%8F%88%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%91%A2%EF%BC%9F"><span class="nav-number">9.4.</span> <span class="nav-text">如何解决POST请求中文乱码问题，GET的又如何处理呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%EF%BC%9F"><span class="nav-number">9.5.</span> <span class="nav-text">Spring MVC的异常处理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E5%9C%A8%E6%8B%A6%E6%88%AA%E8%AF%B7%E6%B1%82%E4%B8%AD%EF%BC%8C%E6%88%91%E6%83%B3%E6%8B%A6%E6%88%AAget%E6%96%B9%E5%BC%8F%E6%8F%90%E4%BA%A4%E7%9A%84%E6%96%B9%E6%B3%95-%E6%80%8E%E4%B9%88%E9%85%8D%E7%BD%AE"><span class="nav-number">9.6.</span> <span class="nav-text">如果在拦截请求中，我想拦截get方式提交的方法,怎么配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E6%A0%B7%E5%9C%A8%E6%96%B9%E6%B3%95%E9%87%8C%E9%9D%A2%E5%BE%97%E5%88%B0Request-%E6%88%96%E8%80%85Session%EF%BC%9F"><span class="nav-number">9.7.</span> <span class="nav-text">怎样在方法里面得到Request,或者Session？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%83%B3%E5%9C%A8%E6%8B%A6%E6%88%AA%E7%9A%84%E6%96%B9%E6%B3%95%E9%87%8C%E9%9D%A2%E5%BE%97%E5%88%B0%E4%BB%8E%E5%89%8D%E5%8F%B0%E4%BC%A0%E5%85%A5%E7%9A%84%E5%8F%82%E6%95%B0-%E6%80%8E%E4%B9%88%E5%BE%97%E5%88%B0%EF%BC%9F"><span class="nav-number">9.8.</span> <span class="nav-text">如果想在拦截的方法里面得到从前台传入的参数,怎么得到？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E5%89%8D%E5%8F%B0%E6%9C%89%E5%BE%88%E5%A4%9A%E4%B8%AA%E5%8F%82%E6%95%B0%E4%BC%A0%E5%85%A5-%E5%B9%B6%E4%B8%94%E8%BF%99%E4%BA%9B%E5%8F%82%E6%95%B0%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84-%E9%82%A3%E4%B9%88%E6%80%8E%E4%B9%88%E6%A0%B7%E5%BF%AB%E9%80%9F%E5%BE%97%E5%88%B0%E8%BF%99%E4%B8%AA%E5%AF%B9%E8%B1%A1%EF%BC%9F"><span class="nav-number">9.9.</span> <span class="nav-text">如果前台有很多个参数传入,并且这些参数都是一个对象的,那么怎么样快速得到这个对象？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">9.10.</span> <span class="nav-text">Spring MVC中函数的返回值是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E7%94%A8%E4%BB%80%E4%B9%88%E5%AF%B9%E8%B1%A1%E4%BB%8E%E5%90%8E%E5%8F%B0%E5%90%91%E5%89%8D%E5%8F%B0%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE%E7%9A%84%EF%BC%9F"><span class="nav-number">9.11.</span> <span class="nav-text">Spring MVC用什么对象从后台向前台传递数据的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%A0%B7%E6%8A%8AModelMap%E9%87%8C%E9%9D%A2%E7%9A%84%E6%95%B0%E6%8D%AE%E6%94%BE%E5%85%A5Session%E9%87%8C%E9%9D%A2%EF%BC%9F"><span class="nav-number">9.12.</span> <span class="nav-text">怎么样把ModelMap里面的数据放入Session里面？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E9%87%8C%E9%9D%A2%E6%8B%A6%E6%88%AA%E5%99%A8%E6%98%AF%E6%80%8E%E4%B9%88%E5%86%99%E7%9A%84"><span class="nav-number">9.13.</span> <span class="nav-text">Spring MVC里面拦截器是怎么写的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B-WebApplicationContext"><span class="nav-number">9.14.</span> <span class="nav-text">介绍一下 WebApplicationContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringCloud"><span class="nav-number">9.15.</span> <span class="nav-text">SpringCloud</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot"><span class="nav-number">9.16.</span> <span class="nav-text">SpringBoot</span></a></li></ol></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8C%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.1.</span> <span class="nav-text">Lambda表达式和函数式接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E4%B8%AD%E5%8F%98%E9%87%8F%EF%BC%8C%E4%BB%A3%E7%A0%81%E5%9D%97%EF%BC%8C%E6%9E%84%E9%80%A0%E5%99%A8%E4%B9%8B%E9%97%B4%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="nav-number">1.2.</span> <span class="nav-text">Java中变量，代码块，构造器之间执行顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final-finally-finalize%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.</span> <span class="nav-text">final finally finalize区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static"><span class="nav-number">1.4.</span> <span class="nav-text">static</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%80%81%E6%9C%BA%E5%88%B6"><span class="nav-number">1.5.</span> <span class="nav-text">多态机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.6.</span> <span class="nav-text">抽象类和接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">1.7.</span> <span class="nav-text">内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%92%8C-equals-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.8.</span> <span class="nav-text">&#x3D;&#x3D; 和 equals 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IO-%E6%B5%81"><span class="nav-number">1.9.</span> <span class="nav-text">IO 流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6"><span class="nav-number">1.10.</span> <span class="nav-text">反射机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">1.11.</span> <span class="nav-text">动态代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E9%83%A8%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">集合部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap"><span class="nav-number">2.1.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap"><span class="nav-number">2.2.</span> <span class="nav-text">ConcurrentHashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList"><span class="nav-number">2.3.</span> <span class="nav-text">ArrayList</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">2.4.</span> <span class="nav-text">一些面试题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E9%83%A8%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">异常部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%BC%82%E5%B8%B8%E6%9E%B6%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">Java异常架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%BC%82%E5%B8%B8%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">3.2.</span> <span class="nav-text">Java异常关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%BC%82%E5%B8%B8%E8%A7%84%E8%8C%83"><span class="nav-number">3.3.</span> <span class="nav-text">Java异常规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98-1"><span class="nav-number">3.4.</span> <span class="nav-text">一些面试题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E9%83%A8%E5%88%86"><span class="nav-number">4.</span> <span class="nav-text">并发部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="nav-number">4.1.</span> <span class="nav-text">线程状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA"><span class="nav-number">4.2.</span> <span class="nav-text">线程创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%96%B9%E6%B3%95"><span class="nav-number">4.3.</span> <span class="nav-text">线程方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS"><span class="nav-number">4.4.</span> <span class="nav-text">CAS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Synchronized"><span class="nav-number">4.5.</span> <span class="nav-text">Synchronized</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile"><span class="nav-number">4.6.</span> <span class="nav-text">volatile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">4.7.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">4.8.</span> <span class="nav-text">ThreadLocal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98-2"><span class="nav-number">4.9.</span> <span class="nav-text">一些面试题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E9%83%A8%E5%88%86"><span class="nav-number">5.</span> <span class="nav-text">JVM部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">5.1.</span> <span class="nav-text">内存结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="nav-number">5.2.</span> <span class="nav-text">类加载机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GC%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">5.3.</span> <span class="nav-text">GC垃圾回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">5.4.</span> <span class="nav-text">垃圾收集算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">5.5.</span> <span class="nav-text">垃圾收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E4%BC%98"><span class="nav-number">5.6.</span> <span class="nav-text">调优</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98-3"><span class="nav-number">5.7.</span> <span class="nav-text">一些面试题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minor-GC%E3%80%81Major-GC%E3%80%81Full-GC%E5%8C%BA%E5%88%AB%E5%8F%8A%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6"><span class="nav-number">5.8.</span> <span class="nav-text">Minor GC、Major GC、Full GC区别及触发条件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E9%83%A8%E5%88%86"><span class="nav-number">6.</span> <span class="nav-text">框架部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mybatis"><span class="nav-number">6.1.</span> <span class="nav-text">Mybatis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring"><span class="nav-number">6.2.</span> <span class="nav-text">Spring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringMVC"><span class="nav-number">6.3.</span> <span class="nav-text">SpringMVC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC%E6%A1%86%E6%9E%B6"><span class="nav-number">7.</span> <span class="nav-text">MVC框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MVC%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9FMVC%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%A5%BD%E5%A4%84%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">7.1.</span> <span class="nav-text">MVC是什么？MVC设计模式的好处有哪些</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="nav-number">8.</span> <span class="nav-text">常用注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">8.1.</span> <span class="nav-text">注解原理是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E5%B8%B8%E7%94%A8%E7%9A%84%E6%B3%A8%E8%A7%A3%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">8.2.</span> <span class="nav-text">Spring MVC常用的注解有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpingMvc%E4%B8%AD%E7%9A%84%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E6%B3%A8%E8%A7%A3%E4%B8%80%E8%88%AC%E7%94%A8%E5%93%AA%E4%B8%AA-%E6%9C%89%E6%B2%A1%E6%9C%89%E5%88%AB%E7%9A%84%E6%B3%A8%E8%A7%A3%E5%8F%AF%E4%BB%A5%E6%9B%BF%E4%BB%A3%EF%BC%9F"><span class="nav-number">8.3.</span> <span class="nav-text">SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">8.4.</span> <span class="nav-text">@Controller注解的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RequestMapping%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">8.5.</span> <span class="nav-text">@RequestMapping注解的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ResponseBody%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">8.6.</span> <span class="nav-text">@ResponseBody注解的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PathVariable%E5%92%8C-RequestParam%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">8.7.</span> <span class="nav-text">@PathVariable和@RequestParam的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">9.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E4%B8%8EStruts2%E5%8C%BA%E5%88%AB"><span class="nav-number">9.1.</span> <span class="nav-text">Spring MVC与Struts2区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E6%80%8E%E4%B9%88%E6%A0%B7%E8%AE%BE%E5%AE%9A%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8C%E8%BD%AC%E5%8F%91%E7%9A%84%EF%BC%9F"><span class="nav-number">9.2.</span> <span class="nav-text">Spring MVC怎么样设定重定向和转发的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E6%80%8E%E4%B9%88%E5%92%8CAJAX%E7%9B%B8%E4%BA%92%E8%B0%83%E7%94%A8%E7%9A%84%EF%BC%9F"><span class="nav-number">9.3.</span> <span class="nav-text">Spring MVC怎么和AJAX相互调用的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3POST%E8%AF%B7%E6%B1%82%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%EF%BC%8CGET%E7%9A%84%E5%8F%88%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%91%A2%EF%BC%9F"><span class="nav-number">9.4.</span> <span class="nav-text">如何解决POST请求中文乱码问题，GET的又如何处理呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%EF%BC%9F"><span class="nav-number">9.5.</span> <span class="nav-text">Spring MVC的异常处理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E5%9C%A8%E6%8B%A6%E6%88%AA%E8%AF%B7%E6%B1%82%E4%B8%AD%EF%BC%8C%E6%88%91%E6%83%B3%E6%8B%A6%E6%88%AAget%E6%96%B9%E5%BC%8F%E6%8F%90%E4%BA%A4%E7%9A%84%E6%96%B9%E6%B3%95-%E6%80%8E%E4%B9%88%E9%85%8D%E7%BD%AE"><span class="nav-number">9.6.</span> <span class="nav-text">如果在拦截请求中，我想拦截get方式提交的方法,怎么配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E6%A0%B7%E5%9C%A8%E6%96%B9%E6%B3%95%E9%87%8C%E9%9D%A2%E5%BE%97%E5%88%B0Request-%E6%88%96%E8%80%85Session%EF%BC%9F"><span class="nav-number">9.7.</span> <span class="nav-text">怎样在方法里面得到Request,或者Session？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%83%B3%E5%9C%A8%E6%8B%A6%E6%88%AA%E7%9A%84%E6%96%B9%E6%B3%95%E9%87%8C%E9%9D%A2%E5%BE%97%E5%88%B0%E4%BB%8E%E5%89%8D%E5%8F%B0%E4%BC%A0%E5%85%A5%E7%9A%84%E5%8F%82%E6%95%B0-%E6%80%8E%E4%B9%88%E5%BE%97%E5%88%B0%EF%BC%9F"><span class="nav-number">9.8.</span> <span class="nav-text">如果想在拦截的方法里面得到从前台传入的参数,怎么得到？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E5%89%8D%E5%8F%B0%E6%9C%89%E5%BE%88%E5%A4%9A%E4%B8%AA%E5%8F%82%E6%95%B0%E4%BC%A0%E5%85%A5-%E5%B9%B6%E4%B8%94%E8%BF%99%E4%BA%9B%E5%8F%82%E6%95%B0%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84-%E9%82%A3%E4%B9%88%E6%80%8E%E4%B9%88%E6%A0%B7%E5%BF%AB%E9%80%9F%E5%BE%97%E5%88%B0%E8%BF%99%E4%B8%AA%E5%AF%B9%E8%B1%A1%EF%BC%9F"><span class="nav-number">9.9.</span> <span class="nav-text">如果前台有很多个参数传入,并且这些参数都是一个对象的,那么怎么样快速得到这个对象？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">9.10.</span> <span class="nav-text">Spring MVC中函数的返回值是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E7%94%A8%E4%BB%80%E4%B9%88%E5%AF%B9%E8%B1%A1%E4%BB%8E%E5%90%8E%E5%8F%B0%E5%90%91%E5%89%8D%E5%8F%B0%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE%E7%9A%84%EF%BC%9F"><span class="nav-number">9.11.</span> <span class="nav-text">Spring MVC用什么对象从后台向前台传递数据的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%A0%B7%E6%8A%8AModelMap%E9%87%8C%E9%9D%A2%E7%9A%84%E6%95%B0%E6%8D%AE%E6%94%BE%E5%85%A5Session%E9%87%8C%E9%9D%A2%EF%BC%9F"><span class="nav-number">9.12.</span> <span class="nav-text">怎么样把ModelMap里面的数据放入Session里面？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC%E9%87%8C%E9%9D%A2%E6%8B%A6%E6%88%AA%E5%99%A8%E6%98%AF%E6%80%8E%E4%B9%88%E5%86%99%E7%9A%84"><span class="nav-number">9.13.</span> <span class="nav-text">Spring MVC里面拦截器是怎么写的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B-WebApplicationContext"><span class="nav-number">9.14.</span> <span class="nav-text">介绍一下 WebApplicationContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringCloud"><span class="nav-number">9.15.</span> <span class="nav-text">SpringCloud</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot"><span class="nav-number">9.16.</span> <span class="nav-text">SpringBoot</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -224,7 +224,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -315,7 +315,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-17 13:39:25" itemprop="dateModified" datetime="2020-11-17T13:39:25+08:00">2020-11-17</time>
+        <time title="修改时间：2020-11-19 23:13:19" itemprop="dateModified" datetime="2020-11-19T23:13:19+08:00">2020-11-19</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -339,14 +339,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>115k</span>
+      <span>119k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1:45</span>
+      <span>1:48</span>
     </span>
 </div>
 
@@ -394,39 +394,34 @@
 <thead>
 <tr>
 <th align="center">参数</th>
-<th align="center">抽象类</th>
-<th align="center">接口</th>
+<th align="left">抽象类</th>
+<th align="left">接口</th>
 </tr>
 </thead>
 <tbody><tr>
 <td align="center">声明</td>
-<td align="center">抽象类使用abstract关键字声明</td>
-<td align="center">接口使用interface关键字声明</td>
+<td align="left">抽象类使用abstract关键字声明</td>
+<td align="left">接口使用interface关键字声明</td>
 </tr>
 <tr>
 <td align="center">实现</td>
-<td align="center">子类使用extends关键字来继承抽象类。如果子类不是抽象类的话，它需要提供抽象类中所有声明的方法的实现</td>
-<td align="center">子类使用implements关键字来实现接口。它需要提供接口中所有声明的方法的实现</td>
+<td align="left">子类使用extends关键字来继承抽象类。如果子类不是抽象类的话，它需要提供抽象类中所有声明的方法的实现</td>
+<td align="left">子类使用implements关键字来实现接口。它需要提供接口中所有声明的方法的实现</td>
 </tr>
 <tr>
 <td align="center">构造器</td>
-<td align="center">抽象类可以有构造器</td>
-<td align="center">接口不能有构造器</td>
+<td align="left">抽象类可以有构造器</td>
+<td align="left">接口不能有构造器</td>
 </tr>
 <tr>
 <td align="center">访问修饰符</td>
-<td align="center">抽象类中的方法可以是任意访问修饰符</td>
-<td align="center">接口方法默认修饰符是public。并且不允许定义为 private 或者 protected</td>
+<td align="left">抽象类中的方法可以是任意访问修饰符</td>
+<td align="left">接口方法默认修饰符是public。并且不允许定义为 private 或者 protected</td>
 </tr>
 <tr>
 <td align="center">多继承</td>
-<td align="center">一个类最多只能继承一个抽象类</td>
-<td align="center">一个类可以实现多个接口</td>
-</tr>
-<tr>
-<td align="center">字段声明</td>
-<td align="center">抽象类的字段声明可以是任意的</td>
-<td align="center">接口的字段默认都是 static 和 final 的</td>
+<td align="left">一个类最多只能继承一个抽象类</td>
+<td align="left">一个类可以实现多个接口</td>
 </tr>
 </tbody></table>
 <hr>
@@ -474,6 +469,34 @@
 <li><strong>生命周期不一致</strong>， 局部变量直接存储在栈中，当方法执行结束后，非final的局部变量就被销毁。而局部内部类对局部变量的引用依然存在，如果局部内部类要调用局部变量时，就会出错。加了final，可以确保局部内部类使用的变量与外层的局部变量区分开，解决了这个问题。</li>
 </ul>
 <hr>
+<p><strong>Object类方法</strong></p>
+<p>Object是所有类的父类，任何类都默认继承Object。Object类到底实现了哪些方法？</p>
+<p><strong>（1）clone方法</strong></p>
+<p>保护方法，实现对象的浅复制，只有实现了Cloneable接口才可以调用该方法，否则抛出CloneNotSupportedException异常。</p>
+<p><strong>（2）getClass方法</strong></p>
+<p>final方法，获得运行时类型。</p>
+<p><strong>（3）toString方法</strong></p>
+<p>该方法用得比较多，一般子类都有覆盖。</p>
+<p><strong>（4）finalize方法</strong></p>
+<p>该方法用于释放资源。因为无法确定该方法什么时候被调用，很少使用。</p>
+<p><strong>（5）equals方法</strong></p>
+<p>该方法是非常重要的一个方法。一般equals和==是不一样的，但是在Object中两者是一样的。子类一般都要重写这个方法。</p>
+<p><strong>（6）hashCode方法</strong></p>
+<p>该方法用于哈希查找，重写了equals方法一般都要重写hashCode方法。这个方法在一些具有哈希功能的Collection中用到。</p>
+<p>一般必须满足obj1.equals(obj2)==true。可以推出obj1.hash- Code()==obj2.hashCode()，但是hashCode相等不一定就满足equals。不过为了提高效率，应该尽量使上面两个条件接近等价。</p>
+<p><strong>（7）wait方法</strong></p>
+<p>wait方法就是使当前线程等待该对象的锁，当前线程必须是该对象的拥有者，也就是具有该对象的锁。wait()方法一直等待，直到获得锁或者被中断。wait(long timeout)设定一个超时间隔，如果在规定时间内没有获得锁就返回。</p>
+<p>调用该方法后当前线程进入睡眠状态，直到以下事件发生。</p>
+<p>（1）其他线程调用了该对象的notify方法。</p>
+<p>（2）其他线程调用了该对象的notifyAll方法。</p>
+<p>（3）其他线程调用了interrupt中断该线程。</p>
+<p>（4）时间间隔到了。</p>
+<p>此时该线程就可以被调度了，如果是被中断的话就抛出一个InterruptedException异常。</p>
+<p><strong>（8）notify方法</strong></p>
+<p>该方法唤醒在该对象上等待的某个线程。</p>
+<p><strong>（9）notifyAll方法</strong></p>
+<p>该方法唤醒在该对象上等待的所有线程。</p>
+<hr>
 <h3 id="和-equals-的区别"><a href="#和-equals-的区别" class="headerlink" title="== 和 equals 的区别"></a>== 和 equals 的区别</h3><ul>
 <li><p><strong>==</strong> : 它的作用是判断两个对象的地址是不是相等。即，判断两个对象是不是同一个对象。(基本数据类型 == 比较的是值，引用数据类型 == 比较的是内存地址)</p>
 </li>
@@ -505,7 +528,6 @@
 <h3 id="IO-流"><a href="#IO-流" class="headerlink" title="IO 流"></a>IO 流</h3><ul>
 <li>按照流的流向分，可以分为输入流和输出流；</li>
 <li>按照操作单元划分，可以划分为字节流和字符流；</li>
-<li>按照流的角色划分为节点流和处理流。</li>
 </ul>
 <p>Java IO流共涉及40多个类，这些类看上去很杂乱，但实际上很有规则，而且彼此之间存在非常紧密的联系， Java IO流的40多个类都是从如下4个抽象类基类中派生出来的。</p>
 <ul>
@@ -546,7 +568,7 @@
 </li>
 </ol>
 <hr>
-<p>String和StringBuffer、StringBuilder的区别是什么？String为什么是不可变的</p>
+<p>String、StringBuffer、StringBuilder</p>
 <p><strong>可变性</strong></p>
 <ul>
 <li>String类中使用字符数组保存字符串，private final char value[]，所以<strong>string对象是不可变的</strong>。StringBuilder与StringBuffer都继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，char[] value，<strong>这两种对象都是可变的</strong>。</li>
@@ -559,6 +581,68 @@
 <ul>
 <li>每次对String 类型进行改变的时候，都会生成一个新的String对象，然后将指针指向新的String 对象。StringBuffer每次都会对StringBuffer对象本身进行操作，而不是生成新的对象并改变对象引用。相同情况下使用StirngBuilder 相比使用StringBuffer 仅能获得10%~15% 左右的性能提升，但却要冒多线程不安全的风险。</li>
 </ul>
+<hr>
+<h3 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h3><p>静态代理</p>
+<p>显示地创建代理类，代理类持有被代理类的对象，实现与被代理类相同的接口，并且增添相应的业务逻辑，以达到代理的效果。</p>
+<ol>
+<li>可以做到在不修改目标对象的功能前提下,对目标功能扩展.</li>
+<li>因为代理对象需要与目标对象实现一样的接口,所以会有很多代理类,类太多.同时,一旦接口增加方法,目标对象与代理对象都要维护.</li>
+</ol>
+<hr>
+<p>jdk动态代理</p>
+<p>JDK动态代理基于拦截器和反射来实现。</p>
+<ol>
+<li>代理对象,不需要实现接口</li>
+<li>代理对象的生成, 是利用JDK的API动态的在内存中构建代理对象(需要我们指定创建代理对象/目标对象实现的接口的类型)</li>
+<li>动态代理也叫做:JDK代理,接口代理</li>
+</ol>
+<p>JDK中生成代理对象的API<br>代理类所在包:java.lang.reflect.Proxy<br>JDK实现代理只需要使用newProxyInstance方法,但是该方法需要接收三个参数,完整的写法是:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader, Class&lt;?&gt;[] interfaces,InvocationHandler h )</span></span></span><br></pre></td></tr></table></figure>
+
+<p>ClassLoader loader,:指定当前目标对象使用类加载器,获取加载器的方法是固定的</p>
+<p>Class&lt;?&gt;[] interfaces,:目标对象实现的接口的类型,使用泛型方式确认类型</p>
+<p>InvocationHandler h:事件处理,执行目标对象的方法时,会触发事件处理器的方法,会把当前执行目标对象的方法作为参数传入</p>
+<hr>
+<p>步骤</p>
+<ol>
+<li>创建一个实现接口InvocationHandler的类，它必须实现invoke方法</li>
+<li>创建需要被代理接口和实现类</li>
+<li>通过Proxy的静态方法newProxyInstance(ClassLoaderloader, Class[] interfaces, InvocationHandler h)创建一个代理</li>
+<li>通过代理调用方法</li>
+<li>生成的动态代理类会调用InvocationHandler实现类中的invoke方法</li>
+<li>invoke方法中我们可以选择执行被代理实现类的方法,并在其前后进行处理</li>
+</ol>
+<hr>
+<p>CGLIB动态代理</p>
+<ol>
+<li>创建目标类</li>
+<li>创建方法拦截器类，该类实现MethodInterceptor接口</li>
+<li>创建Enhancer对象，类似于JDK动态代理的Proxy类</li>
+<li>调用Enhance的create方法, 返回代理对象</li>
+</ol>
+<hr>
+<p>原理</p>
+<ul>
+<li>利用ASM开源包，对代理对象类的class文件加载进来，通过修改其字节码生成子类来处理。</li>
+<li>CGLib动态代理是代理类去继承目标类，然后重写其中目标类的方法</li>
+</ul>
+<hr>
+<p>JDK动态代理和CGLIB字节码生成的区别</p>
+<p>JDK动态代理只能对实现了接口的类生成代理，而不能针对类。</p>
+<p>CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法， 并覆盖其中方法实现增强，但是因为采用的是继承，所以该类或方法最好不要声明成final， 对于final类或方法，是无法继承的。</p>
+<hr>
+<p>CGlib比JDK快</p>
+<p>使用CGLib实现动态代理，CGLib底层采用ASM字节码生成框架，使用字节码技术生成代理类，</p>
+<p>在jdk6之前比使用Java反射效率要高。唯一需要注意的是，CGLib不能对声明为final的方法进行代理，</p>
+<p>因为CGLib原理是动态生成被代理类的子类。</p>
+<p>在jdk6、jdk7、jdk8逐步对JDK动态代理优化之后，在调用次数较少的情况下，JDK代理效率高于CGLIB代理效率，</p>
+<p>只有当进行大量调用的时候，jdk6和jdk7比CGLIB代理效率低一点，但是到jdk8的时候，jdk代理效率高于CGLIB代理，</p>
+<p>总之，每一次jdk版本升级，jdk代理效率都得到提升，而CGLIB代理消息确有点跟不上步伐。</p>
+<hr>
+<p>Spring如何选择用JDK还是CGLIB</p>
+<p>1）当Bean实现接口时，Spring就会用JDK的动态代理。</p>
+<p>2）当Bean没有实现接口时，Spring使用CGlib是实现。</p>
+<p>3）可以强制使用CGlib（在spring配置中加入&lt;aop:aspectj-autoproxy proxy-target-class=”true”/&gt;）</p>
 <hr>
 <h2 id="集合部分"><a href="#集合部分" class="headerlink" title="集合部分"></a>集合部分</h2><h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><ol>
 <li><p>数据结构</p>
@@ -649,6 +733,34 @@
 <li>List接口的实现类主要有：ArrayList、LinkedList、Stack以及Vector等</li>
 </ol>
 <hr>
+<p>HashMap 和 Hashtable 有什么区别？</p>
+<ul>
+<li>hashMap去掉了HashTable 的contains方法，但是加上了containsValue（）和containsKey（）方法。</li>
+<li>hashTable同步的，而HashMap是非同步的，效率上比hashTable要高。</li>
+<li>hashMap允许空键值，而hashTable不允许。</li>
+</ul>
+<hr>
+<p>在 Queue 中 poll()和 remove()有什么区别？</p>
+<p>poll() 和 remove() 都是从队列中取出一个元素，但是 poll() 在获取元素失败的时候会返回空，但是 remove() 失败的时候会抛出异常。</p>
+<hr>
+<p>迭代器 Iterator 是什么<strong>？</strong></p>
+<p>迭代器是一种设计模式，它是一个对象，它可以遍历并选择序列中的对象，而开发人员不需要了解该序列的底层结构。迭代器通常被称为“轻量级”对象，因为创建它的代价小。</p>
+<hr>
+<p> Iterator 怎么使用？有什么特点？</p>
+<p>Java中的Iterator功能比较简单，并且只能单向移动：</p>
+<p>(1) 使用方法iterator()要求容器返回一个Iterator。第一次调用Iterator的next()方法时，它返回序列的第一个元素。注意：iterator()方法是java.lang.Iterable接口,被Collection继承。　</p>
+<p>(2) 使用next()获得序列中的下一个元素。　　</p>
+<p>(3) 使用hasNext()检查序列中是否还有元素。　　</p>
+<p>(4) 使用remove()将迭代器新返回的元素删除。　　</p>
+<p>Iterator是Java迭代器最简单的实现，为List设计的ListIterator具有更多的功能，它可以从两个方向遍历List，也可以从List中插入和删除元素。</p>
+<hr>
+<p> Iterator 和 ListIterator 有什么区别？</p>
+<ul>
+<li>Iterator可用来遍历Set和List集合，但是ListIterator只能用来遍历List。 </li>
+<li>Iterator对集合只能是前向遍历，ListIterator既可以前向也可以后向。 </li>
+<li>ListIterator实现了Iterator接口，并包含其他的功能，比如：增加元素，替换元素，获取前一个和后一个元素的索引，等等。</li>
+</ul>
+<hr>
 <p>Java集合的快速失败机制 “fail-fast”？</p>
 <ul>
 <li>是java集合的一种错误检测机制，当多个线程对集合进行结构上的改变的操作时，有可能会产生 fail-fast 机制。</li>
@@ -673,6 +785,12 @@
 
 <ul>
 <li>运行以上错误代码会报 <strong>ConcurrentModificationException 异常</strong>。这是因为当使用 foreach(for(Integer i : list)) 语句时，会自动生成一个iterator 来遍历该 list，但同时该 list 正在被 Iterator.remove() 修改。Java 一般不允许一个线程在遍历 Collection 时另一个线程修改它。</li>
+</ul>
+<hr>
+<p>Collection 和 Collections 有什么区别？</p>
+<ul>
+<li>java.util.Collection 是一个集合接口（集合类的一个顶级接口）。它提供了对集合对象进行基本操作的通用接口方法。Collection接口在Java 类库中有很多具体的实现。Collection接口的意义是为各种具体的集合提供了最大化的统一操作方式，其直接继承接口有List与Set。</li>
+<li>Collections则是集合类的一个工具类/帮助类，其中提供了一系列静态方法，用于对集合中元素进行排序、搜索以及线程安全等各种操作。</li>
 </ul>
 <hr>
 <p>如何实现数组和 List 之间的转换？</p>
@@ -1395,6 +1513,13 @@
 <li>原子性：原子，即一个不可再被分割的颗粒。原子性指的是一个或多个操作要么全部执行成功要么全部执行失败。</li>
 <li>可见性：一个线程对共享变量的修改,另一个线程能够立刻看到。（synchronized,volatile）</li>
 <li>有序性：程序执行的顺序按照代码的先后顺序执行。（处理器可能会对指令进行重排序）</li>
+</ul>
+<hr>
+<p>说一下 runnable 和 callable 有什么区别？</p>
+<p>有点深的问题了，也看出一个Java程序员学习知识的广度。</p>
+<ul>
+<li>Runnable接口中的run()方法的返回值是void，它做的事情只是纯粹地去执行run()方法中的代码而已；</li>
+<li>Callable接口中的call()方法是有返回值的，是一个泛型，和Future、FutureTask配合可以用来获取异步执行的结果。</li>
 </ul>
 <hr>
 <p>什么是线程死锁</p>
@@ -3733,7 +3858,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">17:38</span>
+    <span title="站点阅读时长">17:55</span>
   </span>
 </div>
 

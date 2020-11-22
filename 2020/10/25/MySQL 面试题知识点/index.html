@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://chenpengcode.github.io/2020/10/25/MySQL%20%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9F%A5%E8%AF%86%E7%82%B9/image-20200826231342761.png">
 <meta property="og:image" content="http://chenpengcode.github.io/2020/10/25/MySQL%20%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9F%A5%E8%AF%86%E7%82%B9/image-20200826231449361.png">
 <meta property="article:published_time" content="2020-10-25T11:55:45.000Z">
-<meta property="article:modified_time" content="2020-11-17T01:54:07.886Z">
+<meta property="article:modified_time" content="2020-11-20T20:40:43.530Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="面试">
 <meta property="article:tag" content="MySQL">
@@ -190,7 +190,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">存储引擎部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MyISAM"><span class="nav-number">1.1.</span> <span class="nav-text">MyISAM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB"><span class="nav-number">1.1.1.</span> <span class="nav-text">InnoDB</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%83%A8%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">事务部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redo-log%E4%B8%8Ebinlog"><span class="nav-number">2.2.</span> <span class="nav-text">redo log与binlog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">2.3.</span> <span class="nav-text">事务隔离级别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVCC%E9%83%A8%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">MVCC部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E8%AF%BB%E4%B8%8E%E5%BF%AB%E7%85%A7%E8%AF%BB"><span class="nav-number">3.1.</span> <span class="nav-text">当前读与快照读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVCC%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">MVCC的实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RC-RR%E7%BA%A7%E5%88%AB%E4%B8%8B%E7%9A%84InnoDB%E5%BF%AB%E7%85%A7%E8%AF%BB%E6%9C%89%E4%BB%80%E4%B9%88%E4%B8%8D%E5%90%8C%EF%BC%9F"><span class="nav-number">3.3.</span> <span class="nav-text">RC,RR级别下的InnoDB快照读有什么不同？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%8C%E9%94%81%E6%9C%BA%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">行锁机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E9%94%81"><span class="nav-number">4.1.</span> <span class="nav-text">记录锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%B4%E9%9A%99%E9%94%81%EF%BC%88Gap-Locks%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">间隙锁（Gap Locks）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%B4%E9%94%AE%E9%94%81%EF%BC%88Next-Key-Locks%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">临键锁（Next-Key Locks）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E9%94%81%E6%96%B9%E5%BC%8F"><span class="nav-number">4.4.</span> <span class="nav-text">加锁方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-number">4.5.</span> <span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E9%83%A8%E5%88%86"><span class="nav-number">5.</span> <span class="nav-text">索引部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%88%86%E7%B1%BB"><span class="nav-number">5.1.</span> <span class="nav-text">数据结构分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E7%BB%87%E6%96%B9%E5%BC%8F%E5%88%86%E7%B1%BB"><span class="nav-number">5.2.</span> <span class="nav-text">组织方式分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E6%AE%B5%E4%B8%AA%E6%95%B0%E5%88%86%E7%B1%BB"><span class="nav-number">5.3.</span> <span class="nav-text">字段个数分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%88%86%E7%B1%BB"><span class="nav-number">5.4.</span> <span class="nav-text">其他分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">6.</span> <span class="nav-text">主从复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="nav-number">7.</span> <span class="nav-text">优化技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96"><span class="nav-number">7.1.</span> <span class="nav-text">索引优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E8%A1%A8%E4%BC%98%E5%8C%96"><span class="nav-number">7.2.</span> <span class="nav-text">大表优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-%E8%B0%83%E4%BC%98"><span class="nav-number">7.3.</span> <span class="nav-text">SQL 调优</span></a></li></ol></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">存储引擎部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MyISAM"><span class="nav-number">1.1.</span> <span class="nav-text">MyISAM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB"><span class="nav-number">1.1.1.</span> <span class="nav-text">InnoDB</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%83%A8%E5%88%86-%E9%9D%A2%E8%AF%95%E5%BF%85%E9%97%AE"><span class="nav-number">2.</span> <span class="nav-text">事务部分(面试必问)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redo-log%E4%B8%8Ebinlog"><span class="nav-number">2.2.</span> <span class="nav-text">redo log与binlog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">2.3.</span> <span class="nav-text">事务隔离级别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVCC%E9%83%A8%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">MVCC部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E8%AF%BB%E4%B8%8E%E5%BF%AB%E7%85%A7%E8%AF%BB"><span class="nav-number">3.1.</span> <span class="nav-text">当前读与快照读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVCC%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">MVCC的实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RC-RR%E7%BA%A7%E5%88%AB%E4%B8%8B%E7%9A%84InnoDB%E5%BF%AB%E7%85%A7%E8%AF%BB%E6%9C%89%E4%BB%80%E4%B9%88%E4%B8%8D%E5%90%8C%EF%BC%9F"><span class="nav-number">3.3.</span> <span class="nav-text">RC,RR级别下的InnoDB快照读有什么不同？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%8C%E9%94%81%E6%9C%BA%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">行锁机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E9%94%81"><span class="nav-number">4.1.</span> <span class="nav-text">记录锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%B4%E9%9A%99%E9%94%81%EF%BC%88Gap-Locks%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">间隙锁（Gap Locks）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%B4%E9%94%AE%E9%94%81%EF%BC%88Next-Key-Locks%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">临键锁（Next-Key Locks）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E9%94%81%E6%96%B9%E5%BC%8F"><span class="nav-number">4.4.</span> <span class="nav-text">加锁方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-number">4.5.</span> <span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E9%83%A8%E5%88%86"><span class="nav-number">5.</span> <span class="nav-text">索引部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%88%86%E7%B1%BB"><span class="nav-number">5.1.</span> <span class="nav-text">数据结构分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E7%BB%87%E6%96%B9%E5%BC%8F%E5%88%86%E7%B1%BB"><span class="nav-number">5.2.</span> <span class="nav-text">组织方式分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E6%AE%B5%E4%B8%AA%E6%95%B0%E5%88%86%E7%B1%BB"><span class="nav-number">5.3.</span> <span class="nav-text">字段个数分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%88%86%E7%B1%BB"><span class="nav-number">5.4.</span> <span class="nav-text">其他分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">5.5.</span> <span class="nav-text">一些面试题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">6.</span> <span class="nav-text">主从复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="nav-number">7.</span> <span class="nav-text">优化技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96"><span class="nav-number">7.1.</span> <span class="nav-text">索引优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E8%A1%A8%E4%BC%98%E5%8C%96"><span class="nav-number">7.2.</span> <span class="nav-text">大表优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-%E8%B0%83%E4%BC%98"><span class="nav-number">7.3.</span> <span class="nav-text">SQL 调优</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98-1"><span class="nav-number">7.4.</span> <span class="nav-text">一些面试题</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -206,7 +206,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -297,7 +297,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-17 09:54:07" itemprop="dateModified" datetime="2020-11-17T09:54:07+08:00">2020-11-17</time>
+        <time title="修改时间：2020-11-21 04:40:43" itemprop="dateModified" datetime="2020-11-21T04:40:43+08:00">2020-11-21</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -321,14 +321,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>26k</span>
+      <span>27k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>23 分钟</span>
+      <span>24 分钟</span>
     </span>
 </div>
 
@@ -370,7 +370,7 @@
 </ul>
 <p>总体来讲，<strong>MyISAM适合SELECT密集型的表，而InnoDB适合INSERT和UPDATE密集型的表</strong></p>
 <hr>
-<h2 id="事务部分"><a href="#事务部分" class="headerlink" title="事务部分"></a>事务部分</h2><h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>事务是一系列的操作, 他们要符合ACID特性.最常见的理解就是: <strong>事务中的操作要么全部成功,要么全部失败.</strong></p>
+<h2 id="事务部分-面试必问"><a href="#事务部分-面试必问" class="headerlink" title="事务部分(面试必问)"></a>事务部分(面试必问)</h2><h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>事务是一系列的操作, 他们要符合ACID特性.最常见的理解就是: <strong>事务中的操作要么全部成功,要么全部失败.</strong></p>
 <p>A=Atomicity原子性</p>
 <ul>
 <li><strong>原子性是指一个事务是一个不可分割的工作单位，其中的操作要么都做，要么都不做；</strong></li>
@@ -463,17 +463,18 @@
 <hr>
 <h3 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h3><ol>
 <li><p>READ UNCOMMITTED(未提交读)</p>
-<p>这个隔离级别下, <strong>其他事务可以看到本事务没有提交的部分修改</strong>. 因此会造成<strong>脏读</strong>的问题(读取到了其他事务未提交的部分,而之后该事务进行了回滚).</p>
+<p>脏读: A事务读取到了B事务未提交的内容,而B事务后面进行了回滚.</p>
 </li>
 <li><p>READ COMMITTED(已提交读)</p>
 <p>其他事务只能读取到本事务已经提交的部分. </p>
-<p>这个隔离级别有<strong>不可重复读</strong>的问题,在同一个事务内的两次读取, 拿到的结果竟然不一样, 因为另外一个事务对数据进行了修改.</p>
+<p>不可重复读: 是指在数据库访问中，一个事务范围内两个相同的查询却返回了不同数据。在一个事务内，多次读同一个数据。在这个事务还没有结束时，另一个事务也访问该同一数据。那么，在第一个事务的两次读数据之间。由于第二个事务的修改，那么第一个事务读到的数据可能不一样，这样就发生了在一个事务内两次读到的数据是不一样的，因此称为不可重复读，即原始读取不可重复</p>
 </li>
 <li><p>REPEATABLE READ(可重复读)</p>
 <p>可重复读隔离级别解决了上面不可重复读的问题但是仍然有一个新问题,就是<strong>幻读</strong></p>
 <p>当你读取<code>id &gt; 10</code> 的数据行时, 对涉及到的所有行加上了读锁, 此时另外一个事务新插入了一条<code>id=11</code>的数据, 因为是新插入的, 所以不会触发上面的锁的排斥, 那么进行本事务进行下一次的查询时会发现有一条<code>id=11</code>的数据, 而上次的查询操作并没有获取到, <strong>再进行插入就会有主键冲突的问题</strong>.</p>
 <ol>
-<li><strong><code>RR</code>解决脏读、不可重复读、幻读等问题，使用的是<code>MVCC</code></strong></li>
+<li><strong><code>RR</code>解决脏读、不可重复读问题，使用的是<code>MVCC</code></strong></li>
+<li>解决幻读问题是使用临键锁(next-key lock)</li>
 <li><strong>这个隔离级别也是<code>Innodb</code>存储引擎默认的隔离级别.</strong></li>
 </ol>
 </li>
@@ -744,8 +745,8 @@
 <ul>
 <li>哈希索引适合等值查询，但是不无法进行范围查询</li>
 <li>哈希索引没办法利用索引完成排序</li>
-<li>哈希索引不支持多列联合索引的最左匹配规则</li>
-<li>如果有大量重复键值得情况下，哈希索引的效率会很低，因为存在哈希碰撞问题</li>
+<li>哈希索引不支持多列联合索引的最左匹配规则, 原理也是因为hash函数的不可预测.<strong>AAAA</strong>和<strong>AAAAB</strong>的索引没有相关性.</li>
+<li>如果有大量重复键值得情况下，哈希索引的效率会很低，因为存在哈希碰撞问题, 其性能不可预测</li>
 </ul>
 <hr>
 <h3 id="组织方式分类"><a href="#组织方式分类" class="headerlink" title="组织方式分类"></a>组织方式分类</h3><p>聚簇索引</p>
@@ -808,12 +809,11 @@
 <p>需要注意的是，主键索引一定是唯一索引，而唯一索引不一定是主键索引。唯一索引可以理解为仅仅是将索引设置一个唯一性的属性。</p>
 <hr>
 <p>覆盖索引</p>
-<p>上文提到了一个回表的概念，既如果通过非主键索引查询数据时，会先查询到主键索引的值，然后再去主键索引中查询具体的数据，整个查询流程需要扫描两次索引，显然回表是一个耗时的操作。</p>
-<p><strong>为了减少回表次数，在设计索引时我们可以让索引中包含要查询的结果，在辅助索引中检索到数据后直接返回，而不需要进行回表操作。</strong></p>
-<p>设想有如下的查询语句:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line"> school_name,age</span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line"> <span class="keyword">user</span></span><br><span class="line"><span class="keyword">where</span> </span><br><span class="line"> school_name = <span class="string">&#x27;金色莺尾花学院&#x27;</span></span><br></pre></td></tr></table></figure>
+<p><strong>在设计索引时我们可以让索引中包含要查询的结果，在辅助索引中检索到数据后直接返回，而不需要进行回表操作。</strong></p>
+<p>假设我们在员工表的年龄上建立了索引:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> age <span class="keyword">from</span> employee <span class="keyword">where</span> age &lt; <span class="number">20</span></span><br></pre></td></tr></table></figure>
 
-<p>这个语句根据学校名称来查询数据行的学校名称和年龄,从上面的数据查询的步骤我们可以知道,当在索引中找到要求的值的时候,还需要根据主键去进行一次索引,以拿到全部的数据,然后从其中挑选出需要的列,返回.但是现在索引中已经包含了所有的需要返回的列,那么就不用进行回数据表查询的操作了,此外索引的大小一般是远远小于真正的数据大小的,覆盖索引可以极大的减少从磁盘加载数据的数量.</p>
+<p>在索引的叶子节点上,已经包含了age信息,不会再次进行回表查询.</p>
 <hr>
 <p>前缀索引</p>
 <p>如果希望给一个很长的字符串上添加索引,那么可以考虑使用前缀索引</p>
@@ -838,15 +838,13 @@
 <p>注意:前缀索引和覆盖索引是很难一起使用的</p>
 <hr>
 <p>联合索引</p>
-<p>一般我们都是有对多个列进行索引的需求的,因为查询的需求多种多样. 这个时候我们可以选择建立多个独立的索引或者建立一个联合索引. 大多数时候都是联合索引更加合适一些.</p>
-<p>假设我们要执行这个语句:<code>select * from user where school_name = &#39;卡塞尔&#39; and age &gt; 20</code>, 我们在school和age上分别建立两个独立的索引,那么我们预期这条查询语句会命中两个索引,但是使用explain命令查看会发现不一定.</p>
-<p>从理论上来讲,MySQL在5.0之后的版本里面对支持合并索引,也就是同时使用两个索引,但是MySQL的优化器不一定这样认为,他可能会认为,查询两次B+树的代价高于查询一次索引之后去数据表进行过滤,因此会选择只用一个索引.</p>
+<p>MySQL可以使用多个字段同时建立一个索引,叫做联合索引.在联合索引中,如果想要命中索引,需要按照建立索引时的字段顺序挨个使用,否则无法命中索引.</p>
+<p>Mysql从左到右的使用索引中的字段，一个查询可以只使用索引中的一部份，但只能是最左侧部分。例如索引是key index (a,b,c). 可以支持a | a,b| a,b,c 3种组合进行查找，但不支持 b,c进行查找 .当最左侧字段是常量引用时，索引就十分有效。</p>
 <p>创建联合索引的语法:</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="keyword">user</span> <span class="keyword">add</span> <span class="keyword">index</span> school_age(<span class="string">`school`</span>,<span class="string">`age`</span>).</span><br></pre></td></tr></table></figure>
 
 <p><strong>使用联合索引的时候,有一个非常重要的因素就是所有的索引列只可以进行最左前缀匹配</strong>, 例如上面的school_age联合索引,当仅使用age作为查询条件的时候是不能使用的,也就是说<code>select * from user where age =20</code>是不能命中上面的联合索引的.</p>
-<p>在不考虑任何查询的情况下,我们应该讲选择性高的列放在联合索引的前面, 但是实际上我们更多的是通过查询来反推索引, 以使某个固定的查询可以尽可能的命中索引以提高查询速度.毕竟我们建立索引的目的也是为了加快查询的速度.</p>
-<p>因此联合索引的优化更多的是根据某个或者某些语句来优化的,不具备一个通用的法则.</p>
+<p>要想命中后面的索引, 前面的索引必须是等值匹配</p>
 <hr>
 <p>最左前缀匹配</p>
 <p>就是最左优先，在创建多列索引时，<strong>要根据业务需求，where子句中使用最频繁的一列放在最左边</strong>。</p>
@@ -881,12 +879,22 @@
 </tbody></table>
 <p>在这份数据中,school字段是完全有序的,索引school可以使用索引.</p>
 <p>而从全表来看,age字段不是有序的,因此无法直接使用索引,那么观察一下数据表,在什么时候age有序呢?在school进行定值匹配的时候,例如当school=b的时候,对于这三条数据而言,age是有序的,因此可以使用age索引.这就是最左前缀的原理.</p>
-<p>此外,最左前缀索引只能使用一个范围查询,例如<code>select * from user where school &gt; a</code>, <code>select * from user where school = a and age &gt; 12</code>,都是可以命中索引的,但是<code>select * from user where school &gt; a and age &gt; 12</code>中,仅school可以命中索引,这也可以从上面得出结论. 因为当school是范围匹配的时候, mysql无法确认age字段是否严格有序, 比如 school的范围匹配命中了b,c的四条数据, 那么age就不是有序的. 无法使用后续的索引.</p>
+<p>此外,<strong>最左前缀索引只能使用一个范围查询</strong>,例如<code>select * from user where school &gt; a</code>, <code>select * from user where school = a and age &gt; 12</code>,都是可以命中索引的,但是<code>select * from user where school &gt; a and age &gt; 12</code>中,仅school可以命中索引,这也可以从上面得出结论. 因为当school是范围匹配的时候, mysql无法确认age字段是否严格有序, 比如 school的范围匹配命中了b,c的四条数据, 那么age就不是有序的. 无法使用后续的索引.</p>
 <ol>
 <li>如果不是按照索引的最左列开始查找，则无法使用索引；</li>
 <li>不能跳过联合索引中的某些列；</li>
 <li>如果查询中有某个列的范围查询，则其右边所有列都无法使用索引优化查找；</li>
 </ol>
+<hr>
+<h3 id="一些面试题"><a href="#一些面试题" class="headerlink" title="一些面试题"></a>一些面试题</h3><p><strong>在哪些情况下会发生针对该列创建了索引但是在查询的时候并没有使用呢?</strong></p>
+<ul>
+<li>使用不等于查询,</li>
+<li>列参与了数学运算或者函数</li>
+<li>在字符串like时左边是通配符.类似于’%aaa’.</li>
+<li>当mysql分析全表扫描比使用索引快的时候不使用索引.</li>
+<li>当使用联合索引,前面一个条件为范围查询,后面的即使符合最左前缀原则,也无法使用索引.</li>
+</ul>
+<hr>
 <hr>
 <h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><p>![img](MySQL 面试题知识点/11414906-1e1d8aaa7a86af96.png)</p>
 <ol>
@@ -1139,6 +1147,41 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"><span class="keyword">count</span> (sale <span class="keyword">when</span> sal &lt;<span class="number">1000</span></span><br><span class="line"><span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span>) count_poor,</span><br><span class="line"><span class="keyword">count</span> (sale <span class="keyword">when</span> <span class="keyword">between</span> <span class="number">1000</span> <span class="keyword">and</span> <span class="number">5000</span></span><br><span class="line"><span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span>) count_blue_collar,</span><br><span class="line"><span class="keyword">count</span> (sale <span class="keyword">when</span> sal &gt;<span class="number">5000</span></span><br><span class="line"><span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span>) count_poor</span><br><span class="line"><span class="keyword">from</span> emp;</span><br></pre></td></tr></table></figure>
 
 <p>这样查询的结果一样，但是执行计划只进行了一次全表查询。</p>
+<hr>
+<h3 id="一些面试题-1"><a href="#一些面试题-1" class="headerlink" title="一些面试题"></a>一些面试题</h3><p><strong>字段为什么要求定义为not null?</strong></p>
+<p>null值会占用更多的字节,且会在程序中造成很多与预期不符的情况.</p>
+<hr>
+<p>MySQL中的varchar和char有什么区别.</p>
+<p>char是一个定长字段,假如申请了char(10)的空间,那么无论实际存储多少内容.该字段都占用10个字符,而varchar是变长的,也就是说申请的只是最大长度,占用的空间为实际字符长度+1,最后一个字符存储使用了多长的空间.</p>
+<p>在检索效率上来讲,char &gt; varchar,因此在使用中,如果确定某个字段的值的长度,可以使用char,否则应该尽量使用varchar.例如存储用户MD5加密后的密码,则应该使用char.</p>
+<hr>
+<p>MySQL的binlog有有几种录入格式?分别有什么区别?</p>
+<p>有三种格式,statement,row和mixed.</p>
+<p>statement模式下,记录单元为语句.即每一个sql造成的影响会记录.由于sql的执行是有上下文的,因此在保存的时候需要保存相关的信息,同时还有一些使用了函数之类的语句无法被记录复制.</p>
+<p>row级别下,记录单元为每一行的改动,基本是可以全部记下来但是由于很多操作,会导致大量行的改动(比如alter table),因此这种模式的文件保存的信息太多,日志量太大.</p>
+<p>mixed. 一种折中的方案,普通操作使用statement记录,当无法使用statement的时候使用row.</p>
+<hr>
+<p><strong>关心过业务系统里面的sql耗时吗?统计过慢查询吗?对慢查询都怎么优化过?</strong></p>
+<p>在业务系统中,除了使用主键进行的查询,其他的我都会在测试库上测试其耗时,慢查询的统计主要由运维在做,会定期将业务中的慢查询反馈给我们.</p>
+<p>慢查询的优化首先要搞明白慢的原因是什么? 是查询条件没有命中索引?是load了不需要的数据列?还是数据量太大?</p>
+<p>所以优化也是针对这三个方向来的,</p>
+<ul>
+<li>首先分析语句,看看是否load了额外的数据,可能是查询了多余的行并且抛弃掉了,可能是加载了许多结果中并不需要的列,对语句进行分析以及重写.</li>
+<li>分析语句的执行计划,然后获得其使用索引的情况,之后修改语句或者修改索引,使得语句可以尽可能的命中索引.</li>
+<li>如果对语句的优化已经无法进行,可以考虑表中的数据量是否太大,如果是的话可以进行横向或者纵向的分表.</li>
+</ul>
+<hr>
+<p><strong>什么是存储过程？有哪些优缺点？</strong></p>
+<p>存储过程是一些预编译的SQL语句。1、更加直白的理解：存储过程可以说是一个记录集，它是由一些T-SQL语句组成的代码块，这些T-SQL语句代码像一个方法一样实现一些功能（对单表或多表的增删改查），然后再给这个代码块取一个名字，在用到这个功能的时候调用他就行了。2、存储过程是一个预编译的代码块，执行效率比较高,一个存储过程替代大量T_SQL语句 ，可以降低网络通信量，提高通信速率,可以一定程度上确保数据安全</p>
+<p>但是,在互联网项目中,其实是不太推荐存储过程的,比较出名的就是阿里的《Java开发手册》中禁止使用存储过程,我个人的理解是,在互联网项目中,迭代太快,项目的生命周期也比较短,人员流动相比于传统的项目也更加频繁,在这样的情况下,存储过程的管理确实是没有那么方便,同时,复用性也没有写在服务层那么好.</p>
+<hr>
+<p><strong>说一说三个范式</strong></p>
+<p>第一范式: 每个列都不可以再拆分. 第二范式: 非主键列完全依赖于主键,而不能是依赖于主键的一部分. 第三范式: 非主键列只依赖于主键,不依赖于其他非主键.</p>
+<p>在设计数据库结构的时候,要尽量遵守三范式,如果不遵守,必须有足够的理由.比如性能. 事实上我们经常会为了性能而妥协数据库的设计.</p>
+<hr>
+<p><strong>MyBatis中的#和$有什么区别?</strong></p>
+<p><code>#</code> 会将传入的内容当做字符串,而$会直接将传入值拼接在sql语句中.</p>
+<p>所以#可以在一定程度上预防sql注入攻击.</p>
 
     </div>
 
@@ -1229,7 +1272,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">17:38</span>
+    <span title="站点阅读时长">17:55</span>
   </span>
 </div>
 
