@@ -22,21 +22,24 @@
     var CONFIG = {"hostname":"chenpengcode.github.io","root":"/","scheme":"Gemini","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="一面: 大约45分钟 先自我介绍 问工作经历 了解SpringCloud吗 python和Java最主要的区别 兴趣爱好 预期的薪水(问这个干嘛?) 一个算法题 input : [12, 145, 15, 15, 156, 165, 15….]output: top 5 和leetcode中第215题差不多 有什么想问他的. 这个面试官水平不行">
+  <meta name="description" content="树部分层序遍历层序遍历所要解决的问题是按二叉树从上到下，从左到右依次打印每个节点中存储的数据。比如：  输出：[A,B,C,D,E,F,G,H,I,J] https:&#x2F;&#x2F;github.com&#x2F;chenpengcode&#x2F;datastructure-and-Algorithm&#x2F;blob&#x2F;master&#x2F;src&#x2F;tree&#x2F;LevelOrder.java  模板广度优先遍历 层序遍历一般使用队列进行广度优先">
 <meta property="og:type" content="article">
-<meta property="og:title" content="面试-一瓜多吃">
-<meta property="og:url" content="http://chenpengcode.github.io/2020/11/21/%E9%9D%A2%E8%AF%95-%E4%B8%80%E7%93%9C%E5%A4%9A%E5%90%83/index.html">
+<meta property="og:title" content="数据结构和算法">
+<meta property="og:url" content="http://chenpengcode.github.io/2020/11/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="耳朵大侠">
-<meta property="og:description" content="一面: 大约45分钟 先自我介绍 问工作经历 了解SpringCloud吗 python和Java最主要的区别 兴趣爱好 预期的薪水(问这个干嘛?) 一个算法题 input : [12, 145, 15, 15, 156, 165, 15….]output: top 5 和leetcode中第215题差不多 有什么想问他的. 这个面试官水平不行">
+<meta property="og:description" content="树部分层序遍历层序遍历所要解决的问题是按二叉树从上到下，从左到右依次打印每个节点中存储的数据。比如：  输出：[A,B,C,D,E,F,G,H,I,J] https:&#x2F;&#x2F;github.com&#x2F;chenpengcode&#x2F;datastructure-and-Algorithm&#x2F;blob&#x2F;master&#x2F;src&#x2F;tree&#x2F;LevelOrder.java  模板广度优先遍历 层序遍历一般使用队列进行广度优先">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-11-21T10:04:35.000Z">
-<meta property="article:modified_time" content="2020-11-21T10:26:35.381Z">
+<meta property="og:image" content="http://chenpengcode.github.io/2020/11/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/7043118-2c735a2733887dc3.png">
+<meta property="article:published_time" content="2020-11-26T17:27:30.000Z">
+<meta property="article:modified_time" content="2020-11-26T19:25:10.754Z">
 <meta property="article:author" content="耳朵大侠">
 <meta property="article:tag" content="面试">
+<meta property="article:tag" content="数据结构和算法">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://chenpengcode.github.io/2020/11/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/7043118-2c735a2733887dc3.png">
 
 
-<link rel="canonical" href="http://chenpengcode.github.io/2020/11/21/%E9%9D%A2%E8%AF%95-%E4%B8%80%E7%93%9C%E5%A4%9A%E5%90%83/">
+<link rel="canonical" href="http://chenpengcode.github.io/2020/11/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
 
 
 <script class="page-configurations">
@@ -49,7 +52,7 @@
   };
 </script>
 
-  <title>面试-一瓜多吃 | 耳朵大侠</title>
+  <title>数据结构和算法 | 耳朵大侠</title>
   
 
 
@@ -170,7 +173,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -182,6 +185,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%91%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">树部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86"><span class="nav-number">1.1.</span> <span class="nav-text">层序遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF"><span class="nav-number">1.2.</span> <span class="nav-text">模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#102-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86"><span class="nav-number">1.3.</span> <span class="nav-text">102. 二叉树的层序遍历</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -254,7 +258,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/11/21/%E9%9D%A2%E8%AF%95-%E4%B8%80%E7%93%9C%E5%A4%9A%E5%90%83/">
+    <link itemprop="mainEntityOfPage" href="http://chenpengcode.github.io/2020/11/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/duck.jpg">
@@ -270,7 +274,7 @@
     
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          面试-一瓜多吃
+          数据结构和算法
         </h1>
 
         <div class="post-meta-container">
@@ -282,7 +286,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2020-11-21 18:04:35 / 修改时间：18:26:35" itemprop="dateCreated datePublished" datetime="2020-11-21T18:04:35+08:00">2020-11-21</time>
+      <time title="创建时间：2020-11-27 01:27:30 / 修改时间：03:25:10" itemprop="dateCreated datePublished" datetime="2020-11-27T01:27:30+08:00">2020-11-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -302,7 +306,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>151</span>
+      <span>1.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -320,18 +324,78 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>一面: 大约45分钟</p>
-<p>先自我介绍</p>
-<p>问工作经历</p>
-<p>了解SpringCloud吗</p>
-<p>python和Java最主要的区别</p>
-<p>兴趣爱好</p>
-<p>预期的薪水(问这个干嘛?)</p>
-<p>一个算法题</p>
-<p>input : [12, 145, 15, 15, 156, 165, 15….]<br>output: top 5</p>
-<p>和leetcode中第215题差不多</p>
-<p>有什么想问他的.</p>
-<p>这个面试官水平不行</p>
+        <h2 id="树部分"><a href="#树部分" class="headerlink" title="树部分"></a>树部分</h2><h3 id="层序遍历"><a href="#层序遍历" class="headerlink" title="层序遍历"></a>层序遍历</h3><p>层序遍历所要解决的问题是按二叉树从上到下，从左到右依次打印每个节点中存储的数据。比如：</p>
+<p><img src="/2020/11/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/7043118-2c735a2733887dc3.png" alt="img"></p>
+<p>输出：[A,B,C,D,E,F,G,H,I,J]</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/chenpengcode/datastructure-and-Algorithm/blob/master/src/tree/LevelOrder.java">https://github.com/chenpengcode/datastructure-and-Algorithm/blob/master/src/tree/LevelOrder.java</a></p>
+<hr>
+<h3 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h3><p>广度优先遍历</p>
+<p>层序遍历一般使用队列进行广度优先遍历</p>
+<ol>
+<li><p>如果不需要确定当前遍历到了哪一层</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> queue 不空：</span><br><span class="line">    cur = queue.pop()</span><br><span class="line">    <span class="keyword">for</span> 节点 in cur的所有孩子节点：</span><br><span class="line">        <span class="keyword">if</span> 该节点有效：</span><br><span class="line">            queue.push(该节点)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果要确定当前遍历到了哪一层</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">level = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> queue 不空：</span><br><span class="line">    size = queue.size()</span><br><span class="line">    <span class="keyword">while</span> (size --) &#123;</span><br><span class="line">        cur = queue.pop()</span><br><span class="line">        <span class="keyword">for</span> 节点 in cur的所有孩子节点：</span><br><span class="line">            <span class="keyword">if</span> 该节点有效：</span><br><span class="line">                queue.push(该节点)</span><br><span class="line">    &#125;</span><br><span class="line">    level ++;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<hr>
+<p>深度优先遍历</p>
+<p>使用dfs需要确定当前遍历的层数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> root == <span class="keyword">null</span>: </span><br><span class="line">	直接返回</span><br><span class="line"><span class="keyword">if</span> res.size() == level: </span><br><span class="line">	添加一个空的列表来存储该层所有信息</span><br><span class="line">添加元素到第level层</span><br><span class="line">对root.left进行递归，level + <span class="number">1</span></span><br><span class="line">对root.right进行递归，level + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>如果使用非递归，则使用栈，先添加右孩子节点，再添加左孩子节点</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">节点root与层数level作为栈stack的节点</span><br><span class="line"><span class="keyword">while</span> stack 不为空：</span><br><span class="line">	出栈，得到一个树的节点node和该节点的层数level</span><br><span class="line">	<span class="keyword">if</span> res.size() == level：</span><br><span class="line">		添加第level层</span><br><span class="line">	把元素添加到该节点所在层中</span><br><span class="line">	<span class="keyword">if</span> node.right有效：</span><br><span class="line">		(node.right,level + <span class="number">1</span>) 添加到栈中</span><br><span class="line">	<span class="keyword">if</span> node.left有效：</span><br><span class="line">		(node.left,level+ <span class="number">1</span>) 添加到栈中</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>leetcode相关题目</p>
+<ul>
+<li>102.二叉树的层序遍历</li>
+<li>103</li>
+<li>104</li>
+<li>107.二叉树的层次遍历 II</li>
+<li>199.二叉树的右视图</li>
+<li>637.二叉树的层平均值</li>
+<li>429.N叉树的层序遍历</li>
+<li>515.在每个树行中找最大值</li>
+<li>116.填充每个节点的下一个右侧节点指针</li>
+<li>117.填充每个节点的下一个右侧节点指针II</li>
+</ul>
+<hr>
+<h3 id="102-二叉树的层序遍历"><a href="#102-二叉树的层序遍历" class="headerlink" title="102. 二叉树的层序遍历"></a>102. 二叉树的层序遍历</h3><p>给你一个二叉树，请你返回其按 <strong>层序遍历</strong> 得到的节点值。 （即逐层地，从左到右访问所有节点）。</p>
+<p> <strong>示例：</strong><br>二叉树：<code>[3,9,20,null,null,15,7]</code>,</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> / <span class="tag">\</span></span><br><span class="line">9  20</span><br><span class="line">  /  <span class="tag">\</span></span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure>
+
+<p>返回其层次遍历结果：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [3],</span><br><span class="line">  [9,20],</span><br><span class="line">  [15,7]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>解题思路：</p>
+<p>广度优先遍历：</p>
+<ul>
+<li>首先根元素入队</li>
+<li>当队列不为空的时候<ul>
+<li>求当前队列的长度 s</li>
+<li>依次从队列中取 s个元素进行拓展，然后进入下一次迭代</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>深度优先遍历：</p>
+<ul>
+<li>首先根节点与层数0入栈</li>
+<li>当栈不为空的时候：<ul>
+<li>获取当前层数</li>
+<li>如果结果集中不存在当前层，则添加</li>
+<li>添加元素到相应的层中</li>
+<li>从右向左添加孩子节点到栈中，然后进行下一次迭代</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>Java实现</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/chenpengcode/leetcode-java/blob/09805167651bebce49671e30930dae72f014d309/src/tree/p102/Solution.java">https://github.com/chenpengcode/leetcode-java/blob/09805167651bebce49671e30930dae72f014d309/src/tree/p102/Solution.java</a></p>
+<hr>
 
     </div>
 
@@ -342,20 +406,18 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" rel="tag"># 数据结构和算法</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/11/17/Redis-%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E6%94%B6%E9%9B%86/" rel="prev" title="Redis-面试知识点收集">
-                  <i class="fa fa-chevron-left"></i> Redis-面试知识点收集
+                <a href="/2020/11/21/%E9%9D%A2%E8%AF%95-%E6%B4%8B%E9%92%B1%E7%BD%90/" rel="prev" title="面试-洋钱罐">
+                  <i class="fa fa-chevron-left"></i> 面试-洋钱罐
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/11/21/%E9%9D%A2%E8%AF%95-%E6%96%B0%E4%B8%9C%E6%96%B9/" rel="next" title="面试-新东方">
-                  面试-新东方 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
