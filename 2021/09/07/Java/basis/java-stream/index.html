@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chenpeng.pages.dev","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="流提供了一种让我们可以在比集合更高的概念级别上指定计算的数据视图。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stream 流库">
+<meta property="og:url" content="https://chenpeng.pages.dev/2021/09/07/Java/basis/java-stream/index.html">
+<meta property="og:site_name" content="陈鹏的博客">
+<meta property="og:description" content="流提供了一种让我们可以在比集合更高的概念级别上指定计算的数据视图。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-09-07T09:24:28.000Z">
+<meta property="article:modified_time" content="2022-04-14T04:23:46.641Z">
+<meta property="article:author" content="CHENPENGBLOG">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://chenpeng.pages.dev/2021/09/07/Java/basis/java-stream/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>stream 流库 | 陈鹏的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">陈鹏的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点😉</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenpeng.pages.dev/2021/09/07/Java/basis/java-stream/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="CHENPENGBLOG">
+      <meta itemprop="description" content="全栈搞起来！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈鹏的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          stream 流库
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-07 17:24:28" itemprop="dateCreated datePublished" datetime="2021-09-07T17:24:28+08:00">2021-09-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-14 12:23:46" itemprop="dateModified" datetime="2022-04-14T12:23:46+08:00">2022-04-14</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>流提供了一种让我们可以在比集合更高的概念级别上指定计算的数据视图。</p>
+<span id="more"></span>
+
+<p>在处理集合时，我们通常会迭代遍历它的元素，并在每个元素上执行某项操作。例如，我们想要对某本书中的所有长单词进行计数。首先将所有单词放到一个列表中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">wordCount</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    String contents;</span><br><span class="line">    contents = <span class="keyword">new</span> String(Files.readAllBytes(Paths.get(<span class="string">&quot;alice.txt&quot;</span>)), StandardCharsets.UTF_8);</span><br><span class="line">    List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">&quot;\\PL+&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">long</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (String w : words) &#123;</span><br><span class="line">        <span class="keyword">if</span> (w.length() &gt; <span class="number">12</span>) ++count;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用流时，相同的操作看起来是下面这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> counts = words.stream().filter(w -&gt; w.length() &gt; <span class="number">12</span>).count();</span><br></pre></td></tr></table></figure>
+
+<p>流的版本比循环版本更易于阅读，因为我们不必扫描整个代码去查找过滤和计数操作，方法名就可以直接告诉我们其代码意欲何为。而且循环需要非常详细地指定操作的顺序，而流能够以其想要的任何方式来调度这些操作，只要结果时正确的即可。</p>
+<p>流遵循了 “做什么而非怎么做” 的原则。</p>
+<p>流和集合的差异:</p>
+<ol>
+<li>流并不存储其元素，这些元素可能存储在底层的集合中，或者时按需生成的</li>
+<li>流的操作不会修改其数据源。例如，filter方法不会从新的流中移除元素，而是会产生一个新的流，其中不包含被过滤掉的元素</li>
+<li>流的操作时尽可能惰性执行的。这意味着直至需要其结果时，操作才会执行。例如，如果我们只想查找前 5 个长单词而不是所有的，那么filter方法就会在匹配到第 5 个单词后停止过滤。因此，我们甚至可以操作无限流。</li>
+</ol>
+<p>在程序清单中，流是用 <code>stream </code>或者 <code>parallelStream </code>方法创建的。<code>filter </code>方法对其进行转换，而 <code>count </code>方法是终止操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// java.util.stram.Stream&lt;T&gt; 8</span></span><br><span class="line"><span class="function">Stream&lt;T&gt; <span class="title">filter</span><span class="params">(Predicate&lt;? <span class="keyword">super</span> T&gt; p)</span> <span class="comment">//产生一个流，其中半酣当前流中满足p的所有元素</span></span></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">count</span><span class="params">()</span> <span class="comment">// 产生当前流中元素的数量，这是一个终止操作</span></span></span><br><span class="line"><span class="function"><span class="comment">// java.util.Collection&lt;E&gt; 8 产生当前集合中所有元素的顺序流或并行流</span></span></span><br><span class="line"><span class="function"><span class="keyword">default</span> Stream&lt;E&gt; <span class="title">stream</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"><span class="keyword">default</span> Stream&lt;E&gt; <span class="title">parallelStream</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="创建流"><a href="#创建流" class="headerlink" title="创建流"></a>创建流</h2><p><code>java.util.stram.Stream</code> 的 <code>stream </code>方法将任何集合转换为一个流。</p>
+<p>如果你有一个数组，可以使用静态的 <code>Stream.of</code> 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; words = Stream.of(contents.split(<span class="string">&quot;\\PL+&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><code>of</code> 方法具有可变长参数，可以构建具有任意数量引元的流</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; song = Stream.of(<span class="string">&quot;gently&quot;</span>, <span class="string">&quot;down&quot;</span>, <span class="string">&quot;the&quot;</span>, <span class="string">&quot;stream&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建无限流"><a href="#创建无限流" class="headerlink" title="创建无限流"></a>创建无限流</h3><p><code>Stream</code> 接口有两个用于创建无限流的静态方法。</p>
+<ol>
+<li><p>静态的 <code>Stream.generate() </code>方法生成无限流，接受一个不包含引元的函数</p>
+<p> 我们可以用如下方法获得一个常量值的流</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; echos = String.generate(() -&gt; <span class="string">&quot;echos&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p> 或者像下面一样获取一个随机数的流</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String&lt;Double&gt; randoms = Stream.generate(Math::random);</span><br></pre></td></tr></table></figure></li>
+<li><p>静态的 <code>Stream.iterate() </code>方法生成无限流，接受一个种子值以及一个函数，并且会反复地将函数应用到之前的结果上。</p>
+<p> 为了产生无限序列，例如 <code>0 1 2 3 ...</code>，可以使用 <code>iterate </code>方法</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;BigInteger&gt; integers = Stream.iterate(BigInteger.ZERO, n -&gt; n.add(BigInteger.ONE));</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>创建流部分 <code>API</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 产生一个不包含任何元素的流</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span>&lt;T&gt; Stream&lt;T&gt; <span class="title">empty</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">// 产生一个元素为给定值的流</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span>&lt;T&gt; Stream&lt;T&gt; <span class="title">of</span><span class="params">(T t)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span>&lt;T&gt; Stream&lt;T&gt; <span class="title">of</span><span class="params">(T... values)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span>&lt;T&gt; Stream&lt;T&gt; <span class="title">iterate</span><span class="params">(<span class="keyword">final</span> T seed, <span class="keyword">final</span> UnaryOperator&lt;T&gt; f)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span>&lt;T&gt; Stream&lt;T&gt; <span class="title">generate</span><span class="params">(Supplier&lt;T&gt; s)</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="转换流"><a href="#转换流" class="headerlink" title="转换流"></a>转换流</h2><p>流的转换会产生一个新流，它的元素派生自另一个流中的元素。</p>
+<p>filter转换会产生一个流，它的元素与某种条件相匹配。下面，我们将一个字符串流转换为只包含长单词的另一个流。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; longWords = wordList.stream().filter(w -&gt; w.length() &gt; <span class="number">12</span>);</span><br></pre></td></tr></table></figure>
+
+<p>通常，我们想要按照某种方式来转换流中的值，此时，可以使用map方法并传递执行该转换的函数。例如，我们可以向下面这样将所有单词都转换为小写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; lowercaseWords = words.stream().map(String::tolowerCase);</span><br></pre></td></tr></table></figure>
+
+<p>这里，我们使用的是带有方法引用的 map，但是，通常我们可以使用 lambda 表达式来代替，下面语句产生的流包含了所有单词的首字母。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; lowercaseWords = words.stream().map(s -&gt; s.,substring(<span class="number">0</span>, <span class="number">1</span>));</span><br></pre></td></tr></table></figure>
+
+<p>在使用 map 时，会有一个函数应用到每个元素上，并且其结果是包含了应用所函数后所产生的所有结果的流。</p>
+<h3 id="抽取子流和连接流"><a href="#抽取子流和连接流" class="headerlink" title="抽取子流和连接流"></a>抽取子流和连接流</h3><p>stream.limit(n)会返回一个新的流，它在n个元素之后结束（如果原来的流更短，那么就会在流结束时结束）。这个方法对于裁剪无限流的尺寸会显得特别有用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Double&gt; randoms = Stream.generate(Math::random).limit(<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+
+<p>会产生一个包含100个随机数的流。</p>
+<p>stream.skip(n) 方法会丢弃前n个元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; words = Stream.of(contents.split(<span class="string">&quot;\\PL+&quot;</span>)).skip(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Stream类的静态 <code>concat()</code> 方法将两个流连接起来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; combined = Stream.concat(letters(<span class="string">&quot;hello&quot;</span>), letters(<span class="string">&quot;world&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他流的转换"><a href="#其他流的转换" class="headerlink" title="其他流的转换"></a>其他流的转换</h3><p>distinct() 方法会返回一个流，原来的元素按照同样的顺序，剔除重复元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; uniqueWords = Stream.of(<span class="string">&quot;merrily&quot;</span>, <span class="string">&quot;merrily&quot;</span>, <span class="string">&quot;merrily&quot;</span>, <span class="string">&quot;gently&quot;</span>).distinct();</span><br></pre></td></tr></table></figure>
+
+<p>sorted() 方法会产生一个新的流，它的元素时原有流中按照顺序排列的元素。对于流的排序，有很多 sorted 方法的变体可用。其中一种用于操作 Comparable 元素的流，而另一种可以接受一个 Comparator。下面的示例对字符串排序，使得最长的字符串排在最前面：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; longestFirst = words.stream().sorted(Comparator.comparing(String::length).reversed());</span><br></pre></td></tr></table></figure>
+
+<h2 id="约简流"><a href="#约简流" class="headerlink" title="约简流"></a>约简流</h2><p>约简是一种终结操作，它们会将流约简为可以在程序中使用的非流值。</p>
+<p>例如：<code>count()</code> 方法会返回流中元素的数量。<code>max()</code> 和 <code>min()</code> 方法，返回最大值和最小值。 这些方法返回的是一个类型为 Optional<T> 的值，它要么在其中包装了答案，要么标识没有任何值（因为流碰巧为空）。在过去，碰到这种情况返回 null 是很常见的，但是这样做会导致在未做晚辈测试的程序中产生空指针异常。Optional 类型是一种更好的标识缺少返回值的方法。下面展示了可以如何获得流中最大值：</T></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;String&gt; largest = words.max(String::compareToIgnoreCase);</span><br><span class="line">System.out.println(<span class="string">&quot;largest&quot;</span> + largest.orElse(<span class="string">&quot;&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><code>findFirst()</code> 返回的是非空集合中的第一个值。它通常会在与 filter 组合使用时显得很有用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;String&gt; startsWithQ = words.stream().filter(s -&gt; s.startsWith(<span class="string">&quot;Q&quot;</span>)).findFirst();</span><br></pre></td></tr></table></figure>
+
+<h2 id="Optional类型"><a href="#Optional类型" class="headerlink" title="Optional类型"></a>Optional类型</h2><p>Optional<T> 对象是一种包装器对象，要么包装了类型 T 对象，要么没有包装任何对象。对于第一种情况，我们称这种值为存在的。</T></p>
+<p>有效地使用 Optioanal 的关键是要使用这样的方法：它在值不存在的情况下会产生一个可替代物，而只有在值存在的情况下才会使用这个值。</p>
+<p>让我们爱看看第一条策略。通常，在没有任何匹配时，我们会希望使用某种默认值，可能时空字符串。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String result = optionalString.orElse(<span class="string">&quot;&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>你还可以调用代码来计算默认值：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String result = optionalString.orElseGet(() -&gt; Locale.getDefault().getDisplayName());</span><br></pre></td></tr></table></figure>
+
+<p>或者可以在没有任何值时抛出异常：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String result = optionalString.orElseThrow(IllegalStateException::<span class="keyword">new</span>);</span><br></pre></td></tr></table></figure>
+
+<p>另一条使用可选值的策略是只有在其存在的情况下才消费该值。</p>
+<p>ifPresent 方法接收一个函数，如果该可选值存在，那么它会被传递给该函数，否则，不会发生任何事。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optionalValue.ifpresent(v -&gt; results.add());</span><br></pre></td></tr></table></figure>
+
+<p>或者直接调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optionalValue.ifPresent(results::add);</span><br></pre></td></tr></table></figure>
+
+<p>当调用 ifPresent 时，从该函数不会返回任何值。如果想要处理函数的结果，应该使用 map：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional&lt;Boolean&gt; added = optionalValue.map(results::add);</span><br></pre></td></tr></table></figure>
+
+<p>现在 added 具有三种值之一：在 optionalValue 存在的情况下包装在 Optional 中的 true 或 false，以及在 optionalValue 不存在的情况下的空 Optional。</p>
+<h3 id="创建-Optional-值"><a href="#创建-Optional-值" class="headerlink" title="创建 Optional 值"></a>创建 Optional 值</h3><p>有很多方法用来创建 Optional 对象，包括 Optional.of(result) 和 Optional.empty()。例如，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Optional&lt;Double&gt; <span class="title">inverse</span><span class="params">(Double x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x == <span class="number">0</span> ? Optional.empty() : Optional.of(<span class="number">1</span>/x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="收集结果"><a href="#收集结果" class="headerlink" title="收集结果"></a>收集结果</h2><p> 当处理完流之后，通常会想要查看其元素，此时可以调用 iterator 方法， 它会产生可以用来访问元素的旧时风格的迭代器。</p>
+<p>或者，可以调用 forEach 方法，将耨个函数应用于每个元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stream.foreach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>在并行流上， forEach 方法会以任意顺序遍历各个元素。如果想要按照流中的顺序来处理它们，可以调用 forEachOrdered 方法。当然，这个方法会丧失并行处理的部分甚至全部优势。</p>
+<p>但是，更常见的是，我们想要将结果收集到数据结构中。此时，可以调用 toArray，获得由流的元素构成的数组。</p>
+<p>因为无法在运行时创建泛型数组，所以表达式 stream.toArray() 会返回一个 Object[] 数据。如果想要让数组具有正确的类型，可以将其传递到数组构造器中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String[] result = stream.toArray(String[]::<span class="keyword">new</span>);</span><br></pre></td></tr></table></figure>
+
+<p>针对将流中的元素收集到另一个目标中，有一个边界方法 collect 可用，它会接受一个 Collector 接口的实例。Collectors 类提供了大量用于生成公共收集器的工厂方法。为了将流收集到列表或集中，可以直接调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; result = stream.collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;String&gt; result = stream.collect(Collectors.toSet());</span><br></pre></td></tr></table></figure>
+
+<p>如果想要控制获得的集的种类，那么可以使用下面的调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TreeSet&lt;String&gt; result = stream.collect(Collectors.toCollection(TreeSet::<span class="keyword">new</span>));</span><br></pre></td></tr></table></figure>
+
+<p>假设想要通过连接操作来手机流中的所有字符串，我们可以调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String result = stream.collect(Collectors.joining());</span><br></pre></td></tr></table></figure>
+
+<p>如果想要在元素之间增加分隔符，可以将分隔符传递给 joining 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String result = stream.collect(Collectors.joining(<span class="string">&quot;,&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>如果流中包含除字符串以外的其他对象，那么我们需要现将其转换为字符串，就像下面这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String result = stream.map(Object::toString).collect(Collectors.joining(<span class="string">&quot;,&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="收集到映射表中"><a href="#收集到映射表中" class="headerlink" title="收集到映射表中"></a>收集到映射表中</h3><p>假设我们有一个 Stream<Person>，并且想要将其元素收集到一个映射表中，这样后续就可以通过他们的 ID 来查找人员了。Collectors.toMap 方法有两个函数引元，它们用来产生映射表的键和值。例如：</Person></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Integer, String&gt; idToName = people.collect(Collectors.toMap(Person::getId, Person::getName));</span><br></pre></td></tr></table></figure>
+
+<h2 id="并行流"><a href="#并行流" class="headerlink" title="并行流"></a>并行流</h2><p>流使得并行处理快操作变得很容易。这个过程几乎是自动的，但是需要遵守一些规则。首先，必须有一个并行流。可以用 Collection.parallelStream() 方法从任何集合中获取一个并行流：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; parallelWords = words.parallelStream();</span><br></pre></td></tr></table></figure>
+
+<p>而且，parallel 方法可以将任意的顺序流转换为并行流。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; parallelWords = Stream.of(wordArray).parallel();</span><br></pre></td></tr></table></figure>
+
+<p>只要在中介方法执行时，流处于并行模式，那么所有的中间流操作都将被并行化。</p>
+<p>当流操作并行运行时，其目标是要让其返回结果与顺序执行时返回的结果相同。重要的是，这些操作可以以任意顺序执行。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/05/algorithm/leetcode-102/" rel="prev" title="leetcode-102">
+      <i class="fa fa-chevron-left"></i> leetcode-102
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/07/algorithm/leetcode-897/" rel="next" title="leetcode-897">
+      leetcode-897 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%B5%81"><span class="nav-number">1.</span> <span class="nav-text">创建流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%97%A0%E9%99%90%E6%B5%81"><span class="nav-number">1.1.</span> <span class="nav-text">创建无限流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E6%B5%81"><span class="nav-number">2.</span> <span class="nav-text">转换流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E5%8F%96%E5%AD%90%E6%B5%81%E5%92%8C%E8%BF%9E%E6%8E%A5%E6%B5%81"><span class="nav-number">2.1.</span> <span class="nav-text">抽取子流和连接流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%B5%81%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.2.</span> <span class="nav-text">其他流的转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%A6%E7%AE%80%E6%B5%81"><span class="nav-number">3.</span> <span class="nav-text">约简流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Optional%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">Optional类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-Optional-%E5%80%BC"><span class="nav-number">4.1.</span> <span class="nav-text">创建 Optional 值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B6%E9%9B%86%E7%BB%93%E6%9E%9C"><span class="nav-number">5.</span> <span class="nav-text">收集结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B6%E9%9B%86%E5%88%B0%E6%98%A0%E5%B0%84%E8%A1%A8%E4%B8%AD"><span class="nav-number">5.1.</span> <span class="nav-text">收集到映射表中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E6%B5%81"><span class="nav-number">6.</span> <span class="nav-text">并行流</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CHENPENGBLOG"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">CHENPENGBLOG</p>
+  <div class="site-description" itemprop="description">全栈搞起来！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">97</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yourname" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yourname@gmail.com" title="E-Mail → mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CHENPENGBLOG</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

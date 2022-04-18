@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chenpeng.pages.dev","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Spring 框架支持六个作用域，其中四个仅在您使用 Web 感知 ApplicationContext 时可用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring-bean-scope">
+<meta property="og:url" content="https://chenpeng.pages.dev/2021/08/26/Java/spring/spring-bean-scope/index.html">
+<meta property="og:site_name" content="陈鹏的博客">
+<meta property="og:description" content="Spring 框架支持六个作用域，其中四个仅在您使用 Web 感知 ApplicationContext 时可用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenpeng.pages.dev/2021/08/26/Java/spring/spring-bean-scope/singleton.png">
+<meta property="og:image" content="https://chenpeng.pages.dev/2021/08/26/Java/spring/spring-bean-scope/prototype.png">
+<meta property="article:published_time" content="2021-08-26T08:57:04.000Z">
+<meta property="article:modified_time" content="2022-04-14T04:23:46.649Z">
+<meta property="article:author" content="CHENPENGBLOG">
+<meta property="article:tag" content="spring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenpeng.pages.dev/2021/08/26/Java/spring/spring-bean-scope/singleton.png">
+
+<link rel="canonical" href="https://chenpeng.pages.dev/2021/08/26/Java/spring/spring-bean-scope/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>spring-bean-scope | 陈鹏的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">陈鹏的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点😉</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenpeng.pages.dev/2021/08/26/Java/spring/spring-bean-scope/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="CHENPENGBLOG">
+      <meta itemprop="description" content="全栈搞起来！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈鹏的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          spring-bean-scope
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-26 16:57:04" itemprop="dateCreated datePublished" datetime="2021-08-26T16:57:04+08:00">2021-08-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-14 12:23:46" itemprop="dateModified" datetime="2022-04-14T12:23:46+08:00">2022-04-14</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Spring 框架支持六个作用域，其中四个仅在您使用 Web 感知 ApplicationContext 时可用。</p>
+<span id="more"></span>
+
+<p>下表描述了受支持的作用域：</p>
+<p><em>表 1. Bean 作用域</em></p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>singleton</td>
+<td>(默认)单例</td>
+</tr>
+<tr>
+<td>prototype</td>
+<td>多例</td>
+</tr>
+<tr>
+<td>request</td>
+<td>将单个 bean 定义的作用域限定为单个 HTTP 请求的生命周期。也就是说，每个 HTTP 请求都有一个在单个 bean 定义后面创建的 bean 实例。仅在可感知网络的 Spring <code>ApplicationContext</code>中有效。</td>
+</tr>
+<tr>
+<td>session</td>
+<td>将单个 bean 定义的作用域限定为 HTTP <code>Session</code>的生命周期。仅在可感知网络的 Spring <code>ApplicationContext</code>上下文中有效。</td>
+</tr>
+<tr>
+<td>application</td>
+<td>将单个 bean 定义的作用域限定为<code>ServletContext</code>的生命周期。仅在可感知网络的 Spring <code>ApplicationContext</code>上下文中有效。</td>
+</tr>
+<tr>
+<td>websocket</td>
+<td>将单个 bean 定义的作用域限定为<code>WebSocket</code>的生命周期。仅在可感知网络的 Spring <code>ApplicationContext</code>上下文中有效。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>从 Spring 3.0 开始，线程作用域可用，但默认情况下未注册。</p>
+</blockquote>
+<h2 id="singleton"><a href="#singleton" class="headerlink" title="singleton"></a>singleton</h2><p>定义一个 bean 并且定义其作用域为单例时，Spring IoC 容器将为该 bean 所定义的对象创建一个实例。该单个实例存储在此类单例 bean 的高速缓存中，并且对该 bean 的所有后续请求和引用都返回该高速缓存的对象。下图显示了单例作用域如何工作：</p>
+<p><img src="/2021/08/26/Java/spring/spring-bean-scope/singleton.png" alt="singleton"></p>
+<p>Singleton 作用域是 Spring 中的默认作用域。要将 bean 定义为 XML 中的单例，可以定义 bean，如以下示例所示：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;accountService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.something.DefaultAccountService&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- the following is equivalent, though redundant (singleton scope is the default) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;accountService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.something.DefaultAccountService&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;singleton&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="prototype"><a href="#prototype" class="headerlink" title="prototype"></a>prototype</h2><p>每次对特定 bean 提出请求时，都会导致创建一个新 bean 实例。通常，应将prototype用于所有有状态 Bean，将单例作用域用于无状态bean。</p>
+<p>下图说明了 Spring prototype作用域：</p>
+<p><img src="/2021/08/26/Java/spring/spring-bean-scope/prototype.png" alt="prototype"></p>
+<p>(数据访问对象(DAO)通常不配置为原型，因为典型的 DAO 不拥有任何对话状态。对于我们而言，重用单例图的核心更为容易。)</p>
+<p>以下示例将 bean 定义为 XML 原型：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean <span class="keyword">id</span>=<span class="string">&quot;accountService&quot;</span> <span class="keyword">class</span>=<span class="string">&quot;com.something.DefaultAccountService&quot;</span> scope=<span class="string">&quot;prototype&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>因为prototype是多例的模式，所以Spring不负责该bean的整个生命周期，一旦bean被创建，交给client使用，Spring就不会再负责维护该bean实例。</p>
+<p>如果在Prototype bean上面配置了生命周期回调方法，那么该方法是不会起作用的。客户端需要自己释放该bean中的资源。</p>
+<p>要让Spring容器释放原型作用域bean所拥有的资源，可以使用自定义bean post-processor，用来处理bean的资源清理。</p>
+<p>某种意义上Spring的Prototype相当于java中的new方法。</p>
+<p><strong>Singleton Bean 依赖 prototype Bean？</strong></p>
+<p>既然singleon和prototype的作用域作用域不一样，如果发生singleton Bean需要依赖Prototype的时候，Prototype bean只会被实例化一次，然后注入到singleton bean中。</p>
+<h2 id="web-作用域"><a href="#web-作用域" class="headerlink" title="web 作用域"></a>web 作用域</h2><p><code>Request</code>, <code>Session</code>, <code>Application</code>, 和<code>WebSocket</code>作用域仅在使用web的Spring ApplicationContext实现中，如果将这些作用域同Spring正常的IOC容器一起使用，则会报错：<code>IllegalstateException</code>。</p>
+<p>配置web作用域的方式和普通的应用程序稍有不同。Web程序需要运行在相应的Web容器中，通常我们需要将程序入口配置在<code>web.xm</code>l中。</p>
+<p>如果你使用了Spring MVC的<code>DispatcherServlet</code>，那么不需要做额外的配置，因为<code>DispatcherServlet</code>已经包含了相关的状态。</p>
+<ul>
+<li>servlet 2.5 web容器中，是DispatcherServlet之外的的请求，需要注册<code>org.springframework.web.context.request.RequestContextListener</code>。</li>
+<li>servlet 3.0+web容器中，可以使用<code>WebApplicationInitializer</code>接口以编程的方式来添加。</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">web-app</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span></span><br><span class="line">            org.springframework.web.context.request.RequestContextListener</span><br><span class="line">        <span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果<code>Listener</code>不能注册，那么可以注册<code>RequestContextFilter</code>，如下所示：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">web-app</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>requestContextFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.RequestContextFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>requestContextFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span> </span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>通过配置<code>DispatcherServlet</code>, <code>RequestContextListener</code>, 和 <code>RequestContextFilter </code>，就可以在相应的请求服务中调用相应作用域的bean。</p>
+<h3 id="Request-scope"><a href="#Request-scope" class="headerlink" title="Request scope"></a>Request scope</h3><p>考虑以下 XML 配置来定义 bean：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loginAction&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.something.LoginAction&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;request&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Spring容器通过为每个HTTP请求使用LoginAction定义来创建一个新的LoginAction bean实例。也就是说，LoginAction bean的作用域是在HTTP request级别。你可以根据需要更改所创建实例的内部状态，因为从相同的LoginAction bean定义创建的其他实例在状态中看不到这些更改。它们是针对单个请求的。当请求完成处理时，将丢弃该请求的作用域bean。</p>
+<p>下面是使用注解@RequestScope的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestScope</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginAction</span> </span>&#123;    <span class="comment">// ...&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Session-Scope"><a href="#Session-Scope" class="headerlink" title="Session Scope"></a>Session Scope</h3><p>考虑以下 XML 配置来定义 bean：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userPreferences&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.something.UserPreferences&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;session&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Spring容器通过在单个HTTP Session的生命周期中使用UserPreferences bean定义创建一个新的UserPreferences bean实例。换句话说，UserPreferences bean在HTTP Session级别有效。</p>
+<p>与request scope的bean一样，可以根据需要更改创建的实例的内部状态，因为其他也使用从相同的用户首选项bean定义创建的实例的HTTP session实例在状态中看不到这些更改，因为它们是特定于单个HTTP session的。当最终丢弃HTTP session时，也会丢弃作用于该特定HTTP session的bean。</p>
+<p>下面是注解驱动的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SessionScope</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserPreferences</span> </span>&#123;    <span class="comment">// ...&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Application-Scope"><a href="#Application-Scope" class="headerlink" title="Application Scope"></a>Application Scope</h3><p>考虑以下 XML 配置来定义 bean：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;appPreferences&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.something.AppPreferences&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;application&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>所谓的Application scope就是对于整个web容器来说，bean的作用域是ServletContext级别的，这个和singleton有点类似，但是区别在于，Application scope是ServletContext的单例，singleton是一个ApplicationContext的单例。在一个web容器中ApplicationContext可以有多个。</p>
+<p>当然，也可以采用注解的方式来配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ApplicationScope</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppPreferences</span> </span>&#123;    <span class="comment">// ...&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><p>Spring IoC 容器不仅管理对象（bean）的实例化，还管理协作者（或依赖项）的连接。如果您想将（例如）一个 HTTP 请求范围的 bean 注入到另一个生命周期更长的 bean 中，您可以选择注入一个 AOP 代理来代替该范围的 bean。也就是说，您需要注入一个代理对象，该对象公开与作用域对象相同的公共接口，但也可以从相关作用域（例如 HTTP 请求）中检索真实目标对象，并将方法调用委托给真实对象。</p>
+<p>可以在作用域为单例的 bean 之间使用 <code>&lt;aop:scoped-proxy/&gt;</code>，然后引用通过可序列化的中间代理，因此能够在反序列化时重新获取目标单例 bean。</p>
+<p>当针对原型的 bean 声明<code>&lt;aop:scoped-proxy/&gt;</code>时，共享代理上的每个方法调用都会导致创建一个新的目标实例，然后将调用转发到该实例。</p>
+<p>此外，作用域代理并不是以生命周期安全的方式从较短范围访问 bean 的唯一方法。您还可以将注入点（即构造函数或 setter 参数或自动装配字段）声明为 <code>ObjectFactory&lt;MyTargetBean&gt;</code>，允许每次需要时调用 getObject() 来检索当前实例 — 无需坚持实例或单独存储。</p>
+<p>下例中的配置只有一行，但了解其背后的“为什么”以及“如何”很重要：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="string"><span class="tag">        https://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">        http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="string"><span class="tag">        https://www.springframework.org/schema/aop/spring-aop.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- an HTTP Session-scoped bean exposed as a proxy --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userPreferences&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.something.UserPreferences&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;session&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- instructs the container to proxy the surrounding bean --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:scoped-proxy</span>/&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- a singleton-scoped bean injected with a proxy to the above bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.something.SimpleUserService&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- a reference to the proxied userPreferences bean --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;userPreferences&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;userPreferences&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>要创建这样的代理，请将子<code> &lt;aop:scoped-proxy/&gt;</code> 元素插入到作用域 bean 定义中（请参阅选择要创建的代理类型和基于 XML 模式的配置）。为什么在请求、会话和自定义范围级别范围内的 bean 定义需要 <code>&lt;aop:scoped-proxy/&gt; </code>元素？考虑以下单例 bean 定义，并将其与您需要为上述范围定义的内容进行对比（请注意，以下 userPreferences bean 定义不完整）：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- an HTTP Session-scoped bean exposed as a proxy --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userPreferences&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.flydean.service.UserPreferences&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;session&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- instructs the container to proxy the surrounding bean --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:scoped-proxy</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- a singleton-scoped bean injected with a proxy to the above bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.flydean.service.SimpleUserService&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- a reference to the proxied userPreferences bean --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;userPreferences&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;userPreferences&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在前面的示例中，单例 bean (userManager) 注入了对 HTTP 会话范围 bean (userPreferences) 的引用。这里的重点是 userManager bean 是一个单例：它在每个容器中被实例化一次，并且它的依赖项（在这种情况下只有一个，userPreferences bean）也只注入一次。这意味着 userManager bean 只对完全相同的 userPreferences 对象（即最初注入它的那个对象）进行操作。</p>
+<p>这不是您将生命周期较短的作用域 bean 注入到生命周期较长的作用域 bean（例如，将 HTTP 会话作用域的协作 bean 作为依赖项注入到单例 bean 中）时想要的行为。相反，您需要一个 userManager 对象，并且，对于 HTTP 会话的生命周期，您需要一个特定于 HTTP 会话的 userPreferences 对象。因此，容器创建一个对象，该对象公开与 UserPreferences 类完全相同的公共接口（理想情况下是一个 UserPreferences 实例的对象），它可以从作用域机制（HTTP 请求、会话等）中获取真正的 UserPreferences 对象.容器将这个代理对象注入到 userManager bean 中，它不知道这个 UserPreferences 引用是一个代理。在这个例子中，当一个 UserManager 实例在依赖注入的 UserPreferences 对象上调用一个方法时，它实际上是在调用代理上的一个方法。然后代理从（在这种情况下）HTTP 会话中获取真实的 UserPreferences 对象，并将方法调用委托给检索到的真实 UserPreferences 对象。</p>
+<p>因此，在将请求范围和会话范围的 bean 注入协作对象时，您需要以下（正确且完整的）配置，如以下示例所示：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- DefaultUserPreferences implements the UserPreferencesInterface interface --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userPreferencesC&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.flydean.service.DefaultUserPreferences&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;session&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:scoped-proxy</span> <span class="attr">proxy-target-class</span>=<span class="string">&quot;false&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.flydean.service.UserManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;userPreferences&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;userPreferencesC&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义作用域"><a href="#自定义作用域" class="headerlink" title="自定义作用域"></a>自定义作用域</h2><p>Spring提供了一个org.springframework.beans.factory.config.Scope接口来实现自定义作用域的功能。</p>
+<p>Spring3.0开始，提供了thread的作用域，但是这个作用域需要自己来注册。 我们来看Spring自己的SimpleThreadScope是怎么定义和使用的。</p>
+<p>首先 SimpleThreadScope 实现了 Scope接口， Scope接口提供了5个方法：</p>
+<ul>
+<li>Object get(String name, ObjectFactory&lt;?&gt; objectFactory); 从所在作用域返回对象。</li>
+<li>Object remove(String name); 从作用域删除对象</li>
+<li>void registerDestructionCallback(String name, Runnable callback); 注册销户回调方法</li>
+<li>Object resolveContextualObject(String key); 根据key获得上下文对象</li>
+<li>String getConversationId(); 获得当前scope的会话ID</li>
+</ul>
+<p>自定义好了Scope类之后，需要将其注册到Spring容器中，可以通过大多数Spring ApplicationContext 的ConfigurableBeanFactory接口来注册：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">registerScope</span><span class="params">(String scopeName, Scope scope)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>下面是编程方式的注册：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Scope threadScope = <span class="keyword">new</span> SimpleThreadScope();</span><br><span class="line">beanFactory.registerScope(<span class="string">&quot;thread&quot;</span>, threadScope);</span><br></pre></td></tr></table></figure>
+
+<p>下面是配置方式的注册：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.beans.factory.config.CustomScopeConfigurer&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;scopes&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">map</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">&quot;thread&quot;</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.context.support.SimpleThreadScope&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">entry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/spring/" rel="tag"># spring</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/26/Java/spring/spring-container-overview/" rel="prev" title="spring-container-overview">
+      <i class="fa fa-chevron-left"></i> spring-container-overview
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/26/Java/spring/spring-customizing-the-nature-of-a-bean/" rel="next" title="spring-customizing-the-nature-of-a-bean">
+      spring-customizing-the-nature-of-a-bean <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#singleton"><span class="nav-number">1.</span> <span class="nav-text">singleton</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#prototype"><span class="nav-number">2.</span> <span class="nav-text">prototype</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web-%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">3.</span> <span class="nav-text">web 作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Request-scope"><span class="nav-number">3.1.</span> <span class="nav-text">Request scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session-Scope"><span class="nav-number">3.2.</span> <span class="nav-text">Session Scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Application-Scope"><span class="nav-number">3.3.</span> <span class="nav-text">Application Scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96"><span class="nav-number">3.4.</span> <span class="nav-text">依赖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">4.</span> <span class="nav-text">自定义作用域</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CHENPENGBLOG"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">CHENPENGBLOG</p>
+  <div class="site-description" itemprop="description">全栈搞起来！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">97</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yourname" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yourname@gmail.com" title="E-Mail → mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CHENPENGBLOG</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
